@@ -1,0 +1,137 @@
+body {
+    background: #F7F7F7;
+    color: #000000;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 90%;
+}
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+header {
+    color: #FFFFFF;
+    background: #000000;
+    padding: 5px;
+    font-weight: bold;
+}
+header a {
+    color: #FFFFFF;
+}
+nav {
+    color: #FFFFFF;
+    background: #3B5998;
+}
+nav a {
+    color: #FFFFFF;
+}
+nav.menu {
+    padding: 5px;
+}
+nav.sub-menu {
+    padding: 3px;
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+}
+section {
+    padding: 5px;
+    line-height: 1.25em;
+}
+section a {
+    color: #3B5998;
+}
+footer {
+    color: #FFFFFF;
+    background: #000000;
+    padding: 5px;
+    font-size: .75em;
+}
+footer a {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+footer .rate {
+    line-height: 1.375em;
+}
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: 5em;
+}
+button {
+    color: #FFFFFF;
+    background: #3B5998;
+    border: 0;
+    padding: 5px;
+    cursor: pointer;
+}
+.alert {
+    /*    margin-bottom: -5px;*/
+    padding: 2px 5px;
+    color: #000000;
+}
+.alert.info {
+    background: #fffaaa;
+    border: 2px solid #cccccc;
+}
+.alert.error{
+    background:#FEA7A7;
+    border:2px solid #FF5959;
+    color: #000000;
+}
+.tweet {
+    padding: 5px 5px;
+}
+.tweet.odd {
+    background: #eeeee;
+}
+.tweet.even {
+    background: #d8dfea;
+}
+.tweet.quoted {
+    border: 2px solid #cccccc;
+    margin: 5px 0;
+}
+.tweet .split-left {
+    margin-top: 3px;
+    position: absolute;
+    /*min-height: 51px;*/
+}
+.tweet .split-right  {
+    margin-left: 55px;
+}
+.tweet .split-right .user_id  {
+    color: #555555;
+}
+.profpic {
+    border-radius: 7.5px;
+}
+small,
+span.action {
+    color: #555555;
+}
+img.action {
+    height: 10px;
+}
+.pagination {
+    text-align: center;
+    width: 33.33%;
+    padding: 5px;   
+    background: #3B5998;
+    color: #FFFFFF;
+}
+.pagination.left {
+    float: left;
+}
+
+.pagination.right { 
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
