@@ -1,7 +1,7 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "dodyagung/citcuit",
+    "description": "A mobile Twitter client from Indonesia. Slim, fast, lightweight, no database, no ads, and of course it's open source.",
+    "keywords": ["citcuit", "twitter", "mobile", "client", "indonesia", "slim", "fast", "lightweight", "no database", "no ads", "open source"],
     "license": "MIT",
     "type": "project",
     "require": {
