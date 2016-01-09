@@ -109,8 +109,8 @@ class CitcuitController {
         // Twitter tweet link, used for "Retweet with Comment"
         $tweet->citcuit_retweet_link = 'https://twitter.com/' . $tweet->user->screen_name . '/status/' . $tweet->id_str;
 
-        // finally
-        $tweet->text = trim($tweet->text);
+        // trim it and convert newlines
+        $tweet->text = nl2br(trim($tweet->text));
 
         return $tweet;
     }
