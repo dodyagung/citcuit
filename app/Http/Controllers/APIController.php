@@ -56,6 +56,7 @@ class APIController extends Controller {
     public function detail(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
+            'include_my_retweet' => 'true'
         ];
         $result = $this->api->statuses_show_ID($param);
         if (CitCuit::parseError($result, 'Tweet Detail') == TRUE) {
@@ -236,13 +237,13 @@ class APIController extends Controller {
             'id' => $id,
         ];
         $result = $this->api->statuses_destroy_ID($param);
-        if (CitCuit::parseError($result, 'Post Delete') == TRUE) {
-            return view('error', CitCuit::parseError($result, 'Post Delete'));
+        if (CitCuit::parseError($result, 'Post Delete Tweet') == TRUE) {
+            return view('error', CitCuit::parseError($result, 'Post Delete Tweet'));
         }
 
         return redirect('');
     }
-    
+
     public function retweet(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
@@ -251,14 +252,14 @@ class APIController extends Controller {
         if (CitCuit::parseError($result, 'Retweet') == TRUE) {
             return view('error', CitCuit::parseError($result, 'Retweet'));
         }
-        
+
         $render = [
             'rate' => [
                 'Retweet' => CitCuit::parseRateLimit($result),
             ],
             'tweet' => CitCuit::parseTweet($result),
         ];
-        
+
         return view($this->view_prefix . 'retweet', $render);
     }
 
@@ -288,6 +289,18 @@ class APIController extends Controller {
         $result = $this->api->statuses_retweet_ID($param);
         if (CitCuit::parseError($result, 'Post Retweet') == TRUE) {
             return view('error', CitCuit::parseError($result, 'Post Retweet'));
+        }
+
+        return redirect('');
+    }
+
+    public function unretweet(Request $request, $tweet_id) {
+        $param = [
+            'id' => $tweet_id,
+        ];
+        $result = $this->api->statuses_destroy_ID($param);
+        if (CitCuit::parseError($result, 'Post Delete Tweet') == TRUE) {
+            return view('error', CitCuit::parseError($result, 'Post Delete Tweet'));
         }
 
         return redirect('');

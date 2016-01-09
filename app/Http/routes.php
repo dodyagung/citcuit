@@ -35,6 +35,7 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('reply', 'APIController@postReply');
 
     $app->get('retweet/{tweet_id:[0-9]+}', 'APIController@retweet');
+    $app->get('unretweet/{tweet_id:[0-9]+}', 'APIController@unretweet');
     $app->post('retweet', 'APIController@postRetweet');
     $app->post('retweet_with_comment', 'APIController@postRetweetWithComment');
 
