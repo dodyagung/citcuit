@@ -88,7 +88,7 @@
             <textarea id="status" name="tweet">{{ $tweet->reply_destination }}</textarea>
             <input type="hidden" name="in_reply_to_status_id" value="{{ $tweet->id_str }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <button type="submit">Reply</button>
+            <button type="submit">Reply this tweet</button>
         </form>
     </div>
 </section>

@@ -83,7 +83,7 @@
         <form method="POST" action="{{ url('delete') }}">
             <input type="hidden" name="id" value="{{ $tweet->id_str }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <button type="submit">Yes, I want to delete this tweet!</button>
+            <button type="submit">Delete this tweet</button>
         </form>
     </div>
 </section>
