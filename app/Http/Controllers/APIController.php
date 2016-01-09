@@ -242,5 +242,40 @@ class APIController extends Controller {
 
         return redirect('');
     }
+    
+    public function retweet(Request $request, $tweet_id) {
+        $param = [
+            'id' => $tweet_id,
+        ];
+        $result = $this->api->statuses_show_ID($param);
+        if (CitCuit::parseError($result, 'Retweet') == TRUE) {
+            return view('error', CitCuit::parseError($result, 'Retweet'));
+        }
+        
+        $render = [
+            'rate' => [
+                'Delete' => CitCuit::parseRateLimit($result),
+            ],
+            'tweet' => CitCuit::parseTweet($result),
+        ];
+        
+        return view($this->view_prefix . 'retweet', $render);
+    }
+
+    public function postRetweetWithComment(Request $request) {
+        $tweet = $request->tweet;
+        $retweet_link = $request->retweet_link;
+
+        $param = [
+            'status' => $tweet . ' ' . $retweet_link,
+        ];
+        
+        $result = $this->api->statuses_update($param);
+        if (CitCuit::parseError($result, 'Post Retweet') == TRUE) {
+            return view('error', CitCuit::parseError($result, 'Post Retweet'));
+        }
+
+        return redirect('');
+    }
 
 }

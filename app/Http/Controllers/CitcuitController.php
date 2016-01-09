@@ -106,6 +106,9 @@ class CitcuitController {
             $tweet->retweeted_status = self::parseTweet($tweet->retweeted_status);
         }
 
+        // Twitter tweet link, used for "Retweet with Comment"
+        $tweet->citcuit_retweet_link = 'https://twitter.com/' . $tweet->user->screen_name . '/status/' . $tweet->id_str;
+
         // finally
         $tweet->text = trim($tweet->text);
 
