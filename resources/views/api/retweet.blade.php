@@ -88,7 +88,13 @@
             <textarea id="status" name="tweet" placeholder="Your comment here.."></textarea>
             <input type="hidden" name="retweet_link" value="{{ $tweet->citcuit_retweet_link }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <button type="submit">Retweet with Comment</button>
+            <button type="submit">Retweet with comment</button>
+        </form>
+        <hr />
+        <form method="POST" action="{{ url('retweet') }}">
+            <input type="hidden" name="id" value="{{ $tweet->id_str }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <button type="submit">Or, just retweet it</button>
         </form>
     </div>
 </section>

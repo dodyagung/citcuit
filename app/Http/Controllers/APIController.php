@@ -254,7 +254,7 @@ class APIController extends Controller {
         
         $render = [
             'rate' => [
-                'Delete' => CitCuit::parseRateLimit($result),
+                'Retweet' => CitCuit::parseRateLimit($result),
             ],
             'tweet' => CitCuit::parseTweet($result),
         ];
@@ -269,8 +269,23 @@ class APIController extends Controller {
         $param = [
             'status' => $tweet . ' ' . $retweet_link,
         ];
-        
+
         $result = $this->api->statuses_update($param);
+        if (CitCuit::parseError($result, 'Post Retweet with Comment') == TRUE) {
+            return view('error', CitCuit::parseError($result, 'Post Retweet with Comment'));
+        }
+
+        return redirect('');
+    }
+
+    public function postRetweet(Request $request) {
+        $id = $request->id;
+
+        $param = [
+            'id' => $id,
+        ];
+
+        $result = $this->api->statuses_retweet_ID($param);
         if (CitCuit::parseError($result, 'Post Retweet') == TRUE) {
             return view('error', CitCuit::parseError($result, 'Post Retweet'));
         }
