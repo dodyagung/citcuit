@@ -85,7 +85,7 @@
         @endif
         <hr />
         <form method="POST" action="{{ url('retweet_with_comment') }}">
-            <textarea id="status" name="tweet" placeholder="Your comment here.."></textarea>
+            <textarea id="status" name="tweet" placeholder="Your comment here.."  required></textarea>
             <input type="hidden" name="retweet_link" value="{{ $tweet->citcuit_retweet_link }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <button type="submit">Retweet with comment</button>
