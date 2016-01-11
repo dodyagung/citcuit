@@ -22,9 +22,9 @@ Thanks for your desire to help us. Please read our [contributing guide](https://
 ## Behind the Scene
 
 **Dody Agung Saputro** (founder, author)
-* [https://dodyagung.com](https://dodyagung.com)
-* [https://github.com/dodyagung](https://github.com/dodyagung)
-* [https://twitter.com/dodyags](https://twitter.com/dodyags)
+- [https://dodyagung.com](https://dodyagung.com)
+- [https://github.com/dodyagung](https://github.com/dodyagung)
+- [https://twitter.com/dodyags](https://twitter.com/dodyags)
 
 ## License
 
