@@ -1,8 +1,8 @@
 # CitCuit
 
-CitCuit is a mobile Twitter client, alternative of official [mobile.twitter.com](https://mobile.twitter.com) website. Built with [Lumen](https://lumen.laravel.com) micro-framework by [Laravel](https://laravel.com).
+CitCuit is a mobile Twitter client, alternative of official [mobile.twitter.com](https://mobile.twitter.com) website. Fast, lightweight, slim, secure, no ads, no database. Built with [Lumen](https://lumen.laravel.com) micro-framework by [Laravel](https://laravel.com).
 
-Slim, fast, lightweight, no ads, no database. Made with :heart: in Indonesia.
+Made with :heart: in Indonesia.
 
 ## Live Website
 
@@ -10,10 +10,10 @@ Go to [citcuit.in](https://citcuit.in) and sign-in with your Twitter account.
 
 ## Requirements
 
-- PHP >= 5.5.9
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Mbstring PHP Extension
+* PHP >= 5.5.9
+* OpenSSL PHP Extension
+* PDO PHP Extension
+* Mbstring PHP Extension
 
 ## Contributing
 
