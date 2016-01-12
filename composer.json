@@ -1,7 +1,7 @@
 {
     "name": "dodyagung/citcuit",
-    "description": "A mobile Twitter client from Indonesia. Slim, fast, lightweight, no database, no ads, and of course it's open source.",
-    "keywords": ["citcuit", "twitter", "mobile", "client", "indonesia", "slim", "fast", "lightweight", "no database", "no ads", "open source"],
+    "description": "A mobile Twitter client alternative. Built with Lumen by Laravel. https://citcuit.in",
+    "keywords": ["citcuit", "mobile", "twitter", "client", "alternative", "lumen", "laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
