@@ -115,32 +115,16 @@ class CitcuitController {
         return $tweet;
     }
 
-    public static function parseError($response, $location) {
-        $httpstatus = $response->httpstatus;
-        $rate = self::parseRateLimit($response);
-
-//        if ($httpstatus == 429) {
-//            $description = 'Slowly! Please wait for ' . $rate['reset'] . ' min(s) then refresh the page again.<br />';
-//            $description .= 'Did you see your limit detail at the <a href="#bottom">[&darr;] bottom</a> of this page?<br /><br />';
-//            $description .= 'Find out the answer why it happened at official Twitter\'s <a href="https://blog.twitter.com/2008/what-does-rate-limit-exceeded-mean-updated" target="_blank">blog</a> and <a href="https://support.twitter.com/articles/160385" target="_blank">support</a>.';
-//            $error_data = [
-//                'title' => 'Error: Rate limit exceeded',
-//                'description' => $description,
-//                'rate' => [
-//                    $location => $rate
-//                ],
-//            ];
-//            return $error_data;
-//        } elseif (isset($response->errors)) {
+    public static function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
             $errors = $response->errors;
             $error_data = [
                 'title' => 'Error :(',
-                'description' => null,
-                'rate' => [
-                    $location => $rate
-                ],
+                'description' => NULL,
             ];
+            if (!$location || $response->rate != NULL) {
+                $error_data[$location] = self::parseRateLimit($response);
+            }
             foreach ($errors as $error) {
                 $error_data['description'] .= $error->message . '<br />';
             }
@@ -151,9 +135,9 @@ class CitcuitController {
     }
 
     public static function parseRateLimit($response) {
-        $rate_remaining = $response->rate['remaining'];
-        $rate_limit = $response->rate['limit'];
-        $rate_reset = Carbon::createFromTimestamp($response->rate['reset'], 'UTC')->diffInMinutes(Carbon::now('UTC'));
+        $rate_remaining = $response->rate->remaining;
+        $rate_limit = $response->rate->limit;
+        $rate_reset = Carbon::createFromTimestamp($response->rate->reset, 'UTC')->diffInMinutes(Carbon::now('UTC'));
 
         return [
             'remaining' => $rate_remaining,
