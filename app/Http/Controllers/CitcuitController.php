@@ -122,7 +122,7 @@ class CitcuitController {
                 'title' => 'Error :(',
                 'description' => NULL,
             ];
-            if (!$location || $response->rate != NULL) {
+            if ($location || $response->rate != NULL) {
                 $error_data[$location] = self::parseRateLimit($response);
             }
             foreach ($errors as $error) {
