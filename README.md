@@ -15,6 +15,13 @@ Go to [citcuit.in](https://citcuit.in) and sign-in with your Twitter account.
 * PDO PHP Extension
 * Mbstring PHP Extension
 
+## Installation
+
+1. Run `composer create-project dodyagung/citcuit dev-master your-project-name`
+2. Rename `.env.example` to `.env` 
+3. Edit the `.env` file according your config needs
+4. Run the application via your favorite browser
+ 
 ## Contributing
 
 Thanks for your desire to help us. Please read our [contributing guide](https://github.com/dodyagung/citcuit/blob/master/CONTRIBUTING.md) first. 
