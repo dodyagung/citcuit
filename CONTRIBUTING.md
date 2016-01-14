@@ -14,9 +14,10 @@ This method is suitable for **developer**. If you are able to add a feature or p
 2. Clone it to your computer locally and checkout :
    * `master` branch for bug patch
    * `develop` branch for new feature or enhancement
-3. Rename `.env.example` to `.env` and edit it according your config needs
-4. Make changes, commit and push it to your GitHub
-5. Create a pull request back to CitCuit repo and to :
+3. Run `composer update`
+4. Rename `.env.example` to `.env` and edit it according your config needs
+5. Make changes, commit and push it to your GitHub
+6. Create a pull request back to CitCuit repo and to :
    * `master` branch for your bug patch
    * `develop` branch for your new feature or enhancement
 
