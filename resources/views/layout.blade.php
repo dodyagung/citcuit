@@ -8,17 +8,14 @@
         <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, slim, fast, lightweight, no database, no ads, open source">
         <meta name="author" content="Dody Agung Saputro <hello@dodyagung.com>">
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
-        <title>@yield('title') - CitCuit v2</title>
+        <title>@yield('title') - CitCuit {{ env('APP_VERSION') }}</title>
         <link href="{{ url('assets/css/citcuit.css') }}" rel="stylesheet">
     </head>
     <body>
         <a id="top"></a>
         <!--header-->
         <header>
-            CitCuit v2
-            @if (session('citcuit.oauth.screen_name'))
-            - <a href="{{ url('profile/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a>
-            @endif
+            CitCuit {{ env('APP_VERSION') }}
         </header>
         <!--nav-top-->
         <nav class="menu">
@@ -54,7 +51,7 @@
             </div>
             <hr />
             @endif
-            Made with &hearts; by <a href="" target="_blank">@dodyags</a>. We are <a href="https://github.com/dodyagung/citcuit" target="_blank">open source</a> and licensed under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
+            Made with &hearts; by <a href="https://citcuit.in/user/dodyags" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a> and licensed under <a href="https://github.com/dodyagung/CitCuit/blob/develop/LICENSE.md" target="_blank">MIT License</a>.
         </footer>
         <a id="bottom"></a>
     </body>
