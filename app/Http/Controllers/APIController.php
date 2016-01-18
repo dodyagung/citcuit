@@ -91,6 +91,11 @@ class APIController extends Controller {
     }
 
     public function profile(Request $request, $screen_name, $max_id = false) {
+        $render = [
+            'screen_name' => $screen_name,
+        ];
+        $render['rate'] = [];
+
         //user
         $param = [
             'screen_name' => $screen_name
@@ -100,34 +105,33 @@ class APIController extends Controller {
         if (($error = CitCuit::parseError($result, 'Profile')) != FALSE) {
             return view('error', $error);
         }
-        $rate_profile = CitCuit::parseRateLimit($result);
+        $render['rate']['Profile'] = CitCuit::parseRateLimit($result);
 
-        $render = [
-            'profile' => CitCuit::parseProfile($result),
-        ];
+        $render['profile'] = CitCuit::parseProfile($result);
 
         //tweet
-        $param = [
-            'screen_name' => $screen_name,
-            'count' => 10,
-        ];
-        if ($max_id) {
-            $param['max_id'] = $max_id;
+        if ($render['profile']->protected && !$render['profile']->following) { // not shown - if user is protected and NOT following
+            $render['timeline'] = '<strong>@'.$screen_name.'\'s Tweets are protected.</strong><br /><br />';
+            $render['timeline'] .= 'Only confirmed followers have access to @'.$screen_name.'\'s Tweets and complete profile.<br />';
+            $render['timeline'] .= 'Click the "Follow" button to send a follow request.';
+        } else {
+            $param = [
+                'screen_name' => $screen_name,
+                'count' => 10,
+            ];
+            if ($max_id) {
+                $param['max_id'] = $max_id;
+            }
+
+            $result = $this->api->statuses_userTimeline($param);
+
+            if (($error = CitCuit::parseError($result, 'User Tweet')) != FALSE) {
+                return view('error', $error);
+            }
+            $render['rate']['User Tweet'] = CitCuit::parseRateLimit($result);
+
+            $render['timeline'] = CitCuit::parseTweets($result);
         }
-
-        $result = $this->api->statuses_userTimeline($param);
-        if (($error = CitCuit::parseError($result, 'User Tweet')) != FALSE) {
-            return view('error', $error);
-        }
-
-        $rate_tweets = CitCuit::parseRateLimit($result);
-
-        $render['screen_name'] = $screen_name;
-        $render['timeline'] = CitCuit::parseTweets($result);
-        $render['rate'] = [
-            'Profile' => $rate_profile,
-            'User Tweet' => $rate_tweets,
-        ];
 
         return view($this->view_prefix . 'profile', $render);
     }

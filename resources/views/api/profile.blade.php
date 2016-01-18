@@ -28,6 +28,13 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
+@if (!is_array($timeline))
+<section>
+    <div class="alert error">
+        {!! $timeline !!}
+    </div>
+</section>
+@else
 @foreach ($timeline->tweets as $tweet)
 <section class="tweet {{ $tweet->citcuit_class }}">
     <?php
@@ -117,4 +124,5 @@
     </a>
 </section>
 <section class="clear"></section>
+@endif
 @endsection
