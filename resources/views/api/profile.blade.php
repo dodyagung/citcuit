@@ -28,7 +28,7 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
-@if (!is_array($timeline))
+@if (!is_object($timeline))
 <section>
     <div class="alert error">
         {!! $timeline !!}
