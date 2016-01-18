@@ -117,16 +117,15 @@ class CitcuitController {
 
     public static function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
-            $errors = $response->errors;
             $error_data = [
                 'title' => 'Error :(',
                 'description' => NULL,
             ];
-            if ($location || $response->rate != NULL) {
-                $error_data[$location] = self::parseRateLimit($response);
+            if ($location && $response->rate != NULL) {
+                $error_data['rate'][$location] = self::parseRateLimit($response);
             }
-            foreach ($errors as $error) {
-                $error_data['description'] .= $error->message . '<br />';
+            foreach ($response->errors as $error) {
+                $error_data['description'] .= $response->httpstatus . ' - ' . $error->message . ' (<a href="https://dev.twitter.com/overview/api/response-codes" target="_blank">#' . $error->code . '</a>)<br />';
             }
             return $error_data;
         } else {
