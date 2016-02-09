@@ -135,3 +135,13 @@ img.action {
 .clear {
     clear: both;
 }
+
+span.success {
+    font-weight: bold;
+    color: green;
+}
+
+span.error {
+    font-weight: bold;
+    color: red;
+}

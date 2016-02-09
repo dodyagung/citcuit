@@ -21,6 +21,17 @@
     </div>
     <br />
     <small>{{ $profile->statuses_count }} tweets | {{ $profile->friends_count }} following | {{ $profile->followers_count }} followers | {{ $profile->favourites_count }} likes</small>
+    @if ($screen_name != session('citcuit.oauth.screen_name'))
+    <br />
+    <br />
+    <small>
+        @if (!$profile->following) 
+        <span class="error">You're not following!</span> <a href="{{ url('follow/' . $screen_name) }}">[Follow]</a>
+        @else
+        <span class="success">You're following!</span> <a href="{{ url('unfollow/' . $screen_name) }}">[Unfollow]</a>
+        @endif
+    </small>
+    @endif
 </section>
 <section>
     @include('api.@tweet')

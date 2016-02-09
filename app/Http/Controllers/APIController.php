@@ -111,8 +111,8 @@ class APIController extends Controller {
 
         //tweet
         if ($render['profile']->protected && !$render['profile']->following) { // not shown - if user is protected and NOT following
-            $render['timeline'] = '<strong>@'.$screen_name.'\'s Tweets are protected.</strong><br /><br />';
-            $render['timeline'] .= 'Only confirmed followers have access to @'.$screen_name.'\'s Tweets and complete profile.<br />';
+            $render['timeline'] = '<strong>@' . $screen_name . '\'s Tweets are protected.</strong><br /><br />';
+            $render['timeline'] .= 'Only confirmed followers have access to @' . $screen_name . '\'s Tweets and complete profile.<br />';
             $render['timeline'] .= 'Click the "Follow" button to send a follow request.';
         } else {
             $param = [
@@ -302,6 +302,32 @@ class APIController extends Controller {
         }
 
         return redirect('');
+    }
+
+    public function follow(Request $request, $screen_name) {
+        $param = [
+            'screen_name' => $screen_name,
+        ];
+        
+        $result = $this->api->friendships_create($param);
+        if (($error = CitCuit::parseError($result, 'Follow')) != FALSE) {
+            return view('error', $error);
+        }
+
+        return redirect()->back();
+    }
+    
+    public function unfollow(Request $request, $screen_name) {
+        $param = [
+            'screen_name' => $screen_name,
+        ];
+        
+        $result = $this->api->friendships_destroy($param);
+        if (($error = CitCuit::parseError($result, 'Unfollow')) != FALSE) {
+            return view('error', $error);
+        }
+
+        return redirect()->back();
     }
 
 }

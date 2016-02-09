@@ -31,6 +31,9 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@profile');
     $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@profile');
     
+    $app->get('follow/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@follow');
+    $app->get('unfollow/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@unfollow');
+    
     $app->get('reply/{tweet_id:[0-9]+}', 'APIController@reply');
     $app->post('reply', 'APIController@postReply');
 
