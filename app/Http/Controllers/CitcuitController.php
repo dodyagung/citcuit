@@ -59,7 +59,9 @@ class CitcuitController {
         }
         preg_match_all('/@([a-zA-Z0-9_]{1,15})/i', $tweet->text, $matchs);
         foreach ($matchs[1] as $match) {
-            $tweet->reply_destination .= '@' . $match . ' ';
+            if ($match != session('citcuit.oauth.screen_name')) {
+                $tweet->reply_destination .= '@' . $match . ' ';
+            }
         }
         if (isset($tweet->quoted_status)) {
             $tweet->reply_destination .= '@' . $tweet->quoted_status->user->screen_name . ' ';
@@ -69,6 +71,9 @@ class CitcuitController {
                     $tweet->reply_destination .= '@' . $match . ' ';
                 }
             }
+        }
+        if (trim($tweet->reply_destination) == '') {
+            $tweet->reply_destination .= '@' . $tweet->user->screen_name;
         }
 
         // text - t.co
@@ -85,8 +90,22 @@ class CitcuitController {
         // text - media
         if (isset($tweet->extended_entities->media)) {
             $medias = $tweet->extended_entities->media;
+            $tweet->citcuit_media = [];
             foreach ($medias as $media) {
                 $tweet->text = str_replace($media->url, '', $tweet->text);
+                if (isset($media->video_info)) {
+                    $video_bitrate = PHP_INT_MAX;
+                    $video_url = NULL;
+                    foreach ($media->video_info->variants as $video) {
+                        if (isset($video->bitrate) && $video->bitrate < $video_bitrate) {
+                            $video_bitrate = $video->bitrate;
+                            $video_url = $video->url;
+                        }
+                    }
+                    $tweet->citcuit_media[] = '<a href="' . $video_url . '" target="_blank"><img src="' . $media->media_url_https . '" width="' . $media->sizes->thumb->w . '" /><br />(click to play this video)</a><br />';
+                } else {
+                    $tweet->citcuit_media[] = '<a href="' . $media->media_url_https . '" target="_blank"><img src="' . $media->media_url_https . '" width="' . $media->sizes->thumb->w . '" /></a><br />';
+                }
             }
         }
 
