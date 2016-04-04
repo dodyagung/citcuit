@@ -15,6 +15,6 @@
     </a><br />
     Don't have a Twitter account? <a href="https://mobile.twitter.com/signup" target="_blank">Sign up</a>.<br />
     <br />
-    Join and like our <a href="https://fb.me/citcuit.in">Facebook</a> to stay in touch with our news and updates.
+    Join and like our <a href="https://fb.me/citcuit.in" target="_blank">Facebook</a> to stay in touch with our news and updates.
 </section>
 @endsection

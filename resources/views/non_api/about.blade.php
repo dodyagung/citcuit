@@ -10,13 +10,14 @@
     <br />
     Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; in Indonesia.<br />
     <br />
-    Join and like our <a href="https://fb.me/citcuit.in">Facebook</a> to stay in touch with our news and updates.
+    Join and like our <a href="https://fb.me/citcuit.in" target="_blank">Facebook</a> to stay in touch with our news and updates.
     <h4>Requirements</h4>
     <ul>
         <li>PHP >= 5.5.9</li>
         <li>OpenSSL PHP Extension</li>
         <li>PDO PHP Extension</li>
         <li>Mbstring PHP Extension</li>
+        <li>Tokenizer PHP Extension</li>
     </ul>
     <h4>Installation</h4>
     <ol>
@@ -35,6 +36,7 @@
         <li><a href="https://twitter.com/dodyags" target="_blank">https://twitter.com/dodyags</a></li>
     </ul>
     <h4>License</h4>
-    CitCuit is open-sourced and licensed under <a href="https://github.com/dodyagung/citcuit/blob/develop/LICENSE.md" target="_blank">MIT license</a>.
+    CitCuit is open-sourced and licensed under <a href="https://github.com/dodyagung/citcuit/blob/develop/LICENSE.md" target="_blank">MIT license</a>.<br />
+    <br />
 </section>
 @endsection

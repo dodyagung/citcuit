@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="A mobile Twitter client from Indonesia. Slim, fast, lightweight, no database, no ads, and of course it's open source.">
+        <meta name="description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, lightweight, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 in Indonesia.">
         <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, slim, fast, lightweight, no database, no ads, open source">
-        <meta name="author" content="Dody Agung Saputro <hello@dodyagung.com>">
+        <meta name="author" content="Dody Agung Saputro (hello@dodyagung.com)">
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
         <title>@yield('title') - CitCuit {{ env('APP_VERSION') }}</title>
         <link href="{{ url('assets/css/citcuit.css') }}" rel="stylesheet">
@@ -51,7 +51,7 @@
             </div>
             <hr />
             @endif
-            Made with &hearts; by <a href="https://citcuit.in/user/dodyags" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a> and licensed under <a href="https://github.com/dodyagung/CitCuit/blob/develop/LICENSE.md" target="_blank">MIT License</a>.
+            Made with &hearts; by <a href="{{ url('profile/dodyags') }}" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a> and licensed under <a href="https://github.com/dodyagung/CitCuit/blob/develop/LICENSE.md" target="_blank">MIT License</a>.
         </footer>
         <a id="bottom"></a>
     </body>

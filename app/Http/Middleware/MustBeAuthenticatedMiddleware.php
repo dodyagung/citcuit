@@ -14,14 +14,12 @@ class MustBeAuthenticatedMiddleware {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-//        print_r($request->session()->all()); die();
-        
-        if (!session('citcuit.oauth.user_id')) {
+        if (!session('citcuit.oauth')) {
             if ($request->is('/')) {
                 $request->session()->flush();
                 return view('non_api.home');
             } else {
-                return redirect(url());
+                return redirect('');
             }
         }
 
