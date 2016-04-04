@@ -23,7 +23,7 @@ class APIController extends Controller {
         $this->api->setTimeout(15000);
     }
 
-    public function home(Request $request, $max_id = false) {
+    public function getHome(Request $request, $max_id = false) {
         $param = [
             'count' => 10,
         ];
@@ -46,13 +46,15 @@ class APIController extends Controller {
         return view($this->view_prefix . 'home', $render);
     }
 
-    public function detail(Request $request, $tweet_id) {
+    public function getDetail(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
             'include_my_retweet' => 'true'
         ];
 
         $result = $this->api->statuses_show_ID($param);
+
+//        print_r($result); die();    
         if (($error = CitCuit::parseError($result, 'Tweet Detail')) != FALSE) {
             return view('error', $error);
         }
@@ -67,7 +69,7 @@ class APIController extends Controller {
         return view($this->view_prefix . 'detail', $render);
     }
 
-    public function mentions(Request $request, $max_id = false) {
+    public function getMentions(Request $request, $max_id = false) {
         $param = [
             'count' => 10,
         ];
@@ -90,7 +92,7 @@ class APIController extends Controller {
         return view($this->view_prefix . 'mentions', $render);
     }
 
-    public function profile(Request $request, $screen_name, $max_id = false) {
+    public function getProfile(Request $request, $screen_name, $max_id = false) {
         $render = [
             'screen_name' => $screen_name,
         ];
@@ -124,7 +126,6 @@ class APIController extends Controller {
             }
 
             $result = $this->api->statuses_userTimeline($param);
-
             if (($error = CitCuit::parseError($result, 'User Tweet')) != FALSE) {
                 return view('error', $error);
             }
@@ -150,7 +151,7 @@ class APIController extends Controller {
         return redirect('');
     }
 
-    public function like(Request $request, $tweet_id) {
+    public function getLike(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -162,7 +163,7 @@ class APIController extends Controller {
         return redirect()->back();
     }
 
-    public function unlike(Request $request, $tweet_id) {
+    public function getUnlike(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -174,7 +175,7 @@ class APIController extends Controller {
         return redirect()->back();
     }
 
-    public function reply(Request $request, $tweet_id) {
+    public function getReply(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -209,7 +210,7 @@ class APIController extends Controller {
         return redirect('');
     }
 
-    public function delete(Request $request, $tweet_id) {
+    public function getDelete(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -242,9 +243,10 @@ class APIController extends Controller {
         return redirect('');
     }
 
-    public function retweet(Request $request, $tweet_id) {
+    public function getRetweet(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
+            'include_my_retweet' => 'true'
         ];
         $result = $this->api->statuses_show_ID($param);
         if (($error = CitCuit::parseError($result, 'Retweet')) != FALSE) {
@@ -289,26 +291,29 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect()->back();
     }
 
-    public function unretweet(Request $request, $tweet_id) {
+    public function postUnretweet(Request $request) {
+        $id = $request->id;
+
         $param = [
-            'id' => $tweet_id,
+            'id' => $id,
         ];
+
         $result = $this->api->statuses_destroy_ID($param);
-        if (($error = CitCuit::parseError($result, 'Unretweet')) != FALSE) {
+        if (($error = CitCuit::parseError($result)) != FALSE) {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect()->back();
     }
 
-    public function follow(Request $request, $screen_name) {
+    public function getFollow(Request $request, $screen_name) {
         $param = [
             'screen_name' => $screen_name,
         ];
-        
+
         $result = $this->api->friendships_create($param);
         if (($error = CitCuit::parseError($result, 'Follow')) != FALSE) {
             return view('error', $error);
@@ -316,12 +321,12 @@ class APIController extends Controller {
 
         return redirect()->back();
     }
-    
-    public function unfollow(Request $request, $screen_name) {
+
+    public function getUnfollow(Request $request, $screen_name) {
         $param = [
             'screen_name' => $screen_name,
         ];
-        
+
         $result = $this->api->friendships_destroy($param);
         if (($error = CitCuit::parseError($result, 'Unfollow')) != FALSE) {
             return view('error', $error);

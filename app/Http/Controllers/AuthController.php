@@ -9,13 +9,13 @@ use Codebird\Codebird;
 class AuthController extends Controller {
 
     private $api;
-    
+
     public function __construct() {
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
         $this->api = Codebird::getInstance();
     }
 
-    public function signIn(Request $request) {
+    public function getSignIn(Request $request) {
         if (!session('citcuit.oauth')) {
             $reply = $this->api->oauth_requestToken([
                 'oauth_callback' => url('signin')
@@ -26,7 +26,7 @@ class AuthController extends Controller {
             $auth_url = $this->api->oauth_authorize();
 
             return redirect($auth_url);
-        } else {
+        } elseif (isset($_GET['oauth_verifier'])) {
             $this->api->setToken(session('citcuit.oauth.oauth_token'), session('citcuit.oauth.oauth_token_secret'));
 
             $reply = $this->api->oauth_accessToken([
@@ -36,10 +36,15 @@ class AuthController extends Controller {
             session(['citcuit.oauth' => (array) $reply]);
 
             return redirect(url());
+        } else {
+            $this->api->logout();
+            $request->session()->flush();
+
+            return redirect('/');
         }
     }
 
-    public function signOut(Request $request) {
+    public function getSignOut(Request $request) {
         $this->api->logout();
         $request->session()->flush();
 
