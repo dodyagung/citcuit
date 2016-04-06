@@ -22,6 +22,9 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->get('mentions', 'APIController@getMentions');
     $app->get('mentions/older/{max_id:[0-9]+}', 'APIController@getMentions');
 
+    $app->get('messages', 'APIController@getMessages');
+    $app->get('messages/older/{max_id:[0-9]+}', 'APIController@getMessages');
+
     $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getProfile');
     $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@getProfile');
 

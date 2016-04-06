@@ -134,6 +134,25 @@ class CitcuitController {
         return $tweet;
     }
 
+    public function parseMessage($message) {
+        //created at
+        $timeTweet = Carbon::createFromTimestamp(strtotime($message->created_at));
+        $timeNow = Carbon::now();
+        $message->created_at_original = $timeTweet->format('H:i \\- j M Y');
+        $message->created_at = $timeTweet->diffForHumans();
+
+        // text - @user
+        $message->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('profile/$1') . '">$0</a>', $message->text);
+
+        // text - #hashtag
+        $message->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('hashtag/$1') . '">$0</a>', $message->text);
+
+        // trim it and convert newlines
+        $message->text = nl2br(trim($message->text));
+
+        return $message;
+    }
+
     public function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
             $error_data = [
@@ -164,25 +183,34 @@ class CitcuitController {
         ];
     }
 
-    public function parseTweets($tweets) {
-        unset($tweets->rate);
-        unset($tweets->httpstatus);
+    public function parseResult($content, $type) {
+        unset($content->rate);
+        unset($content->httpstatus);
 
-        $tweets = (array) $tweets;
+        $content = (array) $content;
         $max_id = NULL;
 
-        for ($i = 0; $i < count($tweets); $i++) {
+        for ($i = 0; $i < count($content); $i++) {
             if ($i % 2 == 0) {
-                $tweets[$i]->citcuit_class = 'odd';
+                $content[$i]->citcuit_class = 'odd';
             } else {
-                $tweets[$i]->citcuit_class = 'even';
+                $content[$i]->citcuit_class = 'even';
             }
-            $max_id = $tweets[$i]->id_str;
-            $tweets[$i] = self::parseTweet($tweets[$i]);
+            $max_id = $content[$i]->id_str;
+            switch ($type) {
+                case 'tweet':
+                    $content[$i] = self::parseTweet($content[$i]);
+                    break;
+                case 'message':
+                    $content[$i] = self::parseMessage($content[$i]);
+                    break;
+                default:
+                    break;
+            }
         }
 
         $result = new \stdClass();
-        $result->tweets = $tweets;
+        $result->content = $content;
         $result->max_id = $max_id;
 
         return $result;

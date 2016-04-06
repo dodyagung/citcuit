@@ -43,7 +43,7 @@ class APIController extends Controller {
             'rate' => [
                 'Home' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseTweets($result),
+            'timeline' => $this->citcuit->parseResult($result, 'tweet'),
         ];
 
         return view($this->view_prefix . 'home', $render);
@@ -89,7 +89,7 @@ class APIController extends Controller {
             'rate' => [
                 'Mentions' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseTweets($result),
+            'timeline' => $this->citcuit->parseResult($result, 'tweet'),
         ];
 
         return view($this->view_prefix . 'mentions', $render);
@@ -136,7 +136,7 @@ class APIController extends Controller {
             }
 
             $render['rate']['User Tweet'] = $this->citcuit->parseRateLimit($result);
-            $render['timeline'] = $this->citcuit->parseTweets($result);
+            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
         }
 
         return view($this->view_prefix . 'profile', $render);
@@ -345,6 +345,32 @@ class APIController extends Controller {
         }
 
         return redirect()->back();
+    }
+
+    public function getMessages(Request $request, $max_id = false) {
+        $param = [
+            'count' => 10,
+        ];
+        if ($max_id) {
+            $param['max_id'] = $max_id;
+        }
+        $result = $this->api->directMessages($param);
+
+        $error = $this->citcuit->parseError($result, 'Messages');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Messages' => $this->citcuit->parseRateLimit($result),
+            ],
+            'timeline' => $this->citcuit->parseResult($result, 'message'),
+        ];
+        
+//        print_r($render); die();
+
+        return view($this->view_prefix . 'messages', $render);
     }
 
 }

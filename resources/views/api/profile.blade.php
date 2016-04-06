@@ -46,7 +46,7 @@
     </div>
 </section>
 @else
-@foreach ($timeline->tweets as $tweet)
+@foreach ($timeline->content as $tweet)
 <section class="tweet {{ $tweet->citcuit_class }}">
     <?php
     $tweet_original = null;
