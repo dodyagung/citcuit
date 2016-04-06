@@ -301,7 +301,7 @@ class APIController extends Controller {
             'id' => $id,
         ];
 
-        $result = $this->api->statuses_destroy_ID($param);
+        $result = $this->api->statuses_unretweet_ID($param);
         if (($error = CitCuit::parseError($result)) != FALSE) {
             return view('error', $error);
         }
