@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use Codebird\Codebird;
-use App\Http\Controllers\CitcuitController as CitCuit;
 
 class APIController extends Controller {
 
     private $api;
+    private $citcuit;
     private $view_prefix = 'api.';
 
     public function __construct() {
+        $this->citcuit = new CitcuitController();
+
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
         $this->api = Codebird::getInstance();
         $this->api->setToken(session('citcuit.oauth.oauth_token'), session('citcuit.oauth.oauth_token_secret'));
@@ -30,17 +32,18 @@ class APIController extends Controller {
         if ($max_id) {
             $param['max_id'] = $max_id;
         }
-
         $result = $this->api->statuses_homeTimeline($param);
-        if (($error = CitCuit::parseError($result, 'Home')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Home');
+        if ($error) {
             return view('error', $error);
         }
 
         $render = [
             'rate' => [
-                'Home' => CitCuit::parseRateLimit($result),
+                'Home' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => CitCuit::parseTweets($result),
+            'timeline' => $this->citcuit->parseTweets($result),
         ];
 
         return view($this->view_prefix . 'home', $render);
@@ -51,19 +54,18 @@ class APIController extends Controller {
             'id' => $tweet_id,
             'include_my_retweet' => 'true'
         ];
-
         $result = $this->api->statuses_show_ID($param);
 
-//        print_r($result); die();    
-        if (($error = CitCuit::parseError($result, 'Tweet Detail')) != FALSE) {
+        $error = $this->citcuit->parseError($result, 'Tweet Detail');
+        if ($error) {
             return view('error', $error);
         }
 
         $render = [
             'rate' => [
-                'Tweet Detail' => CitCuit::parseRateLimit($result),
+                'Tweet Detail' => $this->citcuit->parseRateLimit($result),
             ],
-            'tweet' => CitCuit::parseTweet($result),
+            'tweet' => $this->citcuit->parseTweet($result),
         ];
 
         return view($this->view_prefix . 'detail', $render);
@@ -76,17 +78,18 @@ class APIController extends Controller {
         if ($max_id) {
             $param['max_id'] = $max_id;
         }
-
         $result = $this->api->statuses_mentionsTimeline($param);
-        if (($error = CitCuit::parseError($result, 'Mentions')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Mentions');
+        if ($error) {
             return view('error', $error);
         }
 
         $render = [
             'rate' => [
-                'Mentions' => CitCuit::parseRateLimit($result),
+                'Mentions' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => CitCuit::parseTweets($result),
+            'timeline' => $this->citcuit->parseTweets($result),
         ];
 
         return view($this->view_prefix . 'mentions', $render);
@@ -102,14 +105,15 @@ class APIController extends Controller {
         $param = [
             'screen_name' => $screen_name
         ];
-
         $result = $this->api->users_show($param);
-        if (($error = CitCuit::parseError($result, 'Profile')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Profile');
+        if ($error) {
             return view('error', $error);
         }
-        $render['rate']['Profile'] = CitCuit::parseRateLimit($result);
 
-        $render['profile'] = CitCuit::parseProfile($result);
+        $render['rate']['Profile'] = $this->citcuit->parseRateLimit($result);
+        $render['profile'] = $this->citcuit->parseProfile($result);
 
         //tweet
         if ($render['profile']->protected && !$render['profile']->following) { // not shown - if user is protected and NOT following
@@ -124,27 +128,28 @@ class APIController extends Controller {
             if ($max_id) {
                 $param['max_id'] = $max_id;
             }
-
             $result = $this->api->statuses_userTimeline($param);
-            if (($error = CitCuit::parseError($result, 'User Tweet')) != FALSE) {
+
+            $error = $this->citcuit->parseError($result, 'User Tweet');
+            if ($error) {
                 return view('error', $error);
             }
-            $render['rate']['User Tweet'] = CitCuit::parseRateLimit($result);
 
-            $render['timeline'] = CitCuit::parseTweets($result);
+            $render['rate']['User Tweet'] = $this->citcuit->parseRateLimit($result);
+            $render['timeline'] = $this->citcuit->parseTweets($result);
         }
 
         return view($this->view_prefix . 'profile', $render);
     }
 
     public function postTweet(Request $request) {
-        $tweet = $request->tweet;
-
         $param = [
-            'status' => $tweet,
+            'status' => $request->tweet,
         ];
         $result = $this->api->statuses_update($param);
-        if (($error = CitCuit::parseError($result)) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -156,7 +161,9 @@ class APIController extends Controller {
             'id' => $tweet_id,
         ];
         $result = $this->api->favorites_create($param);
-        if (($error = CitCuit::parseError($result, 'Like')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Like');
+        if ($error) {
             return view('error', $error);
         }
 
@@ -168,7 +175,9 @@ class APIController extends Controller {
             'id' => $tweet_id,
         ];
         $result = $this->api->favorites_destroy($param);
-        if (($error = CitCuit::parseError($result, 'Unlike')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Unlike');
+        if ($error) {
             return view('error', $error);
         }
 
@@ -180,30 +189,31 @@ class APIController extends Controller {
             'id' => $tweet_id,
         ];
         $result = $this->api->statuses_show_ID($param);
-        if (($error = CitCuit::parseError($result, 'Reply')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Reply');
+        if ($error) {
             return view('error', $error);
         }
 
         $render = [
             'rate' => [
-                'Reply' => CitCuit::parseRateLimit($result),
+                'Reply' => $this->citcuit->parseRateLimit($result),
             ],
-            'tweet' => CitCuit::parseTweet($result),
+            'tweet' => $this->citcuit->parseTweet($result),
         ];
 
         return view($this->view_prefix . 'reply', $render);
     }
 
     public function postReply(Request $request) {
-        $tweet = $request->tweet;
-        $in_reply_to_status_id = $request->in_reply_to_status_id;
-
         $param = [
-            'status' => $tweet,
-            'in_reply_to_status_id' => $in_reply_to_status_id,
+            'status' => $request->tweet,
+            'in_reply_to_status_id' => $request->in_reply_to_status_id,
         ];
         $result = $this->api->statuses_update($param);
-        if (($error = CitCuit::parseError($result)) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -215,28 +225,30 @@ class APIController extends Controller {
             'id' => $tweet_id,
         ];
         $result = $this->api->statuses_show_ID($param);
-        if (($error = CitCuit::parseError($result, 'Delete')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Delete');
+        if ($error) {
             return view('error', $error);
         }
 
         $render = [
             'rate' => [
-                'Delete' => CitCuit::parseRateLimit($result),
+                'Delete' => $this->citcuit->parseRateLimit($result),
             ],
-            'tweet' => CitCuit::parseTweet($result),
+            'tweet' => $this->citcuit->parseTweet($result),
         ];
 
         return view($this->view_prefix . 'delete', $render);
     }
 
     public function postDelete(Request $request) {
-        $id = $request->id;
-
         $param = [
-            'id' => $id,
+            'id' => $request->id,
         ];
         $result = $this->api->statuses_destroy_ID($param);
-        if (($error = CitCuit::parseError($result)) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -249,30 +261,30 @@ class APIController extends Controller {
             'include_my_retweet' => 'true'
         ];
         $result = $this->api->statuses_show_ID($param);
-        if (($error = CitCuit::parseError($result, 'Retweet')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Retweet');
+        if ($error) {
             return view('error', $error);
         }
 
         $render = [
             'rate' => [
-                'Retweet' => CitCuit::parseRateLimit($result),
+                'Retweet' => $this->citcuit->parseRateLimit($result),
             ],
-            'tweet' => CitCuit::parseTweet($result),
+            'tweet' => $this->citcuit->parseTweet($result),
         ];
 
         return view($this->view_prefix . 'retweet', $render);
     }
 
     public function postRetweetWithComment(Request $request) {
-        $tweet = $request->tweet;
-        $retweet_link = $request->retweet_link;
-
         $param = [
-            'status' => $tweet . ' ' . $retweet_link,
+            'status' => $request->tweet . ' ' . $request->retweet_link,
         ];
-
         $result = $this->api->statuses_update($param);
-        if (($error = CitCuit::parseError($result)) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -280,14 +292,13 @@ class APIController extends Controller {
     }
 
     public function postRetweet(Request $request) {
-        $id = $request->id;
-
         $param = [
-            'id' => $id,
+            'id' => $request->id,
         ];
-
         $result = $this->api->statuses_retweet_ID($param);
-        if (($error = CitCuit::parseError($result)) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -295,14 +306,13 @@ class APIController extends Controller {
     }
 
     public function postUnretweet(Request $request) {
-        $id = $request->id;
-
         $param = [
-            'id' => $id,
+            'id' => $request->id,
         ];
-
         $result = $this->api->statuses_unretweet_ID($param);
-        if (($error = CitCuit::parseError($result)) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -313,9 +323,10 @@ class APIController extends Controller {
         $param = [
             'screen_name' => $screen_name,
         ];
-
         $result = $this->api->friendships_create($param);
-        if (($error = CitCuit::parseError($result, 'Follow')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
             return view('error', $error);
         }
 
@@ -326,9 +337,10 @@ class APIController extends Controller {
         $param = [
             'screen_name' => $screen_name,
         ];
-
         $result = $this->api->friendships_destroy($param);
-        if (($error = CitCuit::parseError($result, 'Unfollow')) != FALSE) {
+
+        $error = $this->citcuit->parseError($result, 'Unfollow');
+        if ($error) {
             return view('error', $error);
         }
 

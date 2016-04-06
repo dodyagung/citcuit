@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class CitcuitController {
 
-    public static function parseProfile($profile) {
+    public function parseProfile($profile) {
         if (isset($profile->entities->url->urls) && count($profile->entities->url->urls) != 0) {
             $urls = $profile->entities->url->urls;
             foreach ($urls as $url) {
@@ -41,7 +41,7 @@ class CitcuitController {
         return $profile;
     }
 
-    public static function parseTweet($tweet) {
+    public function parseTweet($tweet) {
         //created at
         $timeTweet = Carbon::createFromTimestamp(strtotime($tweet->created_at));
         $timeNow = Carbon::now();
@@ -134,7 +134,7 @@ class CitcuitController {
         return $tweet;
     }
 
-    public static function parseError($response, $location = FALSE) {
+    public function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
             $error_data = [
                 'title' => 'Error :(',
@@ -152,7 +152,7 @@ class CitcuitController {
         }
     }
 
-    public static function parseRateLimit($response) {
+    public function parseRateLimit($response) {
         $rate_remaining = $response->rate->remaining;
         $rate_limit = $response->rate->limit;
         $rate_reset = Carbon::createFromTimestamp($response->rate->reset, 'UTC')->diffInMinutes(Carbon::now('UTC'));
@@ -164,7 +164,7 @@ class CitcuitController {
         ];
     }
 
-    public static function parseTweets($tweets) {
+    public function parseTweets($tweets) {
         unset($tweets->rate);
         unset($tweets->httpstatus);
 
