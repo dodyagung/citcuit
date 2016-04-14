@@ -397,4 +397,25 @@ class APIController extends Controller {
         return redirect('messages');
     }
 
+    public function getMessagesDetail(Request $request, $id) {
+        $param = [
+            'id' => $id,
+        ];
+        $result = $this->api->directMessages_show($param);
+
+        $error = $this->citcuit->parseError($result, 'Message Detail');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Message Detail' => $this->citcuit->parseRateLimit($result),
+            ],
+            'message' => $this->citcuit->parseMessage($result),
+        ];
+
+        return view($this->view_prefix . 'messages_detail', $render);
+    }
+
 }
