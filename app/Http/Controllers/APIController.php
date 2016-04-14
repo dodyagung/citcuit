@@ -372,6 +372,30 @@ class APIController extends Controller {
 
         return view($this->view_prefix . 'messages', $render);
     }
+    
+    public function getMessagesSent(Request $request, $max_id = false) {
+        $param = [
+            'count' => 10,
+        ];
+        if ($max_id) {
+            $param['max_id'] = $max_id;
+        }
+        $result = $this->api->directMessages_sent($param);
+
+        $error = $this->citcuit->parseError($result, 'Sent Messages');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Sent Messages' => $this->citcuit->parseRateLimit($result),
+            ],
+            'timeline' => $this->citcuit->parseResult($result, 'message'),
+        ];
+
+        return view($this->view_prefix . 'messages_sent', $render);
+    }
 
     public function getMessagesCreate(Request $request, $screen_name = NULL) {
 

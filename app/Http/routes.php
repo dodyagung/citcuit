@@ -23,8 +23,10 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->get('mentions/older/{max_id:[0-9]+}', 'APIController@getMentions');
 
     $app->get('messages', 'APIController@getMessages');
-    $app->get('messages/detail/{max_id:[0-9]+}', 'APIController@getMessagesDetail');
     $app->get('messages/older/{max_id:[0-9]+}', 'APIController@getMessages');
+    $app->get('messages/sent', 'APIController@getMessagesSent');
+    $app->get('messages/sent/older/{max_id:[0-9]+}', 'APIController@getMessagesSent');
+    $app->get('messages/detail/{max_id:[0-9]+}', 'APIController@getMessagesDetail');
     $app->get('messages/create', 'APIController@getMessagesCreate');
     $app->get('messages/create/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getMessagesCreate');
     $app->get('messages/delete/{max_id:[0-9]+}', 'APIController@getMessagesDelete');
