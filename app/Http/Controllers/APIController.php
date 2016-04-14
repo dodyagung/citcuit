@@ -367,10 +367,34 @@ class APIController extends Controller {
             ],
             'timeline' => $this->citcuit->parseResult($result, 'message'),
         ];
-        
+
 //        print_r($render); die();
 
         return view($this->view_prefix . 'messages', $render);
+    }
+
+    public function getMessagesCreate(Request $request, $screen_name = NULL) {
+
+        $render = [
+            'screen_name' => $screen_name
+        ];
+
+        return view($this->view_prefix . 'messages_create', $render);
+    }
+
+    public function postMessagesCreate(Request $request) {
+        $param = [
+            'screen_name' => $request->screen_name,
+            'text' => $request->text,
+        ];
+        $result = $this->api->directMessages_new($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('messages');
     }
 
 }
