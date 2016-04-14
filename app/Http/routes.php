@@ -27,7 +27,9 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->get('messages/older/{max_id:[0-9]+}', 'APIController@getMessages');
     $app->get('messages/create', 'APIController@getMessagesCreate');
     $app->get('messages/create/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getMessagesCreate');
+    $app->get('messages/delete/{max_id:[0-9]+}', 'APIController@getMessagesDelete');
     $app->post('messages/create', 'APIController@postMessagesCreate');
+    $app->post('messages/delete', 'APIController@postMessagesDelete');
 
     $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getProfile');
     $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@getProfile');

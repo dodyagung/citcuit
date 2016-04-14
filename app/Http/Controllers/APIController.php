@@ -418,4 +418,39 @@ class APIController extends Controller {
         return view($this->view_prefix . 'messages_detail', $render);
     }
 
+    public function getMessagesDelete(Request $request, $id) {
+        $param = [
+            'id' => $id,
+        ];
+        $result = $this->api->directMessages_show($param);
+
+        $error = $this->citcuit->parseError($result, 'Message Delete');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Message Delete' => $this->citcuit->parseRateLimit($result),
+            ],
+            'message' => $this->citcuit->parseMessage($result),
+        ];
+
+        return view($this->view_prefix . 'messages_delete', $render);
+    }
+
+    public function postMessagesDelete(Request $request) {
+        $param = [
+            'id' => $request->id,
+        ];
+        $result = $this->api->directMessages_destroy($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('messages');
+    }
+
 }
