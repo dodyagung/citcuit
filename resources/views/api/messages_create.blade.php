@@ -9,6 +9,11 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
+<section class="tweet even">
+    <strong>Create</strong> | 
+    <a href="{{ url('messages') }}">Inbox</a> | 
+    <a href="{{ url('messages/sent') }}">Sent</a>
+</section>
 <section>
     <form method="POST" action="{{ url('messages/create') }}">
         @if (!$screen_name)

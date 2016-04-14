@@ -44,7 +44,6 @@ class CitcuitController {
     public function parseTweet($tweet) {
         //created at
         $timeTweet = Carbon::createFromTimestamp(strtotime($tweet->created_at));
-        $timeNow = Carbon::now();
         $tweet->created_at_original = $timeTweet->format('H:i \\- j M Y');
         $tweet->created_at = $timeTweet->diffForHumans();
 
@@ -137,7 +136,6 @@ class CitcuitController {
     public function parseMessage($message) {
         //created at
         $timeTweet = Carbon::createFromTimestamp(strtotime($message->created_at));
-        $timeNow = Carbon::now();
         $message->created_at_original = $timeTweet->format('H:i \\- j M Y');
         $message->created_at = $timeTweet->diffForHumans();
 

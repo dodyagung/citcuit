@@ -6,6 +6,11 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
+<section class="tweet even">
+    <a href="{{ url('messages/create') }}">Create</a> | 
+    <strong>Inbox</strong> | 
+    <a href="{{ url('messages/sent') }}">Sent</a>
+</section>
 @foreach ($timeline->content as $message)
 <section class="tweet {{ $message->citcuit_class }}">
     <div class="split-left">
@@ -21,17 +26,17 @@
         @endif
         <span class="sender_id"><small>({{ '@' . $message->sender->screen_name }})</small></span><br />
         <span class="action">
-            <a href="{{ url('reply/' . $message->id_str) }}"><img class="action" src="{{ url('assets/img/reply.png') }}" alt="Reply" /></a>
+            <a href="{{ url('messages/create/' . $message->sender->screen_name) }}"><img class="action" src="{{ url('assets/img/message.png') }}" alt="Reply" /></a>
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
-            <a href="{{ url('delete/' . $message->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
+            <a href="{{ url('messages/delete/' . $message->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
         </span><br />
         {!! $message->text !!}<br />
-        <small>{{ $message->created_at }}</small>
+        <small><a href="{{ url('messages/detail/' . $message->id_str) }}">{{ $message->created_at }}</a></small>
     </div>
 </section>
 @endforeach
 <section>
-    <a class="pagination right" href="{{ url('/message/older/' . $timeline->max_id) }}">
+    <a class="pagination right" href="{{ url('messages/older/' . $timeline->max_id) }}">
         Older [&rarr;] 
     </a>
 </section>

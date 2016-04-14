@@ -6,6 +6,11 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
+<section class="tweet even">
+    <a href="{{ url('messages/create') }}">Create</a> | 
+    <a href="{{ url('messages') }}">Inbox</a> | 
+    <a href="{{ url('messages/sent') }}">Sent</a>
+</section>
 <section class="tweet odd">
     <div class="split-left">
         <img src="{{ $message->sender->profile_image_url_https }}" class="profpic">
