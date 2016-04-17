@@ -2,6 +2,9 @@
 @section('title', '@' . $screen_name)
 
 @section('content')
+<nav class="sub-menu">
+    @yield('title')
+</nav>
 <section class="tweet odd">
     <div class="split-left">
         <a href="{{ $profile->profile_image_url_https_full }}" target="_blank"><img src="{{ $profile->profile_image_url_https }}" class="profpic"></a>
@@ -37,7 +40,7 @@
     @include('api.@tweet')
 </section>
 <nav class="sub-menu">
-    @yield('title')
+    Tweets
 </nav>
 @if (!is_object($timeline))
 <section>
