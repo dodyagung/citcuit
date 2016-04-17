@@ -54,6 +54,8 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('unretweet', 'APIController@postUnretweet');
     $app->post('retweet', 'APIController@postRetweet');
     $app->post('retweet_with_comment', 'APIController@postRetweetWithComment');
+    
+    $app->get('search/tweet', 'APIController@getSearchTweet');
 
     $app->get('signout', 'AuthController@getSignOut');
 });

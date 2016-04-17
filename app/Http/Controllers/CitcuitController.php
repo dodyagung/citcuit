@@ -41,7 +41,14 @@ class CitcuitController {
         return $profile;
     }
 
-    public function parseTweet($tweet) {
+    public function parseTweet($tweet, $search = false) {
+        if ($search) {
+            if (isset($tweet->retweeted_status)) {
+                // on search, retweeted quoted status doesn't contain user entities
+                unset($tweet->retweeted_status->quoted_status);
+            }
+        }
+
         //created at
         $timeTweet = Carbon::createFromTimestamp(strtotime($tweet->created_at));
         $tweet->created_at_original = $timeTweet->format('H:i \\- j M Y');
@@ -63,7 +70,9 @@ class CitcuitController {
             }
         }
         if (isset($tweet->quoted_status)) {
-            $tweet->reply_destination .= '@' . $tweet->quoted_status->user->screen_name . ' ';
+            if (isset($tweet->quoted_status->user)) {
+                $tweet->reply_destination .= '@' . $tweet->quoted_status->user->screen_name . ' ';
+            }
             preg_match_all('/@([a-zA-Z0-9_]{1,15})/i', $tweet->quoted_status->text, $matchs);
             foreach ($matchs[1] as $match) {
                 if ($match != $tweet->user->screen_name) {
@@ -86,12 +95,21 @@ class CitcuitController {
             }
         }
 
-        // text - media
+        // text - image
+        if (isset($tweet->entities->media)) {
+            $medias = $tweet->entities->media;
+            $tweet->citcuit_media = [];
+            foreach ($medias as $media) {
+                $tweet->text = str_replace($media->url, '', $tweet->text);
+                $tweet->citcuit_media[] = '<a href="' . $media->media_url_https . '" target="_blank"><img src="' . $media->media_url_https . '" width="' . $media->sizes->thumb->w . '" /></a><br />';
+            }
+        }
+
+        // text - twitter official video
         if (isset($tweet->extended_entities->media)) {
             $medias = $tweet->extended_entities->media;
             $tweet->citcuit_media = [];
             foreach ($medias as $media) {
-                $tweet->text = str_replace($media->url, '', $tweet->text);
                 if (isset($media->video_info)) {
                     $video_bitrate = PHP_INT_MAX;
                     $video_url = NULL;
@@ -102,8 +120,6 @@ class CitcuitController {
                         }
                     }
                     $tweet->citcuit_media[] = '<a href="' . $video_url . '" target="_blank"><img src="' . $media->media_url_https . '" width="' . $media->sizes->thumb->w . '" /><br />(click to play this video)</a><br />';
-                } else {
-                    $tweet->citcuit_media[] = '<a href="' . $media->media_url_https . '" target="_blank"><img src="' . $media->media_url_https . '" width="' . $media->sizes->thumb->w . '" /></a><br />';
                 }
             }
         }
@@ -198,6 +214,9 @@ class CitcuitController {
             switch ($type) {
                 case 'tweet':
                     $content[$i] = self::parseTweet($content[$i]);
+                    break;
+                case 'search':
+                    $content[$i] = self::parseTweet($content[$i], true);
                     break;
                 case 'message':
                     $content[$i] = self::parseMessage($content[$i]);

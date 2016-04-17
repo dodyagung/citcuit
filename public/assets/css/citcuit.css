@@ -5,6 +5,9 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 90%;
 }
+form {
+    margin-bottom: 0;
+}
 a {
     text-decoration: none;
 }
@@ -56,10 +59,18 @@ footer a {
 footer .rate {
     line-height: 1.375em;
 }
+
 input {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
+}
+
+select {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 5px;
 }
 
 textarea {

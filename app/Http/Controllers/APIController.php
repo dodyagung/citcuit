@@ -60,7 +60,7 @@ class APIController extends Controller {
         if ($error) {
             return view('error', $error);
         }
-
+        
         $render = [
             'rate' => [
                 'Tweet Detail' => $this->citcuit->parseRateLimit($result),
@@ -372,7 +372,7 @@ class APIController extends Controller {
 
         return view($this->view_prefix . 'messages', $render);
     }
-    
+
     public function getMessagesSent(Request $request, $max_id = false) {
         $param = [
             'count' => 10,
@@ -475,6 +475,47 @@ class APIController extends Controller {
         }
 
         return redirect('messages');
+    }
+
+    public function getSearchTweet(Request $request) {
+        $q = $request->input('q');
+        $result_type = $request->input('result_type');
+        $max_id = $request->input('max_id');
+
+        if (!$q) {
+            $render = [
+                'q' => $q,
+                'result_type' => $result_type,
+            ];
+
+            return view($this->view_prefix . 'search_tweet', $render);
+        } else {
+            $param = [
+                'count' => 10,
+                'q' => $q,
+                'result_type' => $result_type
+            ];
+            if ($max_id) {
+                $param['max_id'] = $max_id;
+            }
+            $result = $this->api->search_tweets($param);
+
+            $error = $this->citcuit->parseError($result, 'Search Tweet');
+            if ($error) {
+                return view('error', $error);
+            }
+
+            $render = [
+                'rate' => [
+                    'Search Tweet' => $this->citcuit->parseRateLimit($result),
+                ],
+                'timeline' => $this->citcuit->parseResult($result->statuses, 'search'),
+                'q' => $q,
+                'result_type' => $result_type,
+            ];
+            
+            return view($this->view_prefix . 'search_tweet', $render);
+        }
     }
 
 }
