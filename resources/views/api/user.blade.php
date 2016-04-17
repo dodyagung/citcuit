@@ -132,7 +132,7 @@
 </section>
 @endforeach
 <section>
-    <a class="pagination right" href="{{ url('/profile/' . $screen_name . '/older/' . $timeline->max_id) }}">
+    <a class="pagination right" href="{{ url('/user/' . $screen_name . '/older/' . $timeline->max_id) }}">
         Older [&rarr;] 
     </a>
 </section>

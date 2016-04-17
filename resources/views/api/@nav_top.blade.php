@@ -1,5 +1,4 @@
 <a href="{{ url('') }}">Home</a> | 
-<a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a> | 
 <a href="{{ url('mentions') }}">Mentions</a> | 
 <a href="{{ url('messages') }}">Messages</a> |
 <a href="{{ url('search/tweet') }}">Search</a>
