@@ -108,9 +108,9 @@ class CitcuitController {
         // text - twitter official video
         if (isset($tweet->extended_entities->media)) {
             $medias = $tweet->extended_entities->media;
-            $tweet->citcuit_media = [];
             foreach ($medias as $media) {
                 if (isset($media->video_info)) {
+                    $tweet->citcuit_media = [];
                     $video_bitrate = PHP_INT_MAX;
                     $video_url = NULL;
                     foreach ($media->video_info->variants as $video) {
