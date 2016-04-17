@@ -33,8 +33,8 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('messages/create', 'APIController@postMessagesCreate');
     $app->post('messages/delete', 'APIController@postMessagesDelete');
 
-    $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getProfile');
-    $app->get('profile/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@getProfile');
+    $app->get('user/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getUser');
+    $app->get('user/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@getUser');
 
     $app->get('detail/{tweet_id:[0-9]+}', 'APIController@getDetail');
 

@@ -125,7 +125,7 @@ class CitcuitController {
         }
 
         // text - @user
-        $tweet->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('profile/$1') . '">$0</a>', $tweet->text);
+        $tweet->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('user/$1') . '">$0</a>', $tweet->text);
 
         // text - #hashtag
         $tweet->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('hashtag/$1') . '">$0</a>', $tweet->text);
@@ -156,7 +156,7 @@ class CitcuitController {
         $message->created_at = $timeTweet->diffForHumans();
 
         // text - @user
-        $message->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('profile/$1') . '">$0</a>', $message->text);
+        $message->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('user/$1') . '">$0</a>', $message->text);
 
         // text - #hashtag
         $message->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('hashtag/$1') . '">$0</a>', $message->text);

@@ -51,7 +51,7 @@
             </div>
             <hr />
             @endif
-            Made with &hearts; by <a href="{{ url('profile/dodyags') }}" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a> and licensed under <a href="https://github.com/dodyagung/CitCuit/blob/develop/LICENSE.md" target="_blank">MIT License</a>.
+            Made with &hearts; by <a href="{{ url('user/dodyags') }}" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a> and licensed under <a href="https://github.com/dodyagung/CitCuit/blob/develop/LICENSE.md" target="_blank">MIT License</a>.
         </footer>
         <a id="bottom"></a>
     </body>

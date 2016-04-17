@@ -16,7 +16,7 @@
         <img src="{{ $tweet->user->profile_image_url_https }}" class="profpic">
     </div>
     <div class="split-right">
-        <a href="{{ url('profile/' . $tweet->user->screen_name) }}"><strong>{{ $tweet->user->name }}</strong></a>
+        <a href="{{ url('user/' . $tweet->user->screen_name) }}"><strong>{{ $tweet->user->name }}</strong></a>
         @if ($tweet->user->protected == 1)
         <img class="action" src="{{ url('assets/img/protected.png') }}" alt="Protected" />
         @endif
@@ -60,7 +60,7 @@
                 <img src="{{ $tweet->quoted_status->user->profile_image_url_https }}" class="profpic">
             </div>
             <div class="split-right">
-                <span class="screen_name"><a href="{{ url('profile/' . $tweet->quoted_status->user->screen_name) }}"><strong>{{ $tweet->quoted_status->user->name }}</strong></a></span> <span class="user_id"><small>({{ '@' . $tweet->quoted_status->user->screen_name }})</small></span><br />
+                <span class="screen_name"><a href="{{ url('user/' . $tweet->quoted_status->user->screen_name) }}"><strong>{{ $tweet->quoted_status->user->name }}</strong></a></span> <span class="user_id"><small>({{ '@' . $tweet->quoted_status->user->screen_name }})</small></span><br />
                 {!! $tweet->quoted_status->text !!}<br />
                 @if (isset($tweet->quoted_status->extended_entities->media))
                 @foreach ($tweet->quoted_status->extended_entities->media as $media)
@@ -82,7 +82,7 @@
         <!--retweeted by me-->
         @if ($tweet->retweeted == 1)
         <br />
-        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('profile/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
+        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
         @endif
         <hr />
         <form method="POST" action="{{ url('retweet_with_comment') }}">

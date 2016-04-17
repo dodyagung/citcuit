@@ -16,7 +16,7 @@
         <img src="{{ $message->sender->profile_image_url_https }}" class="profpic">
     </div>
     <div class="split-right">
-        <a href="{{ url('profile/' . $message->sender->screen_name) }}"><strong>{{ $message->sender->name }}</strong></a>
+        <a href="{{ url('user/' . $message->sender->screen_name) }}"><strong>{{ $message->sender->name }}</strong></a>
         @if ($message->sender->protected == 1)
         <img class="action" src="{{ url('assets/img/protected.png') }}" alt="Protected" />
         @endif

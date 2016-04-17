@@ -95,7 +95,7 @@ class APIController extends Controller {
         return view($this->view_prefix . 'mentions', $render);
     }
 
-    public function getProfile(Request $request, $screen_name, $max_id = false) {
+    public function getUser(Request $request, $screen_name, $max_id = false) {
         $render = [
             'screen_name' => $screen_name,
         ];
@@ -139,7 +139,7 @@ class APIController extends Controller {
             $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
         }
 
-        return view($this->view_prefix . 'profile', $render);
+        return view($this->view_prefix . 'user', $render);
     }
 
     public function postTweet(Request $request) {
