@@ -15,7 +15,7 @@
         <a id="top"></a>
         <!--header-->
         <header>
-            <a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a> - CitCuit {{ env('APP_VERSION') }}
+            @if (session('citcuit.oauth')) <a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a> - @endif CitCuit {{ env('APP_VERSION') }}
         </header>
         <!--nav-top-->
         <nav class="menu">

@@ -24,15 +24,19 @@
     </div>
     <br />
     <small>{{ $profile->statuses_count }} tweets | {{ $profile->friends_count }} following | {{ $profile->followers_count }} followers | {{ $profile->favourites_count }} likes</small>
+    <br />
+    <br />
     @if ($screen_name != session('citcuit.oauth.screen_name'))
-    <br />
-    <br />
     <small>
         @if (!$profile->following) 
         <span class="error">You're not following!</span> <a href="{{ url('follow/' . $screen_name) }}"><strong>[Follow]</strong></a>
         @else
         <span class="success">You're following!</span> <a href="{{ url('unfollow/' . $screen_name) }}"><strong>[Unfollow]</strong></a>
         @endif
+    </small>
+    @else
+    <small>
+        <a href="{{ url('settings/profile') }}"><strong>[Edit Profile]</strong></a>
     </small>
     @endif
 </section>

@@ -7,28 +7,35 @@ use Carbon\Carbon;
 class CitcuitController {
 
     public function parseProfile($profile) {
-        if (isset($profile->entities->url->urls) && count($profile->entities->url->urls) != 0) {
-            $urls = $profile->entities->url->urls;
-            foreach ($urls as $url) {
-                $profile->url = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->url);
-            }
-        }
-
-        if (isset($profile->entities->description->urls) && count($profile->entities->description->urls) != 0) {
-            $urls = $profile->entities->description->urls;
-            foreach ($urls as $url) {
-                $profile->description = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->description);
-            }
-        }
-
         if ($profile->description == NULL) {
+            $profile->description_no_href = $profile->description;
             $profile->description = '-';
+        } else {
+            $profile->description_no_href = $profile->description;
+            if (isset($profile->entities->description->urls) && count($profile->entities->description->urls) != 0) {
+                $urls = $profile->entities->description->urls;
+                foreach ($urls as $url) {
+                    $profile->description_original = $profile->description;
+                    $profile->description = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->description);
+                    $profile->description_no_href = str_replace($url->url, $url->display_url, $profile->description);
+                }
+            }
         }
         if ($profile->location == NULL) {
             $profile->location = '-';
         }
         if ($profile->url == NULL) {
+            $profile->url_no_href = $profile->url;
             $profile->url = '-';
+        } else {
+            if (isset($profile->entities->url->urls) && count($profile->entities->url->urls) != 0) {
+                $urls = $profile->entities->url->urls;
+                foreach ($urls as $url) {
+                    $profile->url_original = $profile->url;
+                    $profile->url = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->url);
+                    $profile->url_no_href = $url->display_url;
+                }
+            }
         }
 
         $profile->statuses_count = number_format($profile->statuses_count);

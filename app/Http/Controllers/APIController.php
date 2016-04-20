@@ -60,7 +60,7 @@ class APIController extends Controller {
         if ($error) {
             return view('error', $error);
         }
-        
+
         $render = [
             'rate' => [
                 'Tweet Detail' => $this->citcuit->parseRateLimit($result),
@@ -513,9 +513,93 @@ class APIController extends Controller {
                 'q' => $q,
                 'result_type' => $result_type,
             ];
-            
+
             return view($this->view_prefix . 'search_tweet', $render);
         }
+    }
+
+    public function getSettings(Request $request) {
+        $render = [];
+
+        return view($this->view_prefix . 'settings', $render);
+    }
+
+    public function getSettingsProfile(Request $request) {
+        $param = [
+            'screen_name' => session('citcuit.oauth.screen_name')
+        ];
+        $result = $this->api->users_show($param);
+
+        $error = $this->citcuit->parseError($result, 'Edit Profile');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Profile' => $this->citcuit->parseRateLimit($result),
+            ],
+            'profile' => $this->citcuit->parseProfile($result),
+        ];
+
+        return view($this->view_prefix . 'settings_profile', $render);
+    }
+
+    public function postSettingsProfile(Request $request) {
+        $param = [
+            'name' => $request->name,
+            'url' => $request->url,
+            'location' => $request->location,
+            'description' => $request->description,
+        ];
+        $result = $this->api->account_updateProfile($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'Profile updated!');
+    }
+
+    public function getSettingsProfileImage(Request $request) {
+        $param = [
+            'screen_name' => session('citcuit.oauth.screen_name')
+        ];
+        $result = $this->api->users_show($param);
+
+        $error = $this->citcuit->parseError($result, 'Edit Profile Image');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Profile' => $this->citcuit->parseRateLimit($result),
+            ],
+            'profile' => $this->citcuit->parseProfile($result),
+        ];
+
+        return view($this->view_prefix . 'settings_profile_image', $render);
+    }
+    
+    public function postSettingsProfileImage(Request $request) {
+        $param = [
+            'image' => $request->file('image'),
+        ];
+        
+        $result = $this->api->account_updateProfileImage($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'Profile image updated!');
     }
 
 }
