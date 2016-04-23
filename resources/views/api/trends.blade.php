@@ -9,7 +9,7 @@
     <form method="GET" action="{{ url('trends') }}">
         <select name="location">
             @foreach($locations as $location)
-            <option value="{{ $location->woeid }}">{{ $location->name }}</option>
+            <option value="{{ $location->woeid }}"@if($curent_location == $location->woeid) selected @endif>{{ $location->name }}</option>
             @endforeach
         </select>
         <button type="submit">Select</button>

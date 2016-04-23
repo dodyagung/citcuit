@@ -641,6 +641,7 @@ class APIController extends Controller {
         
         $render['rate']['Trends Result'] = $this->citcuit->parseRateLimit($result);
         $render['results'] = $this->citcuit->parseTrendsResults($result);
+        $render['curent_location'] = $location;
 
         return view($this->view_prefix . 'trends', $render);
     }
