@@ -62,6 +62,9 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('settings/profile', 'APIController@postSettingsProfile');
     $app->get('settings/profile_image', 'APIController@getSettingsProfileImage');
     $app->post('settings/profile_image', 'APIController@postSettingsProfileImage');
+    
+    $app->get('trends', 'APIController@getTrends');
+    $app->get('trends/{woeid:[0-9]+}', 'APIController@getTrendsWoeid');
 
     $app->get('signout', 'AuthController@getSignOut');
 });

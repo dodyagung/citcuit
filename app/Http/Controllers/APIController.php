@@ -482,6 +482,10 @@ class APIController extends Controller {
         $result_type = $request->input('result_type');
         $max_id = $request->input('max_id');
 
+        if (!$result_type) {
+            $result_type = 'mixed';
+        }
+
         if (!$q) {
             $render = [
                 'q' => $q,
@@ -584,12 +588,12 @@ class APIController extends Controller {
 
         return view($this->view_prefix . 'settings_profile_image', $render);
     }
-    
+
     public function postSettingsProfileImage(Request $request) {
         $param = [
             'image' => $request->file('image'),
         ];
-        
+
         $result = $this->api->account_updateProfileImage($param);
 
         $error = $this->citcuit->parseError($result);
@@ -600,6 +604,45 @@ class APIController extends Controller {
         return redirect()
                         ->back()
                         ->with('success', 'Profile image updated!');
+    }
+
+    public function getTrends(Request $request) {
+        // locations
+        $result = $this->api->trends_available();
+
+        $error = $this->citcuit->parseError($result, 'Trends Location');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Trends Location' => $this->citcuit->parseRateLimit($result),
+            ],
+            'locations' => $this->citcuit->parseTrendsLocations($result),
+        ];
+
+        // trends
+        $location = $request->input('location');
+
+        if (!$location) {
+            $location = 1;
+        }
+        
+        $param = [
+            'id' => $location,
+        ];
+        $result = $this->api->trends_place($param);
+
+        $error = $this->citcuit->parseError($result, 'Trends Result');
+        if ($error) {
+            return view('error', $error);
+        }
+        
+        $render['rate']['Trends Result'] = $this->citcuit->parseRateLimit($result);
+        $render['results'] = $this->citcuit->parseTrendsResults($result);
+
+        return view($this->view_prefix . 'trends', $render);
     }
 
 }

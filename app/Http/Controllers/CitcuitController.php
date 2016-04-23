@@ -174,6 +174,55 @@ class CitcuitController {
         return $message;
     }
 
+    public function parseTrendsLocations($locations) {
+        unset($locations->rate);
+        unset($locations->httpstatus);
+
+        foreach ($locations as $value) {
+            $country[] = $value->country;
+            $code[] = $value->placeType->code;
+            $name[] = $value->name;
+            $woeid[] = $value->woeid;
+        }
+
+        array_multisort($country, SORT_ASC, $code, SORT_DESC, $name, SORT_ASC, $woeid, SORT_ASC);
+
+        for ($i = 0; $i < count($country); $i++) {
+            if ($code[$i] == 7) {
+                $result[$i]['name'] = '- ';
+            } else {
+                $result[$i]['name'] = '';
+            }
+            $result[$i]['name'] .= $name[$i];
+            $result[$i]['woeid'] = $woeid[$i];
+
+            $result[$i] = (object) $result[$i];
+        }
+
+        return $result;
+    }
+
+    public function parseTrendsResults($results) {
+        unset($results->rate);
+        unset($results->httpstatus);
+
+        $results = (array) $results;
+
+        for ($i = 0; $i < count($results[0]->trends); $i++) {
+            $results_new[$i]['name'] = $results[0]->trends[$i]->name;
+            $results_new[$i]['query'] = $results[0]->trends[$i]->query;
+            $results_new[$i]['tweet_volume'] = $results[0]->trends[$i]->tweet_volume;
+            if ($i % 2 == 0) {
+                $results_new[$i]['class'] = 'even';
+            } else {
+                $results_new[$i]['class'] = 'odd';
+            }
+            
+            $results_new[$i] = (object) $results_new[$i];
+        }
+        return $results_new;
+    }
+
     public function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
             $error_data = [
