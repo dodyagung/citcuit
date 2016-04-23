@@ -135,7 +135,7 @@ class CitcuitController {
         $tweet->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('user/$1') . '">$0</a>', $tweet->text);
 
         // text - #hashtag
-        $tweet->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('hashtag/$1') . '">$0</a>', $tweet->text);
+        $tweet->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('search/tweet?q=%23$1') . '">$0</a>', $tweet->text);
 
         // text - quoted
         if (isset($tweet->quoted_status)) {
@@ -153,7 +153,7 @@ class CitcuitController {
         // Parse number
         $tweet->favorite_count = $this->parseNumber($tweet->favorite_count, 1000);
         $tweet->retweet_count = $this->parseNumber($tweet->retweet_count, 1000);
-        
+
         // trim it and convert newlines
         $tweet->text = nl2br(trim($tweet->text));
 
@@ -170,7 +170,7 @@ class CitcuitController {
         $message->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('user/$1') . '">$0</a>', $message->text);
 
         // text - #hashtag
-        $message->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('hashtag/$1') . '">$0</a>', $message->text);
+        $message->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('search/tweet?q=%23$1') . '">$0</a>', $message->text);
 
         // trim it and convert newlines
         $message->text = nl2br(trim($message->text));
@@ -248,6 +248,7 @@ class CitcuitController {
             $error_data = [
                 'title' => 'Error :(',
                 'description' => NULL,
+                'httpstatus' => $response->httpstatus,
             ];
             if ($location && $response->rate != NULL) {
                 $error_data['rate'][$location] = self::parseRateLimit($response);
