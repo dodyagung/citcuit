@@ -6,7 +6,7 @@
     @yield('title')
 </nav>
 <section class="tweet even">
-    <strong>Search Tweet</strong> | <a href="{{ url('search/user') }}">Search User</a>
+    <strong>Search Tweet</strong> | <a href="#">Search User (coming soon)</a>
 </section>
 <section class="tweet odd">
     <form method="GET" action="{{ url('search/tweet') }}">
