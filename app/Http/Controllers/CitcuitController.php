@@ -38,10 +38,10 @@ class CitcuitController {
             }
         }
 
-        $profile->statuses_count = number_format($profile->statuses_count);
-        $profile->friends_count = number_format($profile->friends_count);
-        $profile->followers_count = number_format($profile->followers_count);
-        $profile->favourites_count = number_format($profile->favourites_count);
+        $profile->statuses_count = $this->parseNumber($profile->statuses_count);
+        $profile->friends_count = $this->parseNumber($profile->friends_count);
+        $profile->followers_count = $this->parseNumber($profile->followers_count);
+        $profile->favourites_count = $this->parseNumber($profile->favourites_count);
 
         $profile->profile_image_url_https_full = str_replace('_normal', '', $profile->profile_image_url_https);
 
@@ -150,6 +150,10 @@ class CitcuitController {
         // Twitter tweet link, used for "Retweet with Comment"
         $tweet->citcuit_retweet_link = 'https://twitter.com/' . $tweet->user->screen_name . '/status/' . $tweet->id_str;
 
+        // Parse number
+        $tweet->favorite_count = $this->parseNumber($tweet->favorite_count, 1000);
+        $tweet->retweet_count = $this->parseNumber($tweet->retweet_count, 1000);
+        
         // trim it and convert newlines
         $tweet->text = nl2br(trim($tweet->text));
 
@@ -211,16 +215,32 @@ class CitcuitController {
         for ($i = 0; $i < count($results[0]->trends); $i++) {
             $results_new[$i]['name'] = $results[0]->trends[$i]->name;
             $results_new[$i]['query'] = $results[0]->trends[$i]->query;
-            $results_new[$i]['tweet_volume'] = $results[0]->trends[$i]->tweet_volume;
+            $results_new[$i]['tweet_volume'] = $this->parseNumber($results[0]->trends[$i]->tweet_volume);
             if ($i % 2 == 0) {
                 $results_new[$i]['class'] = 'even';
             } else {
                 $results_new[$i]['class'] = 'odd';
             }
-            
+
             $results_new[$i] = (object) $results_new[$i];
         }
         return $results_new;
+    }
+
+    function parseNumber($n, $startfrom = 10000) {
+        if (!is_null($n) || $n != '') {
+            if ($n < $startfrom) {
+                $n_format = number_format($n);
+            } else if ($n < 1000000) {
+                $n_format = number_format($n / 1000, 1) . 'K';
+            } else if ($n < 1000000000) {
+                $n_format = number_format($n / 1000000, 1) . 'M';
+            }
+
+            return $n_format;
+        } else {
+            return $n;
+        }
     }
 
     public function parseError($response, $location = FALSE) {
