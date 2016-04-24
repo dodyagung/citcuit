@@ -19,7 +19,7 @@ Go to [citcuit.in](https://citcuit.in) and sign-in with your Twitter account.
 
 ## Installation
 
-1. Run `composer create-project dodyagung/citcuit dev-master your-project-name`
+1. Run `composer create-project dodyagung/citcuit your-project-name`
 2. Rename `.env.example` to `.env` 
 3. Edit the `.env` file according your config needs
 4. Run the application via your favorite browser
@@ -30,14 +30,25 @@ Thanks for your desire to help us. Please read our [contributing guide](https://
 
 ## Versioning
 
-CitCuit is maintained under [Semantic Versioning](http://semver.org) guide.
+CitCuit is maintained under [Semantic Versioning](http://semver.org) guide with `<major>.<minor>.<patch>` format :
+* `major`: breaks backward compatibility (resets the `minor` and `patch`)
+* `minor`: new additions with backward compatibility (resets the `patch`)
+* `patch`: bug fixes and misc changes
 
 ## Behind the Scene
 
-**Dody Agung Saputro** (founder, author)
-* [https://dodyagung.com](https://dodyagung.com)
-* [https://github.com/dodyagung](https://github.com/dodyagung)
-* [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)
+Official account
+* Twitter : [https://twitter.com/citcuit_in](https://twitter.com/citcuit_in)
+* Facebook : [https://facebook.com/citcuit.in](https://fb.me/citcuit.in)
+
+Founder & author (Dody Agung Saputro)
+* Email : [hello@dodyagung.com](mailto:hello@dodyagung.com)
+* Website : [https://dodyagung.com](https://dodyagung.com)
+* Twitter : [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)
+* GitHub : [https://github.com/dodyagung](https://github.com/dodyagung)
+
+Logo designer (Ridvandani Dwi P.A)
+* Facebook : [https://facebook.com/ridvan.aji](https://fb.me/ridvan.aji)
 
 ## License
 
