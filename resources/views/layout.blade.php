@@ -9,6 +9,7 @@
         <meta name="author" content="Dody Agung Saputro (hello@dodyagung.com)">
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
         <title>@yield('title') - CitCuit {{ env('APP_VERSION') }}</title>
+        <link href="{{ url('assets/css/normalize.css') }}" rel="stylesheet">
         <link href="{{ url('assets/css/citcuit.css') }}" rel="stylesheet">
     </head>
     <body>
