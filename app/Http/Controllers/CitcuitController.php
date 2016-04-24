@@ -103,8 +103,8 @@ class CitcuitController {
         }
 
         // text - image
-        if (isset($tweet->entities->media)) {
-            $medias = $tweet->entities->media;
+        if (isset($tweet->extended_entities->media)) {
+            $medias = $tweet->extended_entities->media;
             $tweet->citcuit_media = [];
             foreach ($medias as $media) {
                 $tweet->text = str_replace($media->url, '', $tweet->text);
@@ -139,12 +139,12 @@ class CitcuitController {
 
         // text - quoted
         if (isset($tweet->quoted_status)) {
-            $tweet->quoted_status = self::parseTweet($tweet->quoted_status);
+            $tweet->quoted_status = $this->parseTweet($tweet->quoted_status);
         }
 
         // text - retweeted
         if (isset($tweet->retweeted_status)) {
-            $tweet->retweeted_status = self::parseTweet($tweet->retweeted_status);
+            $tweet->retweeted_status = $this->parseTweet($tweet->retweeted_status);
         }
 
         // Twitter tweet link, used for "Retweet with Comment"
@@ -251,7 +251,7 @@ class CitcuitController {
                 'httpstatus' => $response->httpstatus,
             ];
             if ($location && $response->rate != NULL) {
-                $error_data['rate'][$location] = self::parseRateLimit($response);
+                $error_data['rate'][$location] = $this->parseRateLimit($response);
             }
             foreach ($response->errors as $error) {
                 $error_data['description'] .= $response->httpstatus . ' - ' . $error->message . ' (<a href="https://dev.twitter.com/overview/api/response-codes" target="_blank">#' . $error->code . '</a>)<br />';
@@ -278,8 +278,16 @@ class CitcuitController {
         unset($content->rate);
         unset($content->httpstatus);
 
-        $content = (array) $content;
-        $max_id = NULL;
+        $result = new \stdClass();
+
+        if ($type == 'profile') {
+            $result->next_cursor_str = $content->next_cursor_str;
+            $result->previous_cursor_str = $content->previous_cursor_str;
+            $content = (array) $content->users;
+        } else {
+            $content = (array) $content;
+            $max_id = NULL;
+        }
 
         for ($i = 0; $i < count($content); $i++) {
             if ($i % 2 == 0) {
@@ -287,25 +295,32 @@ class CitcuitController {
             } else {
                 $content[$i]->citcuit_class = 'even';
             }
-            $max_id = $content[$i]->id_str;
             switch ($type) {
                 case 'tweet':
-                    $content[$i] = self::parseTweet($content[$i]);
+                    $content[$i] = $this->parseTweet($content[$i]);
+                    $max_id = $content[$i]->id_str;
                     break;
                 case 'search':
-                    $content[$i] = self::parseTweet($content[$i], true);
+                    $content[$i] = $this->parseTweet($content[$i], true);
+                    $max_id = $content[$i]->id_str;
                     break;
                 case 'message':
-                    $content[$i] = self::parseMessage($content[$i]);
+                    $content[$i] = $this->parseMessage($content[$i]);
+                    $max_id = $content[$i]->id_str;
+                    break;
+                case 'profile':
+                    $content[$i] = $this->parseProfile($content[$i]);
                     break;
                 default:
                     break;
             }
         }
 
-        $result = new \stdClass();
         $result->content = $content;
-        $result->max_id = $max_id;
+
+        if (isset($max_id)) {
+            $result->max_id = $max_id;
+        }
 
         return $result;
     }

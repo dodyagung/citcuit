@@ -33,6 +33,9 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('messages/create', 'APIController@postMessagesCreate');
     $app->post('messages/delete', 'APIController@postMessagesDelete');
 
+    $app->get('likes/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getLikes');
+    $app->get('likes/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@getLikes');
+    
     $app->get('user/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getUser');
     $app->get('user/{screen_name:[a-zA-Z0-9_]{1,15}}/older/{max_id:[0-9]+}', 'APIController@getUser');
 
@@ -64,6 +67,14 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('settings/profile_image', 'APIController@postSettingsProfileImage');
     
     $app->get('trends', 'APIController@getTrends');
+    
+    $app->get('upload', 'APIController@getUpload');
+    $app->post('upload', 'APIController@postUpload');
+    
+    $app->get('following/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getFollowing');
+    $app->get('following/{screen_name:[a-zA-Z0-9_]{1,15}}/cursor/{cursor}', 'APIController@getFollowing');
+    $app->get('followers/{screen_name:[a-zA-Z0-9_]{1,15}}', 'APIController@getFollowers');
+    $app->get('followers/{screen_name:[a-zA-Z0-9_]{1,15}}/cursor/{cursor}', 'APIController@getFollowers');
 
     $app->get('signout', 'AuthController@getSignOut');
 });

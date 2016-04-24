@@ -42,13 +42,10 @@
             &nbsp;&nbsp;<small>{{ $tweet->favorite_count }}</small>
         </span><br />
         {!! $tweet->text !!}<br />
-        @if (isset($tweet->extended_entities->media))
-        @foreach ($tweet->extended_entities->media as $media)
-        <a href="{{ $media->media_url_https }}" target="_blank">
-            <img src="{{ $media->media_url_https }}" width="{{ $media->sizes->thumb->w }}" />
-        </a>
+        @if (isset($tweet->citcuit_media))        
+        @foreach ($tweet->citcuit_media as $media)
+        {!! $media !!}
         @endforeach
-        <br />
         @endif
         @if (isset($tweet->quoted_status))
         <section class="tweet quoted">

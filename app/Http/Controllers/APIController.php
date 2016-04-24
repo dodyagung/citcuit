@@ -628,7 +628,7 @@ class APIController extends Controller {
         if (!$location) {
             $location = 1;
         }
-        
+
         $param = [
             'id' => $location,
         ];
@@ -638,12 +638,140 @@ class APIController extends Controller {
         if ($error) {
             return view('error', $error);
         }
-        
+
         $render['rate']['Trends Result'] = $this->citcuit->parseRateLimit($result);
         $render['results'] = $this->citcuit->parseTrendsResults($result);
         $render['curent_location'] = $location;
 
         return view($this->view_prefix . 'trends', $render);
+    }
+
+    public function getUpload(Request $request) {
+        return view($this->view_prefix . 'upload');
+    }
+
+    public function postUpload(Request $request) {
+        $media_files = [
+            $request->file('image1')
+        ];
+        if ($request->hasFile('image2') && $request->file('image2')->isValid()) {
+            $media_files[] = $request->file('image2');
+        }
+        if ($request->hasFile('image3') && $request->file('image3')->isValid()) {
+            $media_files[] = $request->file('image3');
+        }
+        if ($request->hasFile('image4') && $request->file('image4')->isValid()) {
+            $media_files[] = $request->file('image4');
+        }
+
+        $media_ids = [];
+
+        foreach ($media_files as $file) {
+            $result = $this->api->media_upload([
+                'media' => $file
+            ]);
+
+            $error = $this->citcuit->parseError($result);
+            if ($error) {
+                return view('error', $error);
+            }
+
+            $media_ids[] = $result->media_id_string;
+        }
+
+        $media_ids = implode(',', $media_ids);
+
+        $param = [
+            'status' => $request->tweet,
+            'media_ids' => $media_ids
+        ];
+
+        $result = $this->api->statuses_update($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('');
+    }
+
+    public function getFollowers(Request $request, $screen_name, $cursor = null) {
+        $param = [
+            'screen_name' => $screen_name,
+            'count' => 10,
+        ];
+        if ($cursor) {
+            $param['cursor'] = $cursor;
+        }
+        $result = $this->api->followers_list($param);
+
+        $error = $this->citcuit->parseError($result, 'Followers');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Followers' => $this->citcuit->parseRateLimit($result),
+            ],
+            'users' => $this->citcuit->parseResult($result, 'profile'),
+            'screen_name' => $screen_name,
+        ];
+
+        return view($this->view_prefix . 'followers', $render);
+    }
+
+    public function getFollowing(Request $request, $screen_name, $cursor = null) {
+        $param = [
+            'screen_name' => $screen_name,
+            'count' => 10,
+        ];
+        if ($cursor) {
+            $param['cursor'] = $cursor;
+        }
+        $result = $this->api->friends_list($param);
+
+        $error = $this->citcuit->parseError($result, 'Following');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Following' => $this->citcuit->parseRateLimit($result),
+            ],
+            'users' => $this->citcuit->parseResult($result, 'profile'),
+            'screen_name' => $screen_name,
+        ];
+
+        return view($this->view_prefix . 'following', $render);
+    }
+
+    public function getLikes(Request $request, $screen_name, $max_id = false) {
+        $param = [
+            'count' => 10,
+            'screen_name' => $screen_name
+        ];
+        if ($max_id) {
+            $param['max_id'] = $max_id;
+        }
+        $result = $this->api->favorites_list($param);
+
+        $error = $this->citcuit->parseError($result, 'Likes');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Likes' => $this->citcuit->parseRateLimit($result),
+            ],
+            'timeline' => $this->citcuit->parseResult($result, 'tweet'),
+            'screen_name' => $screen_name
+        ];
+
+        return view($this->view_prefix . 'likes', $render);
     }
 
 }
