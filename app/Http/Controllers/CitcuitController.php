@@ -6,6 +6,38 @@ use Carbon\Carbon;
 
 class CitcuitController {
 
+    private function parseNumber($n, $startfrom = 10000) {
+        if (!is_null($n) || $n != '') {
+            if ($n < $startfrom) {
+                $n_format = number_format($n);
+            } else if ($n < 1000000) {
+                $n_format = number_format($n / 1000, 1) . 'K';
+            } else if ($n < 1000000000) {
+                $n_format = number_format($n / 1000000, 1) . 'M';
+            }
+
+            return $n_format;
+        } else {
+            return $n;
+        }
+    }
+
+    private function parseLinkHttp($text) {
+        return preg_replace('/(^|\s)(https?:\/\/[\da-z\.-]+\.[a-z]+)(\/[^\s]*)?/i', ' <a href="$2$3" target="_blank">$2$3</a>', $text);
+    }
+
+    private function parseLinkUser($text) {
+        return preg_replace('/(^|\s)@(\w{1,15})/i', ' <a href="' . url('user/$2') . '">@$2</a>', $text);
+    }
+
+    private function parseLinkEmail($text) {
+        return preg_replace('/([\w\.-]+@[\da-z\.-]+\.[a-z]+)/i', ' <a href="mailto:$1">$1</a>', $text);
+    }
+
+    private function parseLinkHashtag($text) {
+        return preg_replace('/(^|\s)#(\w+)/i', ' <a href="' . url('search/tweet?q=%23$2') . '">#$2</a>', $text);
+    }
+
     public function parseProfile($profile) {
         if ($profile->description == NULL) {
             $profile->description_no_href = $profile->description;
@@ -20,6 +52,11 @@ class CitcuitController {
                     $profile->description_no_href = str_replace($url->url, $url->display_url, $profile->description);
                 }
             }
+
+            $profile->description = $this->parseLinkEmail($profile->description);
+            $profile->description = $this->parseLinkHashtag($profile->description);
+            $profile->description = $this->parseLinkHttp($profile->description);
+            $profile->description = $this->parseLinkUser($profile->description);
         }
         if ($profile->location == NULL) {
             $profile->location = '-';
@@ -131,11 +168,11 @@ class CitcuitController {
             }
         }
 
-        // text - @user
-        $tweet->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('user/$1') . '">$0</a>', $tweet->text);
-
-        // text - #hashtag
-        $tweet->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('search/tweet?q=%23$1') . '">$0</a>', $tweet->text);
+        // text - other parse
+        $tweet->text = $this->parseLinkEmail($tweet->text);
+        $tweet->text = $this->parseLinkHashtag($tweet->text);
+        $tweet->text = $this->parseLinkHttp($tweet->text);
+        $tweet->text = $this->parseLinkUser($tweet->text);
 
         // text - quoted
         if (isset($tweet->quoted_status)) {
@@ -166,11 +203,11 @@ class CitcuitController {
         $message->created_at_original = $timeTweet->format('H:i \\- j M Y');
         $message->created_at = $timeTweet->diffForHumans();
 
-        // text - @user
-        $message->text = preg_replace('/@([a-zA-Z0-9_]{1,15})/i', '<a href="' . url('user/$1') . '">$0</a>', $message->text);
-
-        // text - #hashtag
-        $message->text = preg_replace('/#([a-zA-Z0-9_]+)/i', '<a href="' . url('search/tweet?q=%23$1') . '">$0</a>', $message->text);
+        // parse
+        $message->text = $this->parseLinkEmail($message->text);
+        $message->text = $this->parseLinkHashtag($message->text);
+        $message->text = $this->parseLinkHttp($message->text);
+        $message->text = $this->parseLinkUser($message->text);
 
         // trim it and convert newlines
         $message->text = nl2br(trim($message->text));
@@ -225,22 +262,6 @@ class CitcuitController {
             $results_new[$i] = (object) $results_new[$i];
         }
         return $results_new;
-    }
-
-    function parseNumber($n, $startfrom = 10000) {
-        if (!is_null($n) || $n != '') {
-            if ($n < $startfrom) {
-                $n_format = number_format($n);
-            } else if ($n < 1000000) {
-                $n_format = number_format($n / 1000, 1) . 'K';
-            } else if ($n < 1000000000) {
-                $n_format = number_format($n / 1000000, 1) . 'M';
-            }
-
-            return $n_format;
-        } else {
-            return $n;
-        }
     }
 
     public function parseError($response, $location = FALSE) {

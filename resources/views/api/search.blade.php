@@ -11,7 +11,7 @@
 <section class="tweet odd">
     <form method="GET" action="{{ url('search') }}">
         Search Query :<br />
-        <input type="text" name="q" value="@if(isset($q)) {{ $q }} @endif" required>
+        <input type="text" name="q" @if(isset($q)) value="{{ $q }}" @endif required>
         Result Type :<br />
         <select name="result_type">
             <option value="mixed"@if($result_type == 'mixed') selected @endif>- Mixed (recent & popular)</option>
@@ -117,7 +117,7 @@
 </section>
 @endforeach
 <section>
-    <a class="pagination right" href="{{ url('search/tweet?q=' . $q . '&result_type='.$result_type.'&max_id='.$timeline->max_id) }}">
+    <a class="pagination right" href="{{ url('search?q=' . $q . '&result_type='.$result_type.'&max_id='.$timeline->max_id) }}">
         Older [&rarr;] 
     </a>
 </section>
