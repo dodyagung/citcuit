@@ -43,8 +43,13 @@ class APIController extends Controller {
             'rate' => [
                 'Home' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseResult($result, 'tweet'),
         ];
+
+        if (isset($result->content)) {
+            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+        } else {
+            $render['timeline'] = 'Your timeline is currently empty. Follow people and topics you find interesting to see their Tweets in your timeline.';
+        }
 
         return view($this->view_prefix . 'home', $render);
     }
@@ -89,8 +94,13 @@ class APIController extends Controller {
             'rate' => [
                 'Mentions' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseResult($result, 'tweet'),
         ];
+
+        if (isset($result->content)) {
+            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+        } else {
+            $render['timeline'] = 'Your mentions is currently empty. Get it here when people interact with you.';
+        }
 
         return view($this->view_prefix . 'mentions', $render);
     }
@@ -136,7 +146,11 @@ class APIController extends Controller {
             }
 
             $render['rate']['User Tweet'] = $this->citcuit->parseRateLimit($result);
-            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+            if (isset($result->content)) {
+                $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+            } else {
+                $render['timeline'] = '@' . $screen_name . ' hasn\'t tweeted yet.';
+            }
         }
 
         return view($this->view_prefix . 'user', $render);
@@ -365,10 +379,13 @@ class APIController extends Controller {
             'rate' => [
                 'Messages' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseResult($result, 'message'),
         ];
 
-//        print_r($render); die();
+        if (isset($result->content)) {
+            $render['timeline'] = $this->citcuit->parseResult($result, 'message');
+        } else {
+            $render['timeline'] = 'You don\'t have any incoming messages yet.';
+        }
 
         return view($this->view_prefix . 'messages', $render);
     }
@@ -391,8 +408,13 @@ class APIController extends Controller {
             'rate' => [
                 'Sent Messages' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseResult($result, 'message'),
         ];
+
+        if (isset($result->content)) {
+            $render['timeline'] = $this->citcuit->parseResult($result, 'message');
+        } else {
+            $render['timeline'] = 'You don\'t have any sent messages yet.';
+        }
 
         return view($this->view_prefix . 'messages_sent', $render);
     }
@@ -488,7 +510,6 @@ class APIController extends Controller {
 
         if (!$q) {
             $render = [
-                'q' => $q,
                 'result_type' => $result_type,
             ];
 
@@ -513,10 +534,15 @@ class APIController extends Controller {
                 'rate' => [
                     'Search Tweet' => $this->citcuit->parseRateLimit($result),
                 ],
-                'timeline' => $this->citcuit->parseResult($result->statuses, 'search'),
                 'q' => $q,
                 'result_type' => $result_type,
             ];
+
+            if (count($result->statuses) != 0) {
+                $render['timeline'] = $this->citcuit->parseResult($result->statuses, 'search');
+            } else {
+                $render['timeline'] = 'No results.';
+            }
 
             return view($this->view_prefix . 'search_tweet', $render);
         }
@@ -715,9 +741,14 @@ class APIController extends Controller {
             'rate' => [
                 'Followers' => $this->citcuit->parseRateLimit($result),
             ],
-            'users' => $this->citcuit->parseResult($result, 'profile'),
             'screen_name' => $screen_name,
         ];
+
+        if (isset($result->content)) {
+            $render['users'] = $this->citcuit->parseResult($result, 'profile');
+        } else {
+            $render['users'] = '@' . $screen_name . ' isn\'t following anyone yet.';
+        }
 
         return view($this->view_prefix . 'followers', $render);
     }
@@ -741,9 +772,14 @@ class APIController extends Controller {
             'rate' => [
                 'Following' => $this->citcuit->parseRateLimit($result),
             ],
-            'users' => $this->citcuit->parseResult($result, 'profile'),
             'screen_name' => $screen_name,
         ];
+
+        if (isset($result->content)) {
+            $render['users'] = $this->citcuit->parseResult($result, 'profile');
+        } else {
+            $render['users'] = '@' . $screen_name . ' isn\'t following anyone yet.';
+        }
 
         return view($this->view_prefix . 'following', $render);
     }
@@ -767,9 +803,14 @@ class APIController extends Controller {
             'rate' => [
                 'Likes' => $this->citcuit->parseRateLimit($result),
             ],
-            'timeline' => $this->citcuit->parseResult($result, 'tweet'),
             'screen_name' => $screen_name
         ];
+
+        if (isset($result->content)) {
+            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+        } else {
+            $render['timeline'] = '@' . $screen_name . ' hasn\'t liked any Tweets yet.';
+        }
 
         return view($this->view_prefix . 'likes', $render);
     }

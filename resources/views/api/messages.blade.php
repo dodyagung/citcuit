@@ -11,6 +11,13 @@
     <strong>Inbox</strong> | 
     <a href="{{ url('messages/sent') }}">Sent</a>
 </section>
+@if (!is_object($timeline))
+<section>
+    <div class="alert error">
+        {!! $timeline !!}
+    </div>
+</section>
+@else
 @foreach ($timeline->content as $message)
 <section class="tweet {{ $message->citcuit_class }}">
     <div class="split-left">
@@ -41,4 +48,5 @@
     </a>
 </section>
 <section class="clear"></section>
+@endif
 @endsection

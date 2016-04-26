@@ -8,6 +8,13 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
+@if (!is_object($timeline))
+<section>
+    <div class="alert error">
+        {!! $timeline !!}
+    </div>
+</section>
+@else
 @foreach ($timeline->content as $tweet)
 <section class="tweet {{ $tweet->citcuit_class }}">
     <?php
@@ -98,4 +105,5 @@
     </a>
 </section>
 <section class="clear"></section>
+@endif
 @endsection

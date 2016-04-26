@@ -6,6 +6,13 @@
 <nav class="sub-menu">
     @yield('title')
 </nav>
+@if (!is_object($users))
+<section>
+    <div class="alert error">
+        {!! $users !!}
+    </div>
+</section>
+@else
 @foreach ($users->content as $user)
 <section class="tweet {{ $user->citcuit_class }}">
     <div class="split-left">
@@ -37,4 +44,5 @@
     </a>
 </section>
 <section class="clear"></section>
+@endif
 @endsection

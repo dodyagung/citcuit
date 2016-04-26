@@ -11,7 +11,7 @@
 <section class="tweet odd">
     <form method="GET" action="{{ url('search/tweet') }}">
         Search Query :<br />
-        <input type="text" name="q" value="{{ $q }}" required>
+        <input type="text" name="q" value="@if(isset($q)) {{ $q }} @endif" required>
         Result Type :<br />
         <select name="result_type">
             <option value="mixed"@if($result_type == 'mixed') selected @endif>- Mixed (recent & popular)</option>
@@ -21,10 +21,17 @@
         <button type="submit">Search</button>
     </form>
 </section>
-@if (isset($timeline->content) && count($timeline->content) > 0)
+@if (isset($q))
 <nav class="sub-menu">
     Results
 </nav>
+@if (!is_object($timeline))
+<section>
+    <div class="alert error">
+        {!! $timeline !!}
+    </div>
+</section>
+@else
 @foreach ($timeline->content as $tweet)
 <section class="tweet {{ $tweet->citcuit_class }}">
     <?php
@@ -115,5 +122,6 @@
     </a>
 </section>
 <section class="clear"></section>
+@endif
 @endif
 @endsection
