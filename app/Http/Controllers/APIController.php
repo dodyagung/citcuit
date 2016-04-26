@@ -499,7 +499,7 @@ class APIController extends Controller {
         return redirect('messages');
     }
 
-    public function getSearchTweet(Request $request) {
+    public function getSearch(Request $request) {
         $q = $request->input('q');
         $result_type = $request->input('result_type');
         $max_id = $request->input('max_id');
@@ -513,7 +513,7 @@ class APIController extends Controller {
                 'result_type' => $result_type,
             ];
 
-            return view($this->view_prefix . 'search_tweet', $render);
+            return view($this->view_prefix . 'search', $render);
         } else {
             $param = [
                 'count' => 10,
@@ -525,14 +525,14 @@ class APIController extends Controller {
             }
             $result = $this->api->search_tweets($param);
 
-            $error = $this->citcuit->parseError($result, 'Search Tweet');
+            $error = $this->citcuit->parseError($result, 'Tweet Search');
             if ($error) {
                 return view('error', $error);
             }
 
             $render = [
                 'rate' => [
-                    'Search Tweet' => $this->citcuit->parseRateLimit($result),
+                    'Tweet Search' => $this->citcuit->parseRateLimit($result),
                 ],
                 'q' => $q,
                 'result_type' => $result_type,
@@ -544,7 +544,7 @@ class APIController extends Controller {
                 $render['timeline'] = 'No results.';
             }
 
-            return view($this->view_prefix . 'search_tweet', $render);
+            return view($this->view_prefix . 'search', $render);
         }
     }
 

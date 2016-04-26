@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Search Tweet')
+@section('title', 'Tweet Search')
 
 @section('content')
 <nav class="sub-menu">
@@ -9,7 +9,7 @@
     <strong>Search Tweet</strong> | <a href="#">Search User</a> (soon)
 </section>
 <section class="tweet odd">
-    <form method="GET" action="{{ url('search/tweet') }}">
+    <form method="GET" action="{{ url('search') }}">
         Search Query :<br />
         <input type="text" name="q" value="@if(isset($q)) {{ $q }} @endif" required>
         Result Type :<br />
