@@ -45,8 +45,9 @@ class APIController extends Controller {
             ],
         ];
 
-        if (isset($result->content)) {
-            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+        $parse = $this->citcuit->parseResult($result, 'tweet');
+        if (count($parse->content) != 0) {
+            $render['timeline'] = $parse;
         } else {
             $render['timeline'] = 'Your timeline is currently empty. Follow people and topics you find interesting to see their Tweets in your timeline.';
         }
@@ -96,8 +97,9 @@ class APIController extends Controller {
             ],
         ];
 
-        if (isset($result->content)) {
-            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+        $parse = $this->citcuit->parseResult($result, 'tweet');
+        if (count($parse->content) != 0) {
+            $render['timeline'] = $parse;
         } else {
             $render['timeline'] = 'Your mentions is currently empty. Get it here when people interact with you.';
         }
@@ -146,8 +148,10 @@ class APIController extends Controller {
             }
 
             $render['rate']['User Tweet'] = $this->citcuit->parseRateLimit($result);
-            if (isset($result->content)) {
-                $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+
+            $parse = $this->citcuit->parseResult($result, 'tweet');
+            if (count($parse->content) != 0) {
+                $render['timeline'] = $parse;
             } else {
                 $render['timeline'] = '@' . $screen_name . ' hasn\'t tweeted yet.';
             }
@@ -381,8 +385,9 @@ class APIController extends Controller {
             ],
         ];
 
-        if (isset($result->content)) {
-            $render['timeline'] = $this->citcuit->parseResult($result, 'message');
+        $parse = $this->citcuit->parseResult($result, 'message');
+        if (count($parse->content) != 0) {
+            $render['timeline'] = $parse;
         } else {
             $render['timeline'] = 'You don\'t have any incoming messages yet.';
         }
@@ -410,8 +415,9 @@ class APIController extends Controller {
             ],
         ];
 
-        if (isset($result->content)) {
-            $render['timeline'] = $this->citcuit->parseResult($result, 'message');
+        $parse = $this->citcuit->parseResult($result, 'message');
+        if (count($parse->content) != 0) {
+            $render['timeline'] = $parse;
         } else {
             $render['timeline'] = 'You don\'t have any sent messages yet.';
         }
@@ -744,10 +750,11 @@ class APIController extends Controller {
             'screen_name' => $screen_name,
         ];
 
-        if (isset($result->content)) {
-            $render['users'] = $this->citcuit->parseResult($result, 'profile');
+        $parse = $this->citcuit->parseResult($result, 'profile');
+        if (count($parse->content) != 0) {
+            $render['users'] = $parse;
         } else {
-            $render['users'] = '@' . $screen_name . ' isn\'t following anyone yet.';
+            $render['users'] = '@' . $screen_name . ' doesn\'t have any followers yet.';
         }
 
         return view($this->view_prefix . 'followers', $render);
@@ -775,8 +782,9 @@ class APIController extends Controller {
             'screen_name' => $screen_name,
         ];
 
-        if (isset($result->content)) {
-            $render['users'] = $this->citcuit->parseResult($result, 'profile');
+        $parse = $this->citcuit->parseResult($result, 'profile');
+        if (count($parse->content) != 0) {
+            $render['users'] = $parse;
         } else {
             $render['users'] = '@' . $screen_name . ' isn\'t following anyone yet.';
         }
@@ -806,8 +814,9 @@ class APIController extends Controller {
             'screen_name' => $screen_name
         ];
 
-        if (isset($result->content)) {
-            $render['timeline'] = $this->citcuit->parseResult($result, 'tweet');
+        $parse = $this->citcuit->parseResult($result, 'tweet');
+        if (count($parse->content) != 0) {
+            $render['timeline'] = $parse;
         } else {
             $render['timeline'] = '@' . $screen_name . ' hasn\'t liked any Tweets yet.';
         }
