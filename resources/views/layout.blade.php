@@ -45,7 +45,7 @@
         <footer>
             @if(isset($rate))
             <div class="rate">
-                <strong>Rate limit <a href="#">[?]</a> :</strong>
+                <strong>Rate limit <a href="https://blog.twitter.com/2008/what-does-rate-limit-exceeded-mean-updated" target="_blank">[?]</a> :</strong>
                 @foreach ($rate as $key => $value)
                 <br />&bullet; {{ $key }} : {{ $value['remaining'] }} hit / {{ $value['reset'] }} min.
                 @endforeach

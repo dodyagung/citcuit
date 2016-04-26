@@ -26,7 +26,7 @@
     <h4>Contributing</h4>
     Thanks for your desire to help us. Please read our <a href="https://github.com/dodyagung/citcuit/blob/develop/CONTRIBUTING.md" target="_blank">contributing guide</a> first.
     <h4>Versioning</h4>
-    CitCuit is maintained under <a href="http://semver.org">Semantic Versioning</a> guide with &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt; format :
+    CitCuit is maintained under <a href="http://semver.org">Semantic Versioning</a> guide with <code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code> format :
     <ul>
         <li>major: breaks backward compatibility (resets the minor and patch)</li>
         <li>minor: new additions with backward compatibility (resets the patch)</li>
