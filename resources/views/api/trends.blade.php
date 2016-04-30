@@ -17,7 +17,7 @@
 </section>
 @foreach($results as $result)
 <section class="tweet {{ $result->class }}">
-    <strong><a href="{{ url('search/tweet?q=' . $result->query) }}">{{ $result->name }}</a></strong>@if($result->tweet_volume != '') <br /><small>{{ $result->tweet_volume }} tweets</small> @endif
+    <strong><a href="{{ url('search?q=' . $result->query) }}">{{ $result->name }}</a></strong>@if($result->tweet_volume != '') <br /><small>{{ $result->tweet_volume }} tweets</small> @endif
 </section>
 @endforeach
 @endsection
