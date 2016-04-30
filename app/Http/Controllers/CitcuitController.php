@@ -35,7 +35,7 @@ class CitcuitController {
     }
 
     private function parseLinkHashtag($text) {
-        return preg_replace('/(^|\s)#(\w+)/i', ' <a href="' . url('search/tweet?q=%23$2') . '">#$2</a>', $text);
+        return preg_replace('/(^|\s)#(\w+)/i', ' <a href="' . url('search?q=%23$2') . '">#$2</a>', $text);
     }
 
     public function parseProfile($profile) {
