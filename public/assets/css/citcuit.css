@@ -3,11 +3,26 @@ body {
     color: #000000;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif; 
 }
+code {
+    background-color: #DCDCDC;
+    font-size: 90%;
+    border-radius: 3px;
+    padding: 2px 4px;
+}
 a {
     text-decoration: none;
 }
 a:hover {
     text-decoration: underline;
+}
+ul {
+    margin: 0 auto;
+}
+li {
+    margin-left: -1em;
+}
+.about, .home {
+    line-height: 1.5em;
 }
 header {
     color: #FFFFFF;

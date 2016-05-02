@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, lightweight, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 in Indonesia.">
-        <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, slim, fast, lightweight, no database, no ads, open source">
+        <meta name="description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyas. Made with <3 in Indonesia.">
+        <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, secure, slim, fast, no database, no ads, open source">
         <meta name="author" content="Dody Agung Saputro (hello@dodyagung.com)">
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
         <title>@yield('title') - CitCuit {{ env('APP_VERSION') }}</title>
@@ -28,7 +28,7 @@
         </nav>
         <!--content-->
         <article>
-            @if (session('citcuit.oauth') && env('ALERT_INFO'))
+            @if (env('ALERT_INFO'))
             @include('api.@alert')
             @endif
             @yield('content')    
@@ -52,7 +52,7 @@
             </div>
             <hr />
             @endif
-            Made with &hearts; by <a href="{{ url('user/dodyags') }}">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>. Join our <a href="{{ url('user/citcuit_in') }}">Twitter</a> and <a href="https://fb.me/citcuit.in">Facebook</a> to stay updated.
+            Made with &hearts; by <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>. Join our <a href="{{ url('about#official') }}">official account</a> to stay connected and updated.
         </footer>
         <a id="bottom"></a>
     </body>
