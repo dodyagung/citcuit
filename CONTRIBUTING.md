@@ -11,13 +11,11 @@ This GitHub [issues guide](https://guides.github.com/features/issues) might be u
 This method is suitable for **developer**. If you are able to add a feature or patch the bug yourself, just follow this steps :
 
 1. Fork CitCuit repo to your GitHub account
-2. Clone it to your computer locally and checkout :
-   * `master` branch for bug patch
-   * `develop` branch for new feature or enhancement
-3. Run `composer update`
-4. Rename `.env.example` to `.env` and edit it according your config needs
+2. Clone it to your computer locally and run `composer update`
+3. Create a new branch (ex: `fix-typo`) then checkout it
+4. Rename `.env.example` to `.env` and edit the file
 5. Make changes, commit and push it to your GitHub
-6. Create a pull request back to CitCuit repo and to :
+6. Create a pull request back to CitCuit repo from your new branch to :
    * `master` branch for your bug patch
    * `develop` branch for your new feature or enhancement
 
