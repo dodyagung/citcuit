@@ -7,7 +7,7 @@
 </nav>
 <section class="home">
     <br />
-    <img src="{{ url('assets/img/logo.png') }}" alt="CitCuit logo" /><br />
+    <img src="{{ url('assets/img/logo.png') }}" alt="CitCuit logo" class="logo" /><br />
     <br />
     <strong>Welcome to CitCuit!</strong><br />
     CitCuit is a mobile Twitter client, alternative of official <a href="https://mobile.twitter.com" target="_blank">mobile.twitter.com</a> website.<br />

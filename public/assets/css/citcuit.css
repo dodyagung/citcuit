@@ -23,6 +23,9 @@ li {
 .about, .home {
     line-height: 1.5em;
 }
+.logo {
+    width: 200px;
+}
 header {
     color: #FFFFFF;
     background: #000000;
