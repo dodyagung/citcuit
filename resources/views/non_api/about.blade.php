@@ -2,17 +2,78 @@
 @section('title', 'About')
 
 @section('content')
-<section>
-    <img src="{{ url('assets/img/logo.png') }}" alt="CitCuit logo" /><br />
+<nav class="sub-menu">
+    @yield('title')
+</nav>
+<section class="about">
     <br />
-    <strong>Welcome to CitCuit v2</strong><br />
-    CitCuit is a mobile Twitter client from Indonesia.<br />
-    Slim, fast, lightweight, no ads, and of course it's <a href="https://github.com/dodyagung/citcuit" target="_blank">open source</a>!<br />
+    <img src="{{ url('assets/img/logo.png') }}" alt="CitCuit logo" class="logo" /><br />
     <br />
-    <strong>What's the differences from v1</strong><br />
-    We don't use <a href="https://code.google.com/p/dabr" target="_blank">Dabr open source</a> anymore, now we make the "base code" ourselves.<br />
-    CitCuit v2 is rebuilt from zero with <a href="http://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="http://laravel.com" target="_blank">Laravel</a>.<br />
+    <strong>Welcome to CitCuit!</strong><br />
+    CitCuit is a mobile Twitter client, alternative of official <a href="https://mobile.twitter.com" target="_blank">mobile.twitter.com</a> website.<br />
+    Secure, slim, fast, no ads, no database and of course we're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>!<br />
     <br />
-    Join and like our <a href="https://fb.me/citcuit.in">Facebook</a> to stay in touch with our news and updates!
+    Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>.<br />
+    Made with &hearts; by <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">@dodyags</a>. Made with &hearts; in Indonesia.<br />
+    <br />
+    <strong id="official">Official Account</strong><br />
+    Join our official account to stay connected and updated.
+    <ul>
+        <li>
+            Twitter : <a href="@if (session('citcuit.oauth')) {{ url('user/citcuit_in') }} @else https://twitter.com/citcuit_in @endif" target="_blank">https://twitter.com/citcuit_in</a>
+        </li>
+        <li>
+            Facebook : <a href="https://fb.me/citcuit.in" target="_blank">https://facebook.com/citcuit.in</a><br />
+        </li>
+    </ul>
+    <br />
+    <strong id="contribute">Contribute</strong><br />
+    Found an error? Have a question? Just contact our official account above.<br />
+    If you are developer, open an issue or push a Pull Request below.<br />
+    <ul>
+        <li>
+            GitHub : <a href="https://github.com/dodyagung/CitCuit" target="_blank">https://github.com/dodyagung/CitCuit</a><br />
+        </li>
+    </ul>
+    <br />
+    <strong id="author">Author & Founder</strong><br />
+    Hi, I am Dody Agung Saputro. I make the WWW fun.
+    <ul>
+        <li>
+            GitHub : <a href="https://github.com/dodyagung" target="_blank">https://github.com/dodyagung</a>
+        </li>
+        <li>
+            Twitter : <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">https://twitter.com/dodyags</a>
+        </li>
+        <li>
+            Website : <a href="https://dodyagung.com" target="_blank">https://dodyagung.com</a><br />
+        </li>
+        <li>
+            Email : <a href="mailto:hello@dodyagung.com" target="_blank">hello@dodyagung.com</a>
+        </li>
+    </ul>
+    <br />
+    <strong id="thanks">Special Thanks to </strong><br />
+    <ul>
+        <li><a href="https://fb.me/ridvan.aji" target="_blank">Ridvandani Dwi</a> for original CitCuit logo, it's awesome.</li>
+        <li>All CitCuit <a href="https://github.com/dodyagung/CitCuit/graphs/contributors" target="_blank">open source contributors</a> on GitHub.</li>
+        <li>You and all of CitCuit users in the world! :)</li>
+    </ul>
+    <br />
+    <strong id="license">License</strong><br />
+    CitCuit is open-sourced and licensed under <a href="https://github.com/dodyagung/citcuit/blob/develop/LICENSE.md" target="_blank">MIT license</a>.<br />
+    <br />
 </section>
+<!--<section class="tweet odd">
+    - <a href="{{ url('about/about') }}">About</a>
+</section>
+<section class="tweet even">
+    - <a href="{{ url('about/contact_contribute') }}">Contact or Contribute</a>
+</section>
+<section class="tweet odd">
+    - <a href="{{ url('about/behindthescene') }}">Behind The Scene</a>
+</section>
+<section class="tweet even">
+    - <a href="{{ url('about/license') }}">License</a>
+</section>-->
 @endsection

@@ -16,7 +16,7 @@
         <img src="{{ $tweet->user->profile_image_url_https }}" class="profpic">
     </div>
     <div class="split-right">
-        <a href="{{ url('profile/' . $tweet->user->screen_name) }}"><strong>{{ $tweet->user->name }}</strong></a>
+        <a href="{{ url('user/' . $tweet->user->screen_name) }}"><strong>{{ $tweet->user->name }}</strong></a>
         @if ($tweet->user->protected == 1)
         <img class="action" src="{{ url('assets/img/protected.png') }}" alt="Protected" />
         @endif
@@ -28,7 +28,7 @@
             <a href="{{ url('reply/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/reply.png') }}" alt="Reply" /></a>
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
             @if ($tweet->retweeted == 1)
-            <a href="{{ url('unretweet/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/retweet-green.png') }}" alt="Unretweet" /></a>
+            <a href="{{ url('detail/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/retweet-green.png') }}" alt="Unretweet" /></a>
             @else
             <a href="{{ url('retweet/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/retweet.png') }}" alt="Retweet" /></a>
             @endif
@@ -60,7 +60,7 @@
                 <img src="{{ $tweet->quoted_status->user->profile_image_url_https }}" class="profpic">
             </div>
             <div class="split-right">
-                <span class="screen_name"><a href="{{ url('profile/' . $tweet->quoted_status->user->screen_name) }}"><strong>{{ $tweet->quoted_status->user->name }}</strong></a></span> <span class="user_id"><small>({{ '@' . $tweet->quoted_status->user->screen_name }})</small></span><br />
+                <span class="screen_name"><a href="{{ url('user/' . $tweet->quoted_status->user->screen_name) }}"><strong>{{ $tweet->quoted_status->user->name }}</strong></a></span> <span class="user_id"><small>({{ '@' . $tweet->quoted_status->user->screen_name }})</small></span><br />
                 {!! $tweet->quoted_status->text !!}<br />
                 @if (isset($tweet->quoted_status->extended_entities->media))
                 @foreach ($tweet->quoted_status->extended_entities->media as $media)
@@ -79,9 +79,10 @@
         <br />
         <img class="action" src="{{ url('assets/img/reply-blue.png') }}" /> <small><strong>In reply to <a href="{{ url('detail/' . $tweet->in_reply_to_status_id_str) }}">{{ '@' . $tweet->in_reply_to_screen_name }}</a></strong></small>
         @endif
-        @if (isset($tweet_original->retweeted_status))
+        <!--retweeted by me-->
+        @if ($tweet->retweeted == 1)
         <br />
-        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('detail/' . $tweet_original->id_str) }}">Retweeted</a> by <a href="{{ url('profile/' . $tweet_original->user->screen_name) }}">{{ $tweet_original->user->name }}</a></strong></small>
+        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
         @endif
         <hr />
         <form method="POST" action="{{ url('retweet_with_comment') }}">
@@ -90,12 +91,15 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <button type="submit">Retweet with comment</button>
         </form>
+        <!--we can't retweet our own tweet-->
+        @if (session('citcuit.oauth.screen_name') != $tweet->user->screen_name)
         <hr />
         <form method="POST" action="{{ url('retweet') }}">
             <input type="hidden" name="id" value="{{ $tweet->id_str }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <button type="submit">Or, just retweet it</button>
         </form>
+        @endif
     </div>
 </section>
 @endsection

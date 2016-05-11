@@ -1,5 +1,5 @@
 <section>
     <div class="alert info">
-        {!! env('alert_info') !!}
+        {!! env('ALERT_INFO') !!}
     </div>
 </section>

@@ -4,21 +4,36 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="A mobile Twitter client from Indonesia. Slim, fast, lightweight, no database, no ads, and of course it's open source.">
-        <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, slim, fast, lightweight, no database, no ads, open source">
-        <meta name="author" content="Dody Agung Saputro <hello@dodyagung.com>">
+        <meta name="description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags. Made with <3 in Indonesia.">
+        <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, secure, slim, fast, no database, no ads, open source">
+        <meta name="author" content="dodyagung.com">
+        <!--Facebook Meta-->
+        <meta property="og:url" content="{{ app('url')->current() }}" />
+        <meta property="og:site_name" content="CitCuit" />
+        <meta property="og:title" content="@yield('title') - CitCuit {{ env('APP_VERSION') }}" />
+        <meta property="og:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags. Made with <3 in Indonesia." />
+        <meta property="og:image" content="{{ url('assets/img/logo_square.png') }}" />
+        <meta property="fb:app_id" content="132082170210911" />
+        <!--Twitter Meta-->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@citcuit_in" />
+        <meta name="twitter:site:id" content="722402114614333440" />
+        <meta name="twitter:creator" content="@dodyags" />
+        <meta name="twitter:creator:id" content="70055176" />
+        <meta name="twitter:title" content="@yield('title') - CitCuit {{ env('APP_VERSION') }}" />
+        <meta name="twitter:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags. Made with <3 in Indonesia." />
+        <meta name="twitter:image" content="{{ url('assets/img/logo_square.png') }}" />
+        <meta name="twitter:image:alt" content="CitCuit Logo" />
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
-        <title>@yield('title') - CitCuit v2</title>
+        <title>@yield('title') - CitCuit {{ env('APP_VERSION') }}</title>
+        <link href="{{ url('assets/css/normalize.css') }}" rel="stylesheet">
         <link href="{{ url('assets/css/citcuit.css') }}" rel="stylesheet">
     </head>
     <body>
         <a id="top"></a>
         <!--header-->
         <header>
-            CitCuit v2
-            @if (session('citcuit.oauth.screen_name'))
-            - <a href="{{ url('profile/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a>
-            @endif
+            @if (session('citcuit.oauth')) <a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a> - @endif CitCuit {{ env('APP_VERSION') }}
         </header>
         <!--nav-top-->
         <nav class="menu">
@@ -30,7 +45,7 @@
         </nav>
         <!--content-->
         <article>
-            @if (session('citcuit.oauth') && env('ALERT_INFO'))
+            @if (env('ALERT_INFO'))
             @include('api.@alert')
             @endif
             @yield('content')    
@@ -47,14 +62,14 @@
         <footer>
             @if(isset($rate))
             <div class="rate">
-                <strong>Rate limit <a href="#">[?]</a> :</strong>
+                <strong>Rate limit <a href="https://blog.twitter.com/2008/what-does-rate-limit-exceeded-mean-updated" target="_blank">[?]</a> :</strong>
                 @foreach ($rate as $key => $value)
                 <br />&bullet; {{ $key }} : {{ $value['remaining'] }} hit / {{ $value['reset'] }} min.
                 @endforeach
             </div>
             <hr />
             @endif
-            Made with &hearts; by <a href="" target="_blank">@dodyags</a>. We are <a href="https://github.com/dodyagung/citcuit" target="_blank">open source</a> and licensed under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
+            Made with &hearts; by <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>. Join our <a href="{{ url('about#official') }}">official account</a> to stay connected and updated.
         </footer>
         <a id="bottom"></a>
     </body>

@@ -3,6 +3,7 @@
         Options -MultiViews
     </IfModule>
 
+	Options -Indexes 
     RewriteEngine On
 
     # Redirect Trailing Slashes If Not A Folder...
