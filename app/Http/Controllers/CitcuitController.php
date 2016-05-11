@@ -267,7 +267,6 @@ class CitcuitController {
     public function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
             $error_data = [
-                'title' => 'Error :(',
                 'description' => NULL,
                 'httpstatus' => $response->httpstatus,
             ];
