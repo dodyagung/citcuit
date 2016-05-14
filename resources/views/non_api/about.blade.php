@@ -13,11 +13,11 @@
     CitCuit is a mobile Twitter client, alternative of official <a href="https://mobile.twitter.com" target="_blank">mobile.twitter.com</a> website.<br />
     Secure, slim, fast, no ads, no database and of course we're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>!<br />
     <br />
-    Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>.<br />
-    Made with &hearts; by <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">@dodyags</a>. Made with &hearts; in Indonesia.<br />
+    Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; in Indonesia.<br />
     <br />
     <strong id="official">Official Account</strong><br />
-    Join our official account to stay connected and updated.
+    Join our official account to stay connected and updated.<br />
+    Found an error? Have a question? Just contact our official account below.<br />
     <ul>
         <li>
             Twitter : <a href="@if (session('citcuit.oauth')) {{ url('user/citcuit_in') }} @else https://twitter.com/citcuit_in @endif" target="_blank">https://twitter.com/citcuit_in</a>
@@ -28,7 +28,6 @@
     </ul>
     <br />
     <strong id="contribute">Contribute</strong><br />
-    Found an error? Have a question? Just contact our official account above.<br />
     If you are developer, open an issue or push a Pull Request below.<br />
     <ul>
         <li>
@@ -40,16 +39,7 @@
     Hi, I am Dody Agung Saputro. I make the WWW fun.
     <ul>
         <li>
-            GitHub : <a href="https://github.com/dodyagung" target="_blank">https://github.com/dodyagung</a>
-        </li>
-        <li>
-            Twitter : <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">https://twitter.com/dodyags</a>
-        </li>
-        <li>
             Website : <a href="https://dodyagung.com" target="_blank">https://dodyagung.com</a><br />
-        </li>
-        <li>
-            Email : <a href="mailto:hello@dodyagung.com" target="_blank">hello@dodyagung.com</a>
         </li>
     </ul>
     <br />
