@@ -69,6 +69,9 @@ class CitcuitController {
                 $urls = $profile->entities->url->urls;
                 foreach ($urls as $url) {
                     $profile->url_original = $profile->url;
+                    if (!isset($url->display_url)) {
+                        $url->display_url = $url->url;
+                    }
                     $profile->url = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->url);
                     $profile->url_no_href = $url->display_url;
                 }
