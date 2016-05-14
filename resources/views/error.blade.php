@@ -7,7 +7,7 @@
 </nav>
 <section>
     <div class="alert error">
-        <strong>{{ $title }}</strong><br />
+        <strong>Error! :(</strong><br />
         <br />
         {!! $description !!}
     </div>
