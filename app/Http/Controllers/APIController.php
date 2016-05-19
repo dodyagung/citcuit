@@ -683,6 +683,14 @@ class APIController extends Controller {
     }
 
     public function postUpload(Request $request) {
+        $validator = app('validator')->make($request->all(), [
+                    'image1' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return view('error', ['description' => 'At least one image is required.']);
+        }
+
         $media_files = [
             $request->file('image1')
         ];

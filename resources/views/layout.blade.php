@@ -69,7 +69,7 @@
             </div>
             <hr />
             @endif
-            Made with &hearts; by <a href="@if (session('citcuit.oauth')) {{ url('user/dodyags') }} @else https://twitter.com/dodyags @endif" target="_blank">@dodyags</a>. We're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>. Join our <a href="{{ url('about#official') }}">official account</a> to stay connected and updated.
+            We're open-sourced at <a href="https://github.com/dodyagung/CitCuit" target="_blank">GitHub</a>. Join our <a href="{{ url('about#official') }}">official account</a> to stay connected and updated.
         </footer>
         <a id="bottom"></a>
     </body>

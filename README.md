@@ -10,7 +10,7 @@ Made with :heart: by [@dodyags](https://twitter.com/dodyags). Made with :heart: 
 
 ## Live Website
 
-Go to [citcuit.in](https://citcuit.in) and sign-in with your Twitter account.
+Go to [citcuit.in/v2](https://citcuit.in/v2) and sign-in with your Twitter account.
 
 ## Requirements
 
