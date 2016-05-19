@@ -19,7 +19,7 @@
         Image 4 (optional) :<br />
         <input type="file" name="image4">
         Text :
-        <textarea id="status" name="tweet" placeholder="What's happening?" required></textarea>
+        <textarea id="status" name="tweet" required></textarea>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <button type="submit">Tweet</button>
     </form>
