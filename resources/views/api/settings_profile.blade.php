@@ -20,11 +20,11 @@
         Name (max 20 chars) :<br />
         <input type="text" name="name" value="{{ $profile->name }}" required>
         Url (max 100 chars) :<br />
-        <input type="text" name="url" value="{{ $profile->url_no_href }}" required>
+        <input type="text" name="url" value="{{ $profile->url_nohref }}">
         Location (max 30 chars) :<br />
-        <input type="text" name="location" value="{{ $profile->location }}" required>
+        <input type="text" name="location" value="{{ $profile->location_nohref }}">
         Description (max 160 chars) :<br />
-        <textarea name="description" required>{{ $profile->description_no_href }}</textarea>
+        <textarea name="description">{{ $profile->description_nohref }}</textarea>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <button type="submit">Save</button>
     </form>

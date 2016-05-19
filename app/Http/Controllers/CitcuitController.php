@@ -40,7 +40,7 @@ class CitcuitController {
 
     public function parseProfile($profile) {
         if ($profile->description == NULL) {
-            $profile->description_no_href = $profile->description;
+            $profile->description_nohref = $profile->description;
             $profile->description = '-';
         } else {
             $profile->description_no_href = $profile->description;
@@ -59,10 +59,11 @@ class CitcuitController {
             $profile->description = $this->parseLinkUser($profile->description);
         }
         if ($profile->location == NULL) {
+            $profile->location_nohref = $profile->location;
             $profile->location = '-';
         }
         if ($profile->url == NULL) {
-            $profile->url_no_href = $profile->url;
+            $profile->url_nohref = $profile->url;
             $profile->url = '-';
         } else {
             if (isset($profile->entities->url->urls) && count($profile->entities->url->urls) != 0) {
