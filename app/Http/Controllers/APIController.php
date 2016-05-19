@@ -18,11 +18,8 @@ class APIController extends Controller {
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
         $this->api = Codebird::getInstance();
         $this->api->setToken(session('citcuit.oauth.oauth_token'), session('citcuit.oauth.oauth_token_secret'));
-//        $this->api->setReturnFormat(CODEBIRD_RETURNFORMAT_ARRAY);
-//        $reply = $this->api->oauth2_token();
-//        Codebird::setBearerToken($reply->access_token);
-        $this->api->setConnectionTimeout(6000);
-        $this->api->setTimeout(15000);
+        $this->api->setConnectionTimeout(env('APP_CONN_TIMEOUT'));
+        $this->api->setTimeout(env('APP_REQ_TIMEOUT'));
     }
 
     public function getHome(Request $request, $max_id = false) {
@@ -684,7 +681,7 @@ class APIController extends Controller {
 
     public function postUpload(Request $request) {
         $validator = app('validator')->make($request->all(), [
-                    'image1' => 'required',
+            'image1' => 'required',
         ]);
 
         if ($validator->fails()) {
