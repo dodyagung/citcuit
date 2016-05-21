@@ -39,17 +39,16 @@ class CitcuitController {
     }
 
     public function parseProfile($profile) {
+        $profile->description_nohref = $profile->description;
         if ($profile->description == NULL) {
-            $profile->description_nohref = $profile->description;
             $profile->description = '-';
         } else {
-            $profile->description_no_href = $profile->description;
             if (isset($profile->entities->description->urls) && count($profile->entities->description->urls) != 0) {
                 $urls = $profile->entities->description->urls;
                 foreach ($urls as $url) {
                     $profile->description_original = $profile->description;
                     $profile->description = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->description);
-                    $profile->description_no_href = str_replace($url->url, $url->display_url, $profile->description);
+                    $profile->description_nohref = str_replace($url->url, $url->display_url, $profile->description);
                 }
             }
 
@@ -58,10 +57,12 @@ class CitcuitController {
             $profile->description = $this->parseLinkHttp($profile->description);
             $profile->description = $this->parseLinkUser($profile->description);
         }
+
+        $profile->location_nohref = $profile->location;
         if ($profile->location == NULL) {
-            $profile->location_nohref = $profile->location;
             $profile->location = '-';
         }
+
         if ($profile->url == NULL) {
             $profile->url_nohref = $profile->url;
             $profile->url = '-';
@@ -74,7 +75,7 @@ class CitcuitController {
                         $url->display_url = $url->url;
                     }
                     $profile->url = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->url);
-                    $profile->url_no_href = $url->display_url;
+                    $profile->url_nohref = $url->display_url;
                 }
             }
         }
