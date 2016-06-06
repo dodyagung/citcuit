@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use Codebird\Codebird;
+use Cookie;
 
 class AuthController extends Controller {
 
@@ -16,29 +17,36 @@ class AuthController extends Controller {
     }
 
     public function getSignIn(Request $request) {
-        if (!session('citcuit.oauth')) {
+        if (!Cookie::get('citcuit_session1')) {
             $reply = $this->api->oauth_requestToken([
                 'oauth_callback' => url('signin')
             ]);
-            $this->api->setToken($reply->oauth_token, $reply->oauth_token_secret);
 
-            session(['citcuit.oauth' => (array) $reply]);
+            Cookie::queue('citcuit_session1', $reply->oauth_token, env('SESSION_LIFETIME'));
+            Cookie::queue('citcuit_session2', $reply->oauth_token_secret, env('SESSION_LIFETIME'));
+
+            $this->api->setToken($reply->oauth_token, $reply->oauth_token_secret);
             $auth_url = $this->api->oauth_authorize();
 
             return redirect($auth_url);
         } elseif (isset($_GET['oauth_verifier'])) {
-            $this->api->setToken(session('citcuit.oauth.oauth_token'), session('citcuit.oauth.oauth_token_secret'));
+            $this->api->setToken(Cookie::get('citcuit_session1'), Cookie::get('citcuit_session2'));
 
             $reply = $this->api->oauth_accessToken([
                 'oauth_verifier' => $_GET['oauth_verifier']
             ]);
 
-            session(['citcuit.oauth' => (array) $reply]);
+            Cookie::queue('citcuit_session1', $reply->oauth_token, env('SESSION_LIFETIME'));
+            Cookie::queue('citcuit_session2', $reply->oauth_token_secret, env('SESSION_LIFETIME'));
+            Cookie::queue('citcuit_session3', $reply->screen_name, env('SESSION_LIFETIME'));
 
-            return redirect(url());
+            return redirect('/');
         } else {
             $this->api->logout();
             $request->session()->flush();
+            Cookie::queue(Cookie::forget('citcuit_session1'));
+            Cookie::queue(Cookie::forget('citcuit_session2'));
+            Cookie::queue(Cookie::forget('citcuit_session3'));
 
             return redirect('/');
         }
@@ -47,8 +55,11 @@ class AuthController extends Controller {
     public function getSignOut(Request $request) {
         $this->api->logout();
         $request->session()->flush();
+        Cookie::queue(Cookie::forget('citcuit_session1'));
+        Cookie::queue(Cookie::forget('citcuit_session2'));
+        Cookie::queue(Cookie::forget('citcuit_session3'));
 
-        return redirect(url());
+        return redirect('/');
     }
 
 }

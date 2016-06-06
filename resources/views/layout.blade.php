@@ -33,11 +33,11 @@
         <a id="top"></a>
         <!--header-->
         <header>
-            @if (session('citcuit.oauth')) <a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">{{ '@' . session('citcuit.oauth.screen_name') }}</a> - @endif CitCuit {{ env('APP_VERSION') }}
+            @if (Cookie::get('citcuit_session3')) <a href="{{ url('user/' . Cookie::get('citcuit_session3')) }}">{{ '@' . Cookie::get('citcuit_session3') }}</a> - @endif CitCuit {{ env('APP_VERSION') }}
         </header>
         <!--nav-top-->
         <nav class="menu">
-            @if (session('citcuit.oauth'))
+            @if (Cookie::get('citcuit_session1'))
             @include('api.@nav_top')
             @else
             @include('non_api.@nav_top')
@@ -52,7 +52,7 @@
         </article>
         <!--nav-bottom-->
         <nav class="menu">
-            @if (session('citcuit.oauth'))
+            @if (Cookie::get('citcuit_session1'))
             @include('api.@nav_bottom')
             @else
             @include('non_api.@nav_bottom')

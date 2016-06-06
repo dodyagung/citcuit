@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Cookie;
 
 class MustBeAuthenticatedMiddleware {
 
@@ -14,12 +15,16 @@ class MustBeAuthenticatedMiddleware {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if (!session('citcuit.oauth')) {
+        if (!Cookie::get('citcuit_session1')) {
             if ($request->is('/')) {
                 $request->session()->flush();
+                Cookie::queue(Cookie::forget('citcuit_session1'));
+                Cookie::queue(Cookie::forget('citcuit_session2'));
+                Cookie::queue(Cookie::forget('citcuit_session3'));
+
                 return view('non_api.home');
             } else {
-                return redirect('');
+                return redirect('/');
             }
         }
 
