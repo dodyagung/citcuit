@@ -20,7 +20,7 @@
     Found an error? Have a question? Just contact our official account below.<br />
     <ul>
         <li>
-            Twitter : <a href="@if (session('citcuit.oauth')) {{ url('user/citcuit_in') }} @else https://twitter.com/citcuit_in @endif" target="_blank">https://twitter.com/citcuit_in</a>
+            Twitter : <a href="@if (Cookie::get('citcuit_session1')) {{ url('user/citcuit_in') }} @else https://twitter.com/citcuit_in @endif" target="_blank">https://twitter.com/citcuit_in</a>
         </li>
         <li>
             Facebook : <a href="https://fb.me/citcuit.in" target="_blank">https://facebook.com/citcuit.in</a><br />
