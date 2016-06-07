@@ -560,7 +560,7 @@ class APIController extends Controller {
 
     public function getSettingsProfile(Request $request) {
         $param = [
-            'screen_name' => session('citcuit.oauth.screen_name')
+            'screen_name' => Cookie::get('citcuit_session3')
         ];
         $result = $this->api->users_show($param);
 
@@ -600,7 +600,7 @@ class APIController extends Controller {
 
     public function getSettingsProfileImage(Request $request) {
         $param = [
-            'screen_name' => session('citcuit.oauth.screen_name')
+            'screen_name' => Cookie::get('citcuit_session3')
         ];
         $result = $this->api->users_show($param);
 
