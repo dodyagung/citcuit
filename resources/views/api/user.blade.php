@@ -26,7 +26,7 @@
     <small>{{ $profile->statuses_count }} tweets | <a href="{{ url('following/' . $profile->screen_name) }}">{{ $profile->friends_count }} following</a> | <a href="{{ url('followers/' . $profile->screen_name) }}">{{ $profile->followers_count }} followers</a> | <a href="{{ url('likes/' . $profile->screen_name) }}">{{ $profile->favourites_count }} likes</a></small>
     <br />
     <br />
-    @if ($screen_name != session('citcuit.oauth.screen_name'))
+    @if ($screen_name != Cookie::get('citcuit_session3'))
     <small>
         @if (!$profile->following) 
         <span class="error">You're not following!</span> <a href="{{ url('follow/' . $screen_name) }}"><strong>[Follow]</strong></a>
@@ -90,7 +90,7 @@
             <a href="{{ url('like/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/like.png') }}" alt="Like" /></a>
             @endif
             &nbsp;&nbsp;<small>{{ $tweet->favorite_count }}</small>
-            @if ($tweet->user->id_str == session('citcuit.oauth.user_id'))
+            @if ($tweet->user->screen_name == Cookie::get('citcuit_session3'))
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
             <a href="{{ url('delete/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
             @endif
@@ -126,7 +126,7 @@
         <!--retweeted by me-->
         @if ($tweet->retweeted == 1)
         <br />
-        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
+        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . Cookie::get('citcuit_session3')) }}">You</a> retweeted</strong></small>
         <!--retweeted by other-->
         @elseif (isset($tweet_original->retweeted_status))
         <br />

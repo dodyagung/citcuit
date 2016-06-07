@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use Codebird\Codebird;
+use Cookie;
 
 class APIController extends Controller {
 
@@ -17,7 +18,7 @@ class APIController extends Controller {
 
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
         $this->api = Codebird::getInstance();
-        $this->api->setToken(session('citcuit.oauth.oauth_token'), session('citcuit.oauth.oauth_token_secret'));
+        $this->api->setToken(Cookie::get('citcuit_session1'), Cookie::get('citcuit_session2'));
         $this->api->setConnectionTimeout(env('APP_CONN_TIMEOUT'));
         $this->api->setTimeout(env('APP_REQ_TIMEOUT'));
     }
@@ -168,7 +169,7 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect('/');
     }
 
     public function getLike(Request $request, $tweet_id) {
@@ -232,7 +233,7 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect('/');
     }
 
     public function getDelete(Request $request, $tweet_id) {
@@ -267,7 +268,7 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect('/');
     }
 
     public function getRetweet(Request $request, $tweet_id) {
@@ -303,7 +304,7 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect('/');
     }
 
     public function postRetweet(Request $request) {
@@ -559,7 +560,7 @@ class APIController extends Controller {
 
     public function getSettingsProfile(Request $request) {
         $param = [
-            'screen_name' => session('citcuit.oauth.screen_name')
+            'screen_name' => Cookie::get('citcuit_session3')
         ];
         $result = $this->api->users_show($param);
 
@@ -599,7 +600,7 @@ class APIController extends Controller {
 
     public function getSettingsProfileImage(Request $request) {
         $param = [
-            'screen_name' => session('citcuit.oauth.screen_name')
+            'screen_name' => Cookie::get('citcuit_session3')
         ];
         $result = $this->api->users_show($param);
 
@@ -730,7 +731,7 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
-        return redirect('');
+        return redirect('/');
     }
 
     public function getFollowers(Request $request, $screen_name, $cursor = null) {
