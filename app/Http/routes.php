@@ -65,6 +65,9 @@ $app->group(['middleware' => 'MustBeAuthenticated', 'namespace' => 'App\Http\Con
     $app->post('settings/profile', 'APIController@postSettingsProfile');
     $app->get('settings/profile_image', 'APIController@getSettingsProfileImage');
     $app->post('settings/profile_image', 'APIController@postSettingsProfileImage');
+    $app->get('settings/facebook', 'APIController@getSettingsFacebook');
+    $app->get('settings/facebook/login', 'APIController@getSettingsFacebookLogin');
+    $app->get('settings/facebook/logout', 'APIController@getSettingsFacebookLogout');
     
     $app->get('trends', 'APIController@getTrends');
     

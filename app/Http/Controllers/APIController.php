@@ -160,13 +160,19 @@ class APIController extends Controller {
 
     public function postTweet(Request $request) {
         $param = [
-            'status' => $request->tweet,
+            'status' => $request->input('tweet'),
         ];
         $result = $this->api->statuses_update($param);
 
         $error = $this->citcuit->parseError($result);
         if ($error) {
             return view('error', $error);
+        }
+
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postFeed($request->input('tweet'));
         }
 
         return redirect('/');
@@ -223,7 +229,7 @@ class APIController extends Controller {
 
     public function postReply(Request $request) {
         $param = [
-            'status' => $request->tweet,
+            'status' => $request->input('tweet'),
             'in_reply_to_status_id' => $request->in_reply_to_status_id,
         ];
         $result = $this->api->statuses_update($param);
@@ -259,7 +265,7 @@ class APIController extends Controller {
 
     public function postDelete(Request $request) {
         $param = [
-            'id' => $request->id,
+            'id' => $request->input('id'),
         ];
         $result = $this->api->statuses_destroy_ID($param);
 
@@ -295,7 +301,7 @@ class APIController extends Controller {
 
     public function postRetweetWithComment(Request $request) {
         $param = [
-            'status' => $request->tweet . ' ' . $request->retweet_link,
+            'status' => $request->input('tweet') . ' ' . $request->input('retweet_link'),
         ];
         $result = $this->api->statuses_update($param);
 
@@ -304,12 +310,18 @@ class APIController extends Controller {
             return view('error', $error);
         }
 
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postFeed($request->input('tweet'));
+        }
+
         return redirect('/');
     }
 
     public function postRetweet(Request $request) {
         $param = [
-            'id' => $request->id,
+            'id' => $request->input('id'),
         ];
         $result = $this->api->statuses_retweet_ID($param);
 
@@ -323,7 +335,7 @@ class APIController extends Controller {
 
     public function postUnretweet(Request $request) {
         $param = [
-            'id' => $request->id,
+            'id' => $request->input('id'),
         ];
         $result = $this->api->statuses_unretweet_ID($param);
 
@@ -434,8 +446,8 @@ class APIController extends Controller {
 
     public function postMessagesCreate(Request $request) {
         $param = [
-            'screen_name' => $request->screen_name,
-            'text' => $request->text,
+            'screen_name' => $request->input('screen_name'),
+            'text' => $request->input('text'),
         ];
         $result = $this->api->directMessages_new($param);
 
@@ -491,7 +503,7 @@ class APIController extends Controller {
 
     public function postMessagesDelete(Request $request) {
         $param = [
-            'id' => $request->id,
+            'id' => $request->input('id'),
         ];
         $result = $this->api->directMessages_destroy($param);
 
@@ -581,10 +593,10 @@ class APIController extends Controller {
 
     public function postSettingsProfile(Request $request) {
         $param = [
-            'name' => $request->name,
-            'url' => $request->url,
-            'location' => $request->location,
-            'description' => $request->description,
+            'name' => $request->input('name'),
+            'url' => $request->input('url'),
+            'location' => $request->input('location'),
+            'description' => $request->input('description'),
         ];
         $result = $this->api->account_updateProfile($param);
 
@@ -634,6 +646,42 @@ class APIController extends Controller {
         return redirect()
                         ->back()
                         ->with('success', 'Profile image updated!');
+    }
+
+    public function getSettingsFacebookLogin(Request $request) {
+        $fb = new FacebookController();
+
+        if ($request->input('code')) {
+            $fb->loginCallback($request->fullUrl());
+            return redirect('settings/facebook');
+        } else {
+            return redirect($fb->loginUrl());
+        }
+    }
+
+    public function getSettingsFacebookLogout(Request $request) {
+        $fb = new FacebookController();
+        $fb->logout();
+
+        return redirect('settings/facebook');
+    }
+
+    public function getSettingsFacebook(Request $request) {
+        $fb = new FacebookController();
+
+        if ($fb->checkToken()) {
+            $fb->loadToken();
+            $render = [
+                'logged_in' => true,
+                'user' => $fb->getUser()
+            ];
+        } else {
+            $render = [
+                'logged_in' => false,
+            ];
+        }
+
+        return view($this->view_prefix . 'settings_facebook', $render);
     }
 
     public function getTrends(Request $request) {
@@ -717,10 +765,16 @@ class APIController extends Controller {
             $media_ids[] = $result->media_id_string;
         }
 
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postImage($request->input('tweet'), $media_files);
+        }
+
         $media_ids = implode(',', $media_ids);
 
         $param = [
-            'status' => $request->tweet,
+            'status' => $request->input('tweet'),
             'media_ids' => $media_ids
         ];
 

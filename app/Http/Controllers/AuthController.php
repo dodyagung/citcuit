@@ -29,11 +29,11 @@ class AuthController extends Controller {
             $auth_url = $this->api->oauth_authorize();
 
             return redirect($auth_url);
-        } elseif (isset($_GET['oauth_verifier'])) {
+        } elseif ($request->input('oauth_verifier')) {
             $this->api->setToken(Cookie::get('citcuit_session1'), Cookie::get('citcuit_session2'));
 
             $reply = $this->api->oauth_accessToken([
-                'oauth_verifier' => $_GET['oauth_verifier']
+                'oauth_verifier' => $request->input('oauth_verifier')
             ]);
 
             Cookie::queue('citcuit_session1', $reply->oauth_token, env('SESSION_LIFETIME'));
@@ -47,6 +47,7 @@ class AuthController extends Controller {
             Cookie::queue(Cookie::forget('citcuit_session1'));
             Cookie::queue(Cookie::forget('citcuit_session2'));
             Cookie::queue(Cookie::forget('citcuit_session3'));
+            Cookie::queue(Cookie::forget('citcuit_session4'));
 
             return redirect('/');
         }
@@ -58,6 +59,7 @@ class AuthController extends Controller {
         Cookie::queue(Cookie::forget('citcuit_session1'));
         Cookie::queue(Cookie::forget('citcuit_session2'));
         Cookie::queue(Cookie::forget('citcuit_session3'));
+        Cookie::queue(Cookie::forget('citcuit_session4'));
 
         return redirect('/');
     }

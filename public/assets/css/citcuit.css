@@ -78,6 +78,10 @@ input {
     max-width: 100%;
 }
 
+input[type=checkbox] {
+    width: inherit;
+}
+
 select {
     box-sizing: border-box;
     width: 100%;

@@ -11,4 +11,7 @@
 <section class="tweet even">
     - <a href="{{ url('settings/profile_image') }}">Profile Image</a>
 </section>
+<section class="tweet odd">
+    - <a href="{{ url('settings/facebook') }}">Facebook Connect</a>
+</section>
 @endsection
