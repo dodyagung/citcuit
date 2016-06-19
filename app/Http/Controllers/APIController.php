@@ -800,8 +800,11 @@ class APIController extends Controller {
         }
 
         $media_ids = [];
+        $media_files = [];
 
         // image 1
+        $media_files[] = $request->file('image1');
+
         $result = $this->api->media_upload([
             'media' => $request->file('image1')
         ]);
@@ -815,6 +818,8 @@ class APIController extends Controller {
 
         // image 2
         if ($request->hasFile('image2') && $request->file('image2')->isValid()) {
+            $media_files[] = $request->file('image2');
+            
             $result = $this->api->media_upload([
                 'media' => $request->file('image2')
             ]);
@@ -829,6 +834,8 @@ class APIController extends Controller {
 
         // image 3
         if ($request->hasFile('image3') && $request->file('image3')->isValid()) {
+            $media_files[] = $request->file('image3');
+            
             $result = $this->api->media_upload([
                 'media' => $request->file('image3')
             ]);
@@ -843,6 +850,8 @@ class APIController extends Controller {
 
         // image 4
         if ($request->hasFile('image4') && $request->file('image4')->isValid()) {
+            $media_files[] = $request->file('image4');
+            
             $result = $this->api->media_upload([
                 'media' => $request->file('image4')
             ]);
