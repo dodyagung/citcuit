@@ -14,6 +14,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
+a.noline:hover {
+    text-decoration: none;
+}
 ul {
     margin: 0 auto;
 }
@@ -71,24 +74,18 @@ footer a {
 footer .rate {
     line-height: 1.375em;
 }
-
-input {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-}
-
-input[type=checkbox] {
-    width: inherit;
-}
-
-select {
+input, select {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
     margin-bottom: 5px;
+    height: 1.75em;
 }
-
+input[type=checkbox] {
+    width: inherit;
+    height: 1.25em;
+    vertical-align: top;
+}
 textarea {
     box-sizing: border-box;
     width: 100%;
@@ -150,18 +147,19 @@ span.action {
 img.action {
     height: 10px;
 }
-.pagination {
+a.pagination {
     text-align: center;
     width: 33.33%;
     padding: 5px;   
     background: #3B5998;
     color: #FFFFFF;
+    text-decoration: none;
 }
-.pagination.left {
+a.pagination.left {
     float: left;
 }
 
-.pagination.right { 
+a.pagination.right { 
     float: right;
 }
 

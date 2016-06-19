@@ -133,7 +133,7 @@ class APIController extends Controller {
             $render['timeline'] .= 'Click the "Follow" button to send a follow request.';
         } else {
             $render['protected'] = false;
-            
+
             $param = [
                 'screen_name' => $screen_name,
                 'count' => 10,
@@ -564,6 +564,65 @@ class APIController extends Controller {
             }
 
             return view($this->view_prefix . 'search', $render);
+        }
+    }
+
+    public function getSearchUser(Request $request) {
+        $q = $request->input('q');
+        $page = $request->input('page');
+
+        if (!$q) {
+            $render = [];
+
+            return view($this->view_prefix . 'search_user', $render);
+        } else {
+            $param = [
+                'count' => 10,
+                'q' => $q,
+            ];
+
+            if (!$page) {
+                $page = 1;
+            } else {
+                $page = (int) $page;
+            }
+            
+            $param['page'] = $page;
+
+            $result = $this->api->users_search($param);
+
+            $error = $this->citcuit->parseError($result, 'User Search');
+            if ($error) {
+                return view('error', $error);
+            }
+
+            $render = [
+                'rate' => [
+                    'User Search' => $this->citcuit->parseRateLimit($result),
+                ],
+                'q' => $q,
+            ];
+
+            $parse = $this->citcuit->parseResult($result, 'search_user');
+
+            if (count($parse->content) != 0) {
+                $render['users'] = $parse;
+            } else {
+                $render['users'] = 'No user search result.';
+            }
+
+            if ($page == 1) {
+                $render['page_next'] = $page + 1;
+                $render['page_prev'] = null;
+            } else if ($page == 2) {
+                $render['page_next'] = $page + 1;
+                $render['page_prev'] = false;
+            } else {
+                $render['page_next'] = $page + 1;
+                $render['page_prev'] = $page - 1;
+            }
+
+            return view($this->view_prefix . 'search_user', $render);
         }
     }
 

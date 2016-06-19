@@ -309,6 +309,8 @@ class CitcuitController {
             $result->next_cursor_str = $content->next_cursor_str;
             $result->previous_cursor_str = $content->previous_cursor_str;
             $content = (array) $content->users;
+        } else if ($type == 'search_user') {
+            $content = (array) $content;
         } else {
             $content = (array) $content;
             $max_id = NULL;
@@ -334,6 +336,7 @@ class CitcuitController {
                     $max_id = $content[$i]->id_str;
                     break;
                 case 'profile':
+                case 'search_user':
                     $content[$i] = $this->parseProfile($content[$i]);
                     break;
                 default:

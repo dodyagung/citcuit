@@ -15,7 +15,7 @@
     <br />
     Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; in Indonesia.<br />
     <br />
-    <a href="{{ url('signin') }}">
+    <a href="{{ url('signin') }}" class="noline">
         <img src="{{ url('assets/img/signin.png') }}" alt="Sign in with Twitter" />
     </a><br />
     Don't have a Twitter account? <a href="https://mobile.twitter.com/signup" target="_blank">Sign up</a>.<br />
