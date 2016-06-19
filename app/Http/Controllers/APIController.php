@@ -791,94 +791,124 @@ class APIController extends Controller {
     }
 
     public function postUpload(Request $request) {
-        $validator = app('validator')->make($request->all(), [
-            'image1' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return view('error', ['description' => 'At least one image is required.']);
-        }
-
-        $media_ids = [];
-        $media_files = [];
-
-        // image 1
-        $media_files[] = $request->file('image1');
-
-        $result = $this->api->media_upload([
-            'media' => $request->file('image1')
-        ]);
-
-        $error = $this->citcuit->parseError($result);
-        if ($error) {
-            return view('error', $error);
-        }
-
-        $media_ids[] = $result->media_id_string;
-
-        // image 2
-        if ($request->hasFile('image2') && $request->file('image2')->isValid()) {
-            $media_files[] = $request->file('image2');
-            
-            $result = $this->api->media_upload([
-                'media' => $request->file('image2')
-            ]);
-
-            $error = $this->citcuit->parseError($result);
-            if ($error) {
-                return view('error', $error);
-            }
-
-            $media_ids[] = $result->media_id_string;
-        }
-
-        // image 3
-        if ($request->hasFile('image3') && $request->file('image3')->isValid()) {
-            $media_files[] = $request->file('image3');
-            
-            $result = $this->api->media_upload([
-                'media' => $request->file('image3')
-            ]);
-
-            $error = $this->citcuit->parseError($result);
-            if ($error) {
-                return view('error', $error);
-            }
-
-            $media_ids[] = $result->media_id_string;
-        }
-
-        // image 4
-        if ($request->hasFile('image4') && $request->file('image4')->isValid()) {
-            $media_files[] = $request->file('image4');
-            
-            $result = $this->api->media_upload([
-                'media' => $request->file('image4')
-            ]);
-
-            $error = $this->citcuit->parseError($result);
-            if ($error) {
-                return view('error', $error);
-            }
-
-            $media_ids[] = $result->media_id_string;
-        }
-
-//        $media_ids = [];
+//        $validator = app('validator')->make($request->all(), [
+//            'image1' => 'required',
+//        ]);
 //
-//        foreach ($media_files as $file) {
+//        if ($validator->fails()) {
+//            return view('error', ['description' => 'At least one image is required.']);
+//        }
+//        $validator = app('validator')->make($request->all(), [
+//                    'image1' => 'required|image',
+//                    'image2' => 'image',
+//                    'image3' => 'image',
+//                    'image4' => 'image',
+//        ]);
+//        
+//        $validation = $this->citcuit->parseValidation($validator);
+//        if ($validation) {
+//            return view('error', $validation);
+//        }
+//        if ($validator->fails()) {
+//            $description = '';
+//            foreach ($validator->errors()->all() as $error) {
+//                $description .= $error . '<br />';
+//            }
+//            
+//            return view('error', ['description' => $description]);
+//        }
+//        $media_ids = [];
+//        $media_files = [];
+//
+//        // image 1
+//        $media_files[] = $request->file('image1');
+//
+//        $result = $this->api->media_upload([
+//            'media' => $request->file('image1')
+//        ]);
+//
+//        $error = $this->citcuit->parseError($result);
+//        if ($error) {
+//            return view('error', $error);
+//        }
+//
+//        $media_ids[] = $result->media_id_string;
+//
+//        // image 2
+//        if ($request->hasFile('image2') && $request->file('image2')->isValid()) {
+//            $media_files[] = $request->file('image2');
+//
 //            $result = $this->api->media_upload([
-//                'media' => $file
+//                'media' => $request->file('image2')
 //            ]);
 //
 //            $error = $this->citcuit->parseError($result);
 //            if ($error) {
 //                return view('error', $error);
-//                break;
 //            }
 //
 //            $media_ids[] = $result->media_id_string;
 //        }
+//
+//        // image 3
+//        if ($request->hasFile('image3') && $request->file('image3')->isValid()) {
+//            $media_files[] = $request->file('image3');
+//
+//            $result = $this->api->media_upload([
+//                'media' => $request->file('image3')
+//            ]);
+//
+//            $error = $this->citcuit->parseError($result);
+//            if ($error) {
+//                return view('error', $error);
+//            }
+//
+//            $media_ids[] = $result->media_id_string;
+//        }
+//
+//        // image 4
+//        if ($request->hasFile('image4') && $request->file('image4')->isValid()) {
+//            $media_files[] = $request->file('image4');
+//
+//            $result = $this->api->media_upload([
+//                'media' => $request->file('image4')
+//            ]);
+//
+//            $error = $this->citcuit->parseError($result);
+//            if ($error) {
+//                return view('error', $error);
+//            }
+//
+//            $media_ids[] = $result->media_id_string;
+//        }
+
+        $media_files = [
+            $request->file('image1')
+        ];
+        if ($request->hasFile('image2') && $request->file('image2')->isValid()) {
+            $media_files[] = $request->file('image2');
+        }
+        if ($request->hasFile('image3') && $request->file('image3')->isValid()) {
+            $media_files[] = $request->file('image3');
+        }
+        if ($request->hasFile('image4') && $request->file('image4')->isValid()) {
+            $media_files[] = $request->file('image4');
+        }
+
+        $media_ids = [];
+
+        foreach ($media_files as $file) {
+            $result = $this->api->media_upload([
+                'media' => $file
+            ]);
+
+            $error = $this->citcuit->parseError($result);
+            if ($error) {
+                return view('error', $error);
+            }
+
+            $media_ids[] = $result->media_id_string;
+        }
 
         if ($request->has('fb')) {
             $fb = new FacebookController();

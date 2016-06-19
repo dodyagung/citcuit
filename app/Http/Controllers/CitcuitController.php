@@ -282,6 +282,14 @@ class CitcuitController {
                 $error_data['description'] .= $response->httpstatus . ' - ' . $error->message . ' (<a href="https://dev.twitter.com/overview/api/response-codes" target="_blank">#' . $error->code . '</a>)<br />';
             }
             return $error_data;
+        } else if (isset($response->error)) { // different return on upload images
+            $error_data = [
+                'description' => NULL,
+                'httpstatus' => $response->httpstatus,
+            ];
+           
+            $error_data['description'] .= $response->httpstatus . ' - ' . ucfirst($response->error) . '<br />';
+            return $error_data;
         } else {
             return false;
         }
