@@ -10,8 +10,11 @@ use Cookie;
 class AuthController extends Controller {
 
     private $api;
+    private $citcuit;
 
     public function __construct() {
+        $this->citcuit = new CitcuitController();
+
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
         $this->api = Codebird::getInstance();
     }
@@ -21,6 +24,11 @@ class AuthController extends Controller {
             $reply = $this->api->oauth_requestToken([
                 'oauth_callback' => url('signin')
             ]);
+
+            $error = $this->citcuit->parseError($reply, 'Authentication');
+            if ($error) {
+                return view('error', $error);
+            }
 
             Cookie::queue('citcuit_session1', $reply->oauth_token, env('SESSION_LIFETIME'));
             Cookie::queue('citcuit_session2', $reply->oauth_token_secret, env('SESSION_LIFETIME'));
@@ -35,6 +43,11 @@ class AuthController extends Controller {
             $reply = $this->api->oauth_accessToken([
                 'oauth_verifier' => $request->input('oauth_verifier')
             ]);
+
+            $error = $this->citcuit->parseError($reply, 'Authentication');
+            if ($error) {
+                return view('error', $error);
+            }
 
             Cookie::queue('citcuit_session1', $reply->oauth_token, env('SESSION_LIFETIME'));
             Cookie::queue('citcuit_session2', $reply->oauth_token_secret, env('SESSION_LIFETIME'));

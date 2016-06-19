@@ -23,7 +23,7 @@
         <small><img class="action" src="{{ url('assets/img/url.png') }}" alt="Url" />&nbsp;{!! $profile->url !!}</small><br />
     </div>
     <br />
-    <small>{{ $profile->statuses_count }} tweets | <a href="{{ url('following/' . $profile->screen_name) }}">{{ $profile->friends_count }} following</a> | <a href="{{ url('followers/' . $profile->screen_name) }}">{{ $profile->followers_count }} followers</a> | <a href="{{ url('likes/' . $profile->screen_name) }}">{{ $profile->favourites_count }} likes</a></small>
+    <small>{{ $profile->statuses_count }} tweets | @if ($protected) {{ $profile->friends_count }} following @else <a href="{{ url('following/' . $profile->screen_name) }}">{{ $profile->friends_count }} following</a> @endif | @if ($protected) {{ $profile->followers_count }} followers @else <a href="{{ url('followers/' . $profile->screen_name) }}">{{ $profile->followers_count }} followers</a> @endif | @if ($protected) {{ $profile->favourites_count }} likes @else <a href="{{ url('likes/' . $profile->screen_name) }}">{{ $profile->favourites_count }} likes</a> @endif </small>
     <br />
     <br />
     @if ($screen_name != Cookie::get('citcuit_session3'))

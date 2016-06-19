@@ -127,10 +127,13 @@ class APIController extends Controller {
 
         //tweet
         if ($render['profile']->protected && !$render['profile']->following) { // not shown - if user is protected and NOT following
+            $render['protected'] = true;
             $render['timeline'] = '<strong>@' . $screen_name . '\'s Tweets are protected.</strong><br /><br />';
             $render['timeline'] .= 'Only confirmed followers have access to @' . $screen_name . '\'s Tweets and complete profile.<br />';
             $render['timeline'] .= 'Click the "Follow" button to send a follow request.';
         } else {
+            $render['protected'] = false;
+            
             $param = [
                 'screen_name' => $screen_name,
                 'count' => 10,
@@ -760,6 +763,7 @@ class APIController extends Controller {
             $error = $this->citcuit->parseError($result);
             if ($error) {
                 return view('error', $error);
+                break;
             }
 
             $media_ids[] = $result->media_id_string;
