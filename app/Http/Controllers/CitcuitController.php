@@ -287,7 +287,7 @@ class CitcuitController {
                 'description' => NULL,
                 'httpstatus' => $response->httpstatus,
             ];
-           
+
             $error_data['description'] .= $response->httpstatus . ' - ' . ucfirst($response->error) . '<br />';
             return $error_data;
         } else {
@@ -296,6 +296,15 @@ class CitcuitController {
     }
 
     public function parseRateLimit($response) {
+        // sometimes Twitter returning empty rate value, don't know why.
+        if (is_null($response->rate)) {
+            return [
+                'remaining' => '-',
+                'limit' => '-',
+                'reset' => '-',
+            ];
+        }
+        
         $rate_remaining = $response->rate->remaining;
         $rate_limit = $response->rate->limit;
         $rate_reset = Carbon::createFromTimestamp($response->rate->reset, 'UTC')->diffInMinutes(Carbon::now('UTC'));
