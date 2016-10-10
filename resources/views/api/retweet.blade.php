@@ -9,10 +9,10 @@
     <?php
     if (isset($tweet->retweeted_status)) {
         $tweet_original = $tweet;
-        $tweet = $tweet->retweeted_status; // Blade don't support variable declaration yet 
+        $tweet = $tweet->retweeted_status; // Blade don't support variable declaration yet
     }
     ?>
-    <div class="split-left">        
+    <div class="split-left">
         <img src="{{ $tweet->user->profile_image_url_https }}" class="profpic">
     </div>
     <div class="split-right">
@@ -40,7 +40,7 @@
             <a href="{{ url('like/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/like.png') }}" alt="Like" /></a>
             @endif
             &nbsp;&nbsp;<small>{{ $tweet->favorite_count }}</small>
-            @if ($tweet->user->id_str == session('citcuit.oauth.user_id'))
+            @if ($tweet->user->screen_name == session('auth.screen_name'))
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
             <a href="{{ url('delete/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
             @endif
@@ -82,17 +82,22 @@
         <!--retweeted by me-->
         @if ($tweet->retweeted == 1)
         <br />
-        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
+        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('auth.screen_name')) }}">You</a> retweeted</strong></small>
         @endif
         <hr />
         <form method="POST" action="{{ url('retweet_with_comment') }}">
             <textarea id="status" name="tweet" placeholder="Your comment here.."  required></textarea>
             <input type="hidden" name="retweet_link" value="{{ $tweet->citcuit_retweet_link }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            @if (session('auth.facebook_token'))
+            <label><input type="checkbox" name="fb" id="fb" value="yes"> Share to Facebook</label><br />
+            @else
+            <a href="{{ url('settings/facebook') }}">Share to Facebook</a><br />
+            @endif
             <button type="submit">Retweet with comment</button>
         </form>
         <!--we can't retweet our own tweet-->
-        @if (session('citcuit.oauth.screen_name') != $tweet->user->screen_name)
+        @if (session('auth.screen_name') != $tweet->user->screen_name)
         <hr />
         <form method="POST" action="{{ url('retweet') }}">
             <input type="hidden" name="id" value="{{ $tweet->id_str }}">

@@ -39,17 +39,16 @@ class CitcuitController {
     }
 
     public function parseProfile($profile) {
+        $profile->description_nohref = $profile->description;
         if ($profile->description == NULL) {
-            $profile->description_no_href = $profile->description;
             $profile->description = '-';
         } else {
-            $profile->description_no_href = $profile->description;
             if (isset($profile->entities->description->urls) && count($profile->entities->description->urls) != 0) {
                 $urls = $profile->entities->description->urls;
                 foreach ($urls as $url) {
                     $profile->description_original = $profile->description;
                     $profile->description = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->description);
-                    $profile->description_no_href = str_replace($url->url, $url->display_url, $profile->description);
+                    $profile->description_nohref = str_replace($url->url, $url->display_url, $profile->description);
                 }
             }
 
@@ -58,11 +57,14 @@ class CitcuitController {
             $profile->description = $this->parseLinkHttp($profile->description);
             $profile->description = $this->parseLinkUser($profile->description);
         }
+
+        $profile->location_nohref = $profile->location;
         if ($profile->location == NULL) {
             $profile->location = '-';
         }
+
         if ($profile->url == NULL) {
-            $profile->url_no_href = $profile->url;
+            $profile->url_nohref = $profile->url;
             $profile->url = '-';
         } else {
             if (isset($profile->entities->url->urls) && count($profile->entities->url->urls) != 0) {
@@ -73,7 +75,7 @@ class CitcuitController {
                         $url->display_url = $url->url;
                     }
                     $profile->url = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $profile->url);
-                    $profile->url_no_href = $url->display_url;
+                    $profile->url_nohref = $url->display_url;
                 }
             }
         }
@@ -270,7 +272,6 @@ class CitcuitController {
     public function parseError($response, $location = FALSE) {
         if (isset($response->errors)) {
             $error_data = [
-                'title' => 'Error :(',
                 'description' => NULL,
                 'httpstatus' => $response->httpstatus,
             ];
@@ -281,12 +282,38 @@ class CitcuitController {
                 $error_data['description'] .= $response->httpstatus . ' - ' . $error->message . ' (<a href="https://dev.twitter.com/overview/api/response-codes" target="_blank">#' . $error->code . '</a>)<br />';
             }
             return $error_data;
+        } else if (isset($response->error)) { // different return on upload images
+            $error_data = [
+                'description' => NULL,
+                'httpstatus' => $response->httpstatus,
+            ];
+
+            $error_data['description'] .= $response->httpstatus . ' - ' . ucfirst($response->error) . '<br />';
+            return $error_data;
+        } else if ($response->httpstatus == 401) { // sometimes when doing oAuth Twitter return 401 - This feature is temporarily unavailable
+            $error_data = [
+                'description' => NULL,
+                'httpstatus' => 401,
+            ];
+
+            $error_data['description'] .= '401 - ' . ucfirst($response->message) . '<br />';
+            return $error_data;
+   
         } else {
             return false;
         }
     }
 
     public function parseRateLimit($response) {
+        // sometimes Twitter returning empty rate value, don't know why.
+        if (is_null($response->rate)) {
+            return [
+                'remaining' => '-',
+                'limit' => '-',
+                'reset' => '-',
+            ];
+        }
+
         $rate_remaining = $response->rate->remaining;
         $rate_limit = $response->rate->limit;
         $rate_reset = Carbon::createFromTimestamp($response->rate->reset, 'UTC')->diffInMinutes(Carbon::now('UTC'));
@@ -308,6 +335,8 @@ class CitcuitController {
             $result->next_cursor_str = $content->next_cursor_str;
             $result->previous_cursor_str = $content->previous_cursor_str;
             $content = (array) $content->users;
+        } else if ($type == 'search_user') {
+            $content = (array) $content;
         } else {
             $content = (array) $content;
             $max_id = NULL;
@@ -333,6 +362,7 @@ class CitcuitController {
                     $max_id = $content[$i]->id_str;
                     break;
                 case 'profile':
+                case 'search_user':
                     $content[$i] = $this->parseProfile($content[$i]);
                     break;
                 default:

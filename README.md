@@ -1,57 +1,27 @@
-# CitCuit
+# Laravel PHP Framework
 
-CitCuit is a mobile Twitter client, alternative of official [mobile.twitter.com](https://mobile.twitter.com) website. 
+[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-Secure, slim, fast, lightweight, no ads, no database and of course it's open-sourced!
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-Built with [Lumen](https://lumen.laravel.com) micro-framework by [Laravel](https://laravel.com).
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-Made with :heart: by [@dodyags](https://twitter.com/dodyags). Made with :heart: in Indonesia.
+## Official Documentation
 
-## Live Website
+Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-Go to [citcuit.in/v2](https://citcuit.in/v2) and sign-in with your Twitter account.
-
-## Requirements
-
-* PHP >= 5.5.9
-* OpenSSL PHP Extension
-* Mbstring PHP Extension
-* Tokenizer PHP Extension
-
-## Installation
-
-1. Run `composer create-project dodyagung/citcuit your-project-name`
-2. Rename `.env.example` to `.env` 
-3. Edit the `.env` file according your config needs
-4. Run the application via your favorite browser
- 
 ## Contributing
 
-Thanks for your desire to help us. Please read our [contributing guide](https://github.com/dodyagung/citcuit/blob/develop/CONTRIBUTING.md) first. 
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Versioning
+## Security Vulnerabilities
 
-CitCuit is maintained under [Semantic Versioning](http://semver.org) guide with `<major>.<minor>.<patch>` format :
-* `major`: breaks backward compatibility (resets the `minor` and `patch`)
-* `minor`: new additions with backward compatibility (resets the `patch`)
-* `patch`: bug fixes and misc changes
-
-## Behind the Scene
-
-Official account
-* Twitter : [https://twitter.com/citcuit_in](https://twitter.com/citcuit_in)
-* Facebook : [https://facebook.com/citcuit.in](https://fb.me/citcuit.in)
-
-Founder & author (Dody Agung Saputro)
-* Email : [hello@dodyagung.com](mailto:hello@dodyagung.com)
-* Website : [https://dodyagung.com](https://dodyagung.com)
-* Twitter : [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)
-* GitHub : [https://github.com/dodyagung](https://github.com/dodyagung)
-
-Logo designer (Ridvandani Dwi P.A)
-* Facebook : [https://facebook.com/ridvan.aji](https://fb.me/ridvan.aji)
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
 ## License
 
-CitCuit is open-sourced and licensed under [MIT license](https://github.com/dodyagung/citcuit/blob/develop/LICENSE.md).
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

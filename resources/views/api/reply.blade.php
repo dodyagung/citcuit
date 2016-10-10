@@ -9,10 +9,10 @@
     <?php
     if (isset($tweet->retweeted_status)) {
         $tweet_original = $tweet;
-        $tweet = $tweet->retweeted_status; // Blade don't support variable declaration yet 
+        $tweet = $tweet->retweeted_status; // Blade don't support variable declaration yet
     }
     ?>
-    <div class="split-left">        
+    <div class="split-left">
         <img src="{{ $tweet->user->profile_image_url_https }}" class="profpic">
     </div>
     <div class="split-right">
@@ -40,7 +40,7 @@
             <a href="{{ url('like/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/like.png') }}" alt="Like" /></a>
             @endif
             &nbsp;&nbsp;<small>{{ $tweet->favorite_count }}</small>
-            @if ($tweet->user->id_str == session('citcuit.oauth.user_id'))
+            @if ($tweet->user->screen_name == session('auth.screen_name'))
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
             <a href="{{ url('delete/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
             @endif
@@ -88,6 +88,11 @@
             <textarea id="status" name="tweet" required>{{ $tweet->reply_destination }}</textarea>
             <input type="hidden" name="in_reply_to_status_id" value="{{ $tweet->id_str }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            @if (session('auth.facebook_token'))
+            <label><input type="checkbox" name="fb" id="fb" value="yes"> Share to Facebook</label><br />
+            @else
+            <a href="{{ url('settings/facebook') }}">Share to Facebook</a><br />
+            @endif
             <button type="submit">Reply to {{ '@' . $tweet->user->screen_name }}</button>
         </form>
     </div>

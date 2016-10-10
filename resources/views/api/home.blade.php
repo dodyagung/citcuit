@@ -53,7 +53,7 @@
             <a href="{{ url('like/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/like.png') }}" alt="Like" /></a>
             @endif
             &nbsp;&nbsp;<small>{{ $tweet->favorite_count }}</small>
-            @if ($tweet->user->id_str == session('citcuit.oauth.user_id'))
+            @if ($tweet->user->screen_name == session('auth.screen_name'))
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
             <a href="{{ url('delete/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
             @endif
@@ -94,7 +94,7 @@
         <!--retweeted by me-->
         @if ($tweet->retweeted == 1)
         <br />
-        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
+        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('auth.screen_name')) }}">You</a> retweeted</strong></small>
         @endif
     </div>
 </section>

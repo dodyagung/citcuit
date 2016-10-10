@@ -12,10 +12,10 @@
     <?php
     if (isset($tweet->retweeted_status)) {
         $tweet_original = $tweet;
-        $tweet = $tweet->retweeted_status; // Blade don't support variable declaration yet 
+        $tweet = $tweet->retweeted_status; // Blade don't support variable declaration yet
     }
     ?>
-    <div class="split-left">        
+    <div class="split-left">
         <img src="{{ $tweet->user->profile_image_url_https }}" class="profpic">
     </div>
     <div class="split-right">
@@ -43,13 +43,13 @@
             <a href="{{ url('like/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/like.png') }}" alt="Like" /></a>
             @endif
             &nbsp;&nbsp;<small>{{ $tweet->favorite_count }}</small>
-            @if ($tweet->user->id_str == session('citcuit.oauth.user_id'))
+            @if ($tweet->user->screen_name == session('auth.screen_name'))
             &nbsp;&nbsp;&nbsp;&bullet;&nbsp;&nbsp;&nbsp;
             <a href="{{ url('delete/' . $tweet->id_str) }}"><img class="action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
             @endif
         </span><br />
         {!! $tweet->text !!}<br />
-        @if (isset($tweet->citcuit_media))        
+        @if (isset($tweet->citcuit_media))
         @foreach ($tweet->citcuit_media as $media)
         {!! $media !!}
         @endforeach
@@ -79,7 +79,7 @@
         <!--retweeted by me-->
         @if ($tweet->retweeted == 1)
         <br />
-        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('citcuit.oauth.screen_name')) }}">You</a> retweeted</strong></small>
+        <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('auth.screen_name')) }}">You</a> retweeted</strong></small>
         <hr />
         <form method="POST" action="{{ url('unretweet') }}">
             <input type="hidden" name="id" value="{{ $tweet->current_user_retweet->id_str }}">

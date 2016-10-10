@@ -15,12 +15,12 @@
     <br />
     Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; in Indonesia.<br />
     <br />
-    <strong id="official">Official Account</strong><br />
+    <strong id="official">Contact Us</strong><br />
     Join our official account to stay connected and updated.<br />
     Found an error? Have a question? Just contact our official account below.<br />
     <ul>
         <li>
-            Twitter : <a href="@if (session('citcuit.oauth')) {{ url('user/citcuit_in') }} @else https://twitter.com/citcuit_in @endif" target="_blank">https://twitter.com/citcuit_in</a>
+            Twitter : <a href="@if (session('auth')) {{ url('user/citcuit_in') }} @else https://twitter.com/citcuit_in @endif" target="_blank">https://twitter.com/citcuit_in</a>
         </li>
         <li>
             Facebook : <a href="https://fb.me/citcuit.in" target="_blank">https://facebook.com/citcuit.in</a><br />
