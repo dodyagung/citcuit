@@ -290,6 +290,15 @@ class CitcuitController {
 
             $error_data['description'] .= $response->httpstatus . ' - ' . ucfirst($response->error) . '<br />';
             return $error_data;
+        } else if ($response->httpstatus == 401) { // sometimes when doing oAuth Twitter return 401 - This feature is temporarily unavailable
+            $error_data = [
+                'description' => NULL,
+                'httpstatus' => 401,
+            ];
+
+            $error_data['description'] .= '401 - ' . ucfirst($response->message) . '<br />';
+            return $error_data;
+   
         } else {
             return false;
         }
@@ -304,7 +313,7 @@ class CitcuitController {
                 'reset' => '-',
             ];
         }
-        
+
         $rate_remaining = $response->rate->remaining;
         $rate_limit = $response->rate->limit;
         $rate_reset = Carbon::createFromTimestamp($response->rate->reset, 'UTC')->diffInMinutes(Carbon::now('UTC'));

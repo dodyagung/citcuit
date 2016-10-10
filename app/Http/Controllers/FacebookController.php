@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Lumen\Routing\Controller;
 use SammyK\LaravelFacebookSdk\LaravelFacebookSdk;
 use Cookie;
 
@@ -15,17 +14,17 @@ class FacebookController extends Controller {
     }
 
     private function saveToken($token) {
-        Cookie::queue('citcuit_session4', (string) $token, env('SESSION_LIFETIME'));
+        session(['auth.facebook_token' => (string) $token]);
         $this->fb->setDefaultAccessToken($token);
     }
 
     public function loadToken() {
-        $token = Cookie::get('citcuit_session4');
+        $token = session('auth.facebook_token');
         $this->fb->setDefaultAccessToken($token);
     }
 
     public function checkToken() {
-        if (Cookie::get('citcuit_session4')) {
+        if (session('auth.facebook_token')) {
             return true;
         }
         return false;
@@ -43,7 +42,7 @@ class FacebookController extends Controller {
         ];
         $this->fb->post('/me/feed', $data);
     }
-    
+
     public function postImage($message, $images) {
         $batch = [];
         $no = 1;
@@ -55,7 +54,7 @@ class FacebookController extends Controller {
             ]);
             $no++;
         }
-        
+
         $this->fb->sendBatchRequest($batch);
     }
 
@@ -72,7 +71,7 @@ class FacebookController extends Controller {
     }
 
     public function logout() {
-        Cookie::queue(Cookie::forget('citcuit_session4'));
+        session(['auth.facebook_token' => NULL]);
     }
 
 }

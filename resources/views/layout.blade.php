@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags. Made with <3 in Indonesia.">
+        <meta name="description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags in Indonesia.">
         <meta name="keywords" content="citcuit, twitter, mobile, client, indonesia, secure, slim, fast, no database, no ads, open source">
         <meta name="author" content="dodyagung.com">
         <!--Facebook Meta-->
-        <meta property="og:url" content="{{ app('url')->current() }}" />
+        <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:site_name" content="CitCuit" />
-        <meta property="og:title" content="@yield('title') - CitCuit {{ env('APP_VERSION') }}" />
-        <meta property="og:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags. Made with <3 in Indonesia." />
+        <meta property="og:title" content="@yield('title') - CitCuit" />
+        <meta property="og:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags in Indonesia." />
         <meta property="og:image" content="{{ url('assets/img/logo_square.png') }}" />
         <meta property="fb:app_id" content="132082170210911" />
         <!--Twitter Meta-->
@@ -20,12 +20,12 @@
         <meta name="twitter:site:id" content="722402114614333440" />
         <meta name="twitter:creator" content="@dodyags" />
         <meta name="twitter:creator:id" content="70055176" />
-        <meta name="twitter:title" content="@yield('title') - CitCuit {{ env('APP_VERSION') }}" />
-        <meta name="twitter:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags. Made with <3 in Indonesia." />
+        <meta name="twitter:title" content="@yield('title') - CitCuit" />
+        <meta name="twitter:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Lumen by Laravel. Made with <3 by @dodyags in Indonesia." />
         <meta name="twitter:image" content="{{ url('assets/img/logo_square.png') }}" />
         <meta name="twitter:image:alt" content="CitCuit Logo" />
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
-        <title>@yield('title') - CitCuit {{ env('APP_VERSION') }}</title>
+        <title>@yield('title') - CitCuit</title>
         <link href="{{ url('assets/css/normalize.css') }}" rel="stylesheet">
         <link href="{{ url('assets/css/citcuit.css') }}" rel="stylesheet">
     </head>
@@ -33,11 +33,11 @@
         <a id="top"></a>
         <!--header-->
         <header>
-            @if (Cookie::get('citcuit_session3')) <a href="{{ url('user/' . Cookie::get('citcuit_session3')) }}">{{ '@' . Cookie::get('citcuit_session3') }}</a> - @endif CitCuit {{ env('APP_VERSION') }}
+            @if (session('auth')) <a href="{{ url('user/' . session('auth.screen_name')) }}">{{ '@' . session('auth.screen_name') }}</a> - @endif CitCuit
         </header>
         <!--nav-top-->
         <nav class="menu">
-            @if (Cookie::get('citcuit_session1'))
+            @if (session('auth'))
             @include('api.@nav_top')
             @else
             @include('non_api.@nav_top')
@@ -45,14 +45,20 @@
         </nav>
         <!--content-->
         <article>
-            @if (env('ALERT_INFO'))
-            @include('api.@alert')
-            @endif
-            @yield('content')    
+            <section>
+                <div class="alert info">
+                    @if (env('ALERT_INFO'))
+                    {!! env('ALERT_INFO') !!}
+                    @else
+                    Welcome to CitCuit!
+                    @endif
+                </div>
+            </section>
+            @yield('content')
         </article>
         <!--nav-bottom-->
         <nav class="menu">
-            @if (Cookie::get('citcuit_session1'))
+            @if (session('auth'))
             @include('api.@nav_bottom')
             @else
             @include('non_api.@nav_bottom')
