@@ -31,12 +31,11 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-		if (!app()->isLocal() && $this->shouldReport($exception)) {
-			app('sentry')->captureException($exception);
-		} else {
-			parent::report($exception);
-		}
-        
+        if (!is_null(env('SENTRY_DSN')) && env('SENTRY_DSN') != '' && !app()->isLocal() && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        } else {
+            parent::report($exception);
+        }
     }
 
     /**
@@ -48,8 +47,8 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
-    {		
-		return parent::render($request, $exception);
+    {
+        return parent::render($request, $exception);
     }
 
     /**

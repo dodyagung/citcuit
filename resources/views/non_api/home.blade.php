@@ -13,7 +13,7 @@
     CitCuit is a mobile Twitter client, alternative of official <a href="https://mobile.twitter.com" target="_blank">mobile.twitter.com</a> website.<br />
     Secure, slim, fast, no ads, no database and of course we're <a href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>!<br />
     <br />
-    Built with <a href="https://lumen.laravel.com" target="_blank">Lumen</a> micro-framework by <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; in Indonesia.<br />
+    Built with <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; in Jakarta, Indonesia.<br />
     <br />
     <a href="{{ url('signin') }}" class="noline">
         <img src="{{ url('assets/img/signin.png') }}" alt="Sign in with Twitter" />
