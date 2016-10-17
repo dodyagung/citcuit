@@ -51,7 +51,7 @@ Official account
 
 Founder & author (Dody Agung Saputro)
 * Website : [https://dodyagung.com](https://dodyagung.com)
-* Twitter : [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)]
+* Twitter : [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)
 
 Logo designer (Ridvandani Dwi P.A)
 * Facebook : [https://facebook.com/ridvan.aji](https://fb.me/ridvan.aji)
