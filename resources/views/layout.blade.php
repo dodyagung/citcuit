@@ -47,8 +47,8 @@
         <article>
             <section>
                 <div class="alert info">
-                    @if (env('ALERT_INFO'))
-                    {!! env('ALERT_INFO') !!}
+                    @if (env('APP_ALERT'))
+                    {!! env('APP_ALERT') !!}
                     @else
                     Welcome to CitCuit!
                     @endif
