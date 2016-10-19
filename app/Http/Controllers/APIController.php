@@ -673,8 +673,6 @@ class APIController extends Controller
 
     public function getSettingsGeneral(Request $request)
     {
-        $settings = session('auth.settings');
-
         $render = [
             'settings' => [
                 'header_image' => $this->citcuit->parseSetting('header_image'),
