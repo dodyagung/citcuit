@@ -28,7 +28,7 @@ class APIController extends Controller
     public function getHome(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -82,7 +82,7 @@ class APIController extends Controller
     public function getMentions(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -115,6 +115,7 @@ class APIController extends Controller
         $render = [
             'screen_name' => $screen_name,
         ];
+
         $render['rate'] = [];
 
         //user
@@ -142,7 +143,7 @@ class APIController extends Controller
 
             $param = [
                 'screen_name' => $screen_name,
-                'count' => 10,
+                'count' => $this->citcuit->parseSetting('tweets_per_page'),
             ];
             if ($max_id) {
                 $param['max_id'] = $max_id;
@@ -162,6 +163,10 @@ class APIController extends Controller
             } else {
                 $render['timeline'] = '@'.$screen_name.' hasn\'t tweeted yet.';
             }
+
+            $render['setting'] = [
+                'header_image' => $this->citcuit->parseSetting('header_image'),
+            ];
         }
 
         return view($this->view_prefix.'user', $render);
@@ -406,7 +411,7 @@ class APIController extends Controller
     public function getMessages(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -437,7 +442,7 @@ class APIController extends Controller
     public function getMessagesSent(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -567,7 +572,7 @@ class APIController extends Controller
             return view($this->view_prefix.'search', $render);
         } else {
             $param = [
-                'count' => 10,
+                'count' => $this->citcuit->parseSetting('tweets_per_page'),
                 'q' => $q,
                 'result_type' => $result_type,
             ];
@@ -610,7 +615,7 @@ class APIController extends Controller
             return view($this->view_prefix.'search_user', $render);
         } else {
             $param = [
-                'count' => 10,
+                'count' => $this->citcuit->parseSetting('tweets_per_page'),
                 'q' => $q,
             ];
 
@@ -664,6 +669,32 @@ class APIController extends Controller
         $render = [];
 
         return view($this->view_prefix.'settings', $render);
+    }
+
+    public function getSettingsGeneral(Request $request)
+    {
+        $settings = session('auth.settings');
+
+        $render = [
+            'settings' => [
+                'header_image' => $this->citcuit->parseSetting('header_image'),
+                'tweets_per_page' => $this->citcuit->parseSetting('tweets_per_page'),
+            ],
+        ];
+
+        return view($this->view_prefix.'settings_general', $render);
+    }
+
+    public function postSettingsGeneral(Request $request)
+    {
+        session([
+            'auth.settings.header_image' => $request->header_image,
+            'auth.settings.tweets_per_page' => $request->tweets_per_page,
+        ]);
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'General setting updated!');
     }
 
     public function getSettingsProfile(Request $request)
@@ -897,7 +928,7 @@ class APIController extends Controller
     {
         $param = [
             'screen_name' => $screen_name,
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($cursor) {
             $param['cursor'] = $cursor;
@@ -930,7 +961,7 @@ class APIController extends Controller
     {
         $param = [
             'screen_name' => $screen_name,
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($cursor) {
             $param['cursor'] = $cursor;
@@ -962,7 +993,7 @@ class APIController extends Controller
     public function getLikes(Request $request, $screen_name, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
             'screen_name' => $screen_name,
         ];
         if ($max_id) {

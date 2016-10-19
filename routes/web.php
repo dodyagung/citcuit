@@ -64,6 +64,8 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
     Route::get('search/user', 'APIController@getSearchUser');
 
     Route::get('settings', 'APIController@getSettings');
+    Route::get('settings/general', 'APIController@getSettingsGeneral');
+    Route::post('settings/general', 'APIController@postSettingsGeneral');
     Route::get('settings/profile', 'APIController@getSettingsProfile');
     Route::post('settings/profile', 'APIController@postSettingsProfile');
     Route::get('settings/profile_image', 'APIController@getSettingsProfileImage');
