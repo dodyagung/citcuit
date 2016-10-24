@@ -163,11 +163,11 @@ class APIController extends Controller
             } else {
                 $render['timeline'] = '@'.$screen_name.' hasn\'t tweeted yet.';
             }
-
-            $render['setting'] = [
-                'header_image' => $this->citcuit->parseSetting('header_image'),
-            ];
         }
+
+        $render['setting'] = [
+            'header_image' => $this->citcuit->parseSetting('header_image'),
+        ];
 
         return view($this->view_prefix.'user', $render);
     }
