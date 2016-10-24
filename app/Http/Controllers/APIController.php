@@ -16,7 +16,10 @@ class APIController extends Controller
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
 
         $this->citcuit = new CitcuitController();
+
         $this->api = Codebird::getInstance();
+        $this->api->setConnectionTimeout(env('TWITTER_CONNECTION_TIME'), 3000);
+        $this->api->setTimeout(env('TWITTER_TIMEOUT'), 10000);
 
         $this->middleware(function ($request, $next) {
             $this->api->setToken(session('auth.oauth_token'), session('auth.oauth_token_secret'));

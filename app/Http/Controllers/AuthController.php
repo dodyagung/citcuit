@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Codebird\Codebird;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -16,7 +15,10 @@ class AuthController extends Controller
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
 
         $this->citcuit = new CitcuitController();
+
         $this->api = Codebird::getInstance();
+        $this->api->setConnectionTimeout(env('TWITTER_CONNECTION_TIME'), 3000);
+        $this->api->setTimeout(env('TWITTER_TIMEOUT'), 10000);
     }
 
     public function getSignIn(Request $request)
