@@ -804,6 +804,60 @@ class APIController extends Controller
                         ->with('success', 'Profile image updated!');
     }
 
+    public function getSettingsProfileHeader(Request $request)
+    {
+        $param = [
+            'screen_name' => session('auth.screen_name'),
+        ];
+        $result = $this->api->users_show($param);
+
+        $error = $this->citcuit->parseError($result, 'Edit Profile Header');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Profile' => $this->citcuit->parseRateLimit($result),
+            ],
+            'profile' => $this->citcuit->parseProfile($result),
+        ];
+
+        return view($this->view_prefix.'settings_profile_header', $render);
+    }
+
+    public function getSettingsProfileHeaderRemove(Request $request)
+    {
+        $result = $this->api->account_removeProfileBanner();
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'Profile header removed!');
+    }
+
+    public function postSettingsProfileHeader(Request $request)
+    {
+        $param = [
+            'banner' => $request->image,
+        ];
+
+        $result = $this->api->account_updateProfileBanner($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'Profile header updated!');
+    }
+
     public function getSettingsFacebookLogin(Request $request)
     {
         $fb = new FacebookController();

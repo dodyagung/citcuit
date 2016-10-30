@@ -71,6 +71,9 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
     Route::post('settings/profile', 'APIController@postSettingsProfile');
     Route::get('settings/profile_image', 'APIController@getSettingsProfileImage');
     Route::post('settings/profile_image', 'APIController@postSettingsProfileImage');
+    Route::get('settings/profile_header', 'APIController@getSettingsProfileHeader');
+    Route::post('settings/profile_header', 'APIController@postSettingsProfileHeader');
+    Route::get('settings/profile_header/remove', 'APIController@getSettingsProfileHeaderRemove');
     Route::get('settings/facebook', 'APIController@getSettingsFacebook');
     Route::get('settings/facebook/login', 'APIController@getSettingsFacebookLogin');
     Route::get('settings/facebook/logout', 'APIController@getSettingsFacebookLogout');
