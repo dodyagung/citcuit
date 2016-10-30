@@ -28,6 +28,16 @@
                 <option value="{{ $i }}" @if($settings['tweets_per_page'] == $i) selected @endif >{{ $i }}</option>
             @endfor
         </select>
+        Auto refresh :<br />
+        <select name="auto_refresh">
+            @for ($i = 0; $i <= 300; $i = $i + 30)
+                @if ($i == 0)
+                <option value="{{ $i }}" @if($settings['auto_refresh'] == $i) selected @endif >Disable</option>
+                @else
+                <option value="{{ $i }}" @if($settings['auto_refresh'] == $i) selected @endif >Every {{ $i/60 }} minutes</option>
+                @endif
+            @endfor
+        </select>
         {{ csrf_field() }}
         <button type="submit">Update</button>
     </form>
