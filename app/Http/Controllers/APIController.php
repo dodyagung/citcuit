@@ -789,7 +789,7 @@ class APIController extends Controller
     public function postSettingsProfileImage(Request $request)
     {
         $param = [
-            'image' => $request->file('image'),
+            'image' => $request->image,
         ];
 
         $result = $this->api->account_updateProfileImage($param);
