@@ -70,8 +70,8 @@ class FacebookController extends Controller {
         $this->saveToken($token);
     }
 
-    public function logout() {
-        session(['auth.facebook_token' => NULL]);
+    public function logout($request) {
+        $request->session()->forget('auth.facebook_token');
     }
 
 }

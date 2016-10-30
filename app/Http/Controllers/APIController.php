@@ -820,7 +820,7 @@ class APIController extends Controller
     public function getSettingsFacebookLogout(Request $request)
     {
         $fb = new FacebookController();
-        $fb->logout();
+        $fb->logout($request);
 
         return redirect('settings/facebook');
     }
