@@ -88,7 +88,7 @@
         <form method="POST" action="{{ url('retweet_with_comment') }}">
             <textarea id="status" name="tweet" placeholder="Your comment here.."  required></textarea>
             <input type="hidden" name="retweet_link" value="{{ $tweet->citcuit_retweet_link }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            {{ csrf_field() }}
             @if (session('auth.facebook_token'))
             <label><input type="checkbox" name="fb" id="fb" value="yes"> Share to Facebook</label><br />
             @else
@@ -101,7 +101,7 @@
         <hr />
         <form method="POST" action="{{ url('retweet') }}">
             <input type="hidden" name="id" value="{{ $tweet->id_str }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            {{ csrf_field() }}
             <button type="submit">Or, just retweet it</button>
         </form>
         @endif

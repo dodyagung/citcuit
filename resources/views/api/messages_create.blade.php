@@ -25,7 +25,7 @@
         Message to {{ '@' . $screen_name }} :<br />
         @endif
         <textarea name="text" required></textarea>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
         <button type="submit">Message</button>
     </form>
 </section>

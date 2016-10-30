@@ -25,7 +25,7 @@
         <input type="text" name="location" value="{{ $profile->location_nohref }}">
         Description (max 160 chars) :<br />
         <textarea name="description">{{ $profile->description_nohref }}</textarea>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
         <button type="submit">Save</button>
     </form>
 </section>

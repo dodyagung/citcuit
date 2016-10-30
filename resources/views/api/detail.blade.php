@@ -83,7 +83,7 @@
         <hr />
         <form method="POST" action="{{ url('unretweet') }}">
             <input type="hidden" name="id" value="{{ $tweet->current_user_retweet->id_str }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            {{ csrf_field() }}
             <button type="submit">Unretweet</button>
         </form>
         @endif

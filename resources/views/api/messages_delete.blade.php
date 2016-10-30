@@ -34,7 +34,7 @@
         <hr />
         <form method="POST" action="{{ url('messages/delete') }}">
             <input type="hidden" name="id" value="{{ $message->id_str }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            {{ csrf_field() }}
             <button type="submit">Delete this message</button>
         </form>
     </div>

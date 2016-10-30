@@ -87,7 +87,7 @@
         <form method="POST" action="{{ url('reply') }}">
             <textarea id="status" name="tweet" required>{{ $tweet->reply_destination }}</textarea>
             <input type="hidden" name="in_reply_to_status_id" value="{{ $tweet->id_str }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            {{ csrf_field() }}
             @if (session('auth.facebook_token'))
             <label><input type="checkbox" name="fb" id="fb" value="yes"> Share to Facebook</label><br />
             @else

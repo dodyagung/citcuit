@@ -30,7 +30,7 @@
         <input type="file" name="image" required>
         <br />
         <br />
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
         <button type="submit">Save</button>
         <br />
         <br />

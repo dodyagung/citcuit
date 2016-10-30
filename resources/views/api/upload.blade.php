@@ -37,7 +37,7 @@
         @else
         <a href="{{ url('settings/facebook') }}">Share to Facebook</a><br />
         @endif
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
         <button type="submit">Tweet</button>
     </form>
 </section>
