@@ -174,6 +174,7 @@ class APIController extends Controller
 
         $render['setting'] = [
             'header_image' => $this->citcuit->parseSetting('header_image'),
+            'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
         ];
 
         return view($this->view_prefix.'user', $render);
