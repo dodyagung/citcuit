@@ -687,6 +687,15 @@ class APIController extends Controller
         return view($this->view_prefix.'settings', $render);
     }
 
+    public function getSettingsGeneralReset(Request $request)
+    {
+        $request->session()->forget('auth.settings');
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'General setting reseted!');
+    }
+
     public function getSettingsGeneral(Request $request)
     {
         $render = [

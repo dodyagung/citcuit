@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
 
     Route::get('settings', 'APIController@getSettings');
     Route::get('settings/general', 'APIController@getSettingsGeneral');
+    Route::get('settings/general/reset', 'APIController@getSettingsGeneralReset');
     Route::post('settings/general', 'APIController@postSettingsGeneral');
     Route::get('settings/profile', 'APIController@getSettingsProfile');
     Route::post('settings/profile', 'APIController@postSettingsProfile');

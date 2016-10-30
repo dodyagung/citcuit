@@ -40,6 +40,9 @@
         </select>
         {{ csrf_field() }}
         <button type="submit">Update</button>
+        <br />
+        <br />
+        <small><a href="{{ url('settings/general/reset') }}">Click here</a> to reset all of your settings to default.</small>
     </form>
 </section>
 @endsection
