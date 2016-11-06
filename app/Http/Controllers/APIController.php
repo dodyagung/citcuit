@@ -56,8 +56,6 @@ class APIController extends Controller
             $render['timeline'] = 'Your timeline is currently empty. Follow people and topics you find interesting to see their Tweets in your timeline.';
         }
 
-        $render['setting']['auto_refresh'] = $this->citcuit->parseSetting('auto_refresh');
-
         return view($this->view_prefix.'home', $render);
     }
 
@@ -111,8 +109,6 @@ class APIController extends Controller
         } else {
             $render['timeline'] = 'Your mentions is currently empty. Get it here when people interact with you.';
         }
-
-        $render['setting']['auto_refresh'] = $this->citcuit->parseSetting('auto_refresh');
 
         return view($this->view_prefix.'mentions', $render);
     }
@@ -173,8 +169,7 @@ class APIController extends Controller
         }
 
         $render['setting'] = [
-            'header_image' => $this->citcuit->parseSetting('header_image'),
-            'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
+            'header_image' => $this->citcuit->parseSetting('header_image')
         ];
 
         return view($this->view_prefix.'user', $render);
@@ -444,8 +439,6 @@ class APIController extends Controller
             $render['timeline'] = 'You don\'t have any incoming messages yet.';
         }
 
-        $render['setting']['auto_refresh'] = $this->citcuit->parseSetting('auto_refresh');
-
         return view($this->view_prefix.'messages', $render);
     }
 
@@ -476,8 +469,6 @@ class APIController extends Controller
         } else {
             $render['timeline'] = 'You don\'t have any sent messages yet.';
         }
-
-        $render['setting']['auto_refresh'] = $this->citcuit->parseSetting('auto_refresh');
 
         return view($this->view_prefix.'messages_sent', $render);
     }
@@ -612,8 +603,6 @@ class APIController extends Controller
                 $render['timeline'] = 'No results.';
             }
 
-            $render['setting']['auto_refresh'] = $this->citcuit->parseSetting('auto_refresh');
-
             return view($this->view_prefix.'search', $render);
         }
     }
@@ -673,8 +662,6 @@ class APIController extends Controller
                 $render['page_next'] = $page + 1;
                 $render['page_prev'] = $page - 1;
             }
-
-            $render['setting']['auto_refresh'] = $this->citcuit->parseSetting('auto_refresh');
 
             return view($this->view_prefix.'search_user', $render);
         }
