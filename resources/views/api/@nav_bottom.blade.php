@@ -1,3 +1,4 @@
+<strong>{{ $global_time }}</strong> | 
 <a href="#top">[&uarr;] Top</a> |
 <a href="{{ url('trends') }}">Trends</a> |
 <a href="{{ url('settings') }}">Settings</a> |
