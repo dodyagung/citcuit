@@ -131,7 +131,7 @@ class CitcuitController
         }
 
         //created at
-        $timeTweet = Carbon::createFromTimestamp(strtotime($tweet->created_at));
+        $timeTweet = Carbon::createFromTimestamp(strtotime($tweet->created_at), $this->parseSetting('timezone'));
         $tweet->created_at_original = $timeTweet->format('H:i \\- j M Y');
         $tweet->created_at = $timeTweet->diffForHumans();
 
@@ -237,7 +237,7 @@ class CitcuitController
     public function parseMessage($message)
     {
         //created at
-        $timeTweet = Carbon::createFromTimestamp(strtotime($message->created_at));
+        $timeTweet = Carbon::createFromTimestamp(strtotime($message->created_at), $this->parseSetting('timezone'));
         $message->created_at_original = $timeTweet->format('H:i \\- j M Y');
         $message->created_at = $timeTweet->diffForHumans();
 
@@ -356,7 +356,7 @@ class CitcuitController
 
         $rate_remaining = $response->rate->remaining;
         $rate_limit = $response->rate->limit;
-        $rate_reset = Carbon::createFromTimestamp($response->rate->reset, 'UTC')->diffInMinutes(Carbon::now('UTC'));
+        $rate_reset = Carbon::createFromTimestamp($response->rate->reset, $this->parseSetting('timezone'))->diffInMinutes(Carbon::now($this->parseSetting('timezone')));
 
         return [
             'remaining' => $rate_remaining,
