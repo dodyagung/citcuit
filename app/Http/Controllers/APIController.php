@@ -692,6 +692,7 @@ class APIController extends Controller
                 'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
                 'timezone' => $this->citcuit->parseSetting('timezone'),
             ],
+            'timezone' => $this->citcuit->parseTimeZone(),
         ];
 
         return view($this->view_prefix.'settings_general', $render);

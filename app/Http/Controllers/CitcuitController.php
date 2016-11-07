@@ -6,6 +6,17 @@ use Carbon\Carbon;
 
 class CitcuitController
 {
+    public function parseTimeZone()
+    {
+        $zones_array = [];
+        foreach (timezone_identifiers_list() as $key => $zone) {
+            $zones_array[$key]['zone'] = $zone;
+            $zones_array[$key]['time'] = Carbon::now($zone)->format('H:i');
+            $zones_array[$key]['diff'] = 'UTC'.sprintf('%+d', Carbon::now($zone)->offset / 3600);
+        }
+
+        return $zones_array;
+    }
     public function parseSetting($setting_id)
     {
         $setting_default = config('citcuit.settings');
