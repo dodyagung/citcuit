@@ -690,6 +690,7 @@ class APIController extends Controller
                 'header_image' => $this->citcuit->parseSetting('header_image'),
                 'tweets_per_page' => $this->citcuit->parseSetting('tweets_per_page'),
                 'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
+                'timezone' => $this->citcuit->parseSetting('timezone'),
             ],
         ];
 
@@ -702,6 +703,7 @@ class APIController extends Controller
             'auth.settings.header_image' => $request->header_image,
             'auth.settings.tweets_per_page' => $request->tweets_per_page,
             'auth.settings.auto_refresh' => $request->auto_refresh,
+            'auth.settings.timezone' => $request->timezone,
         ]);
 
         return redirect()

@@ -38,6 +38,12 @@
                 @endif
             @endfor
         </select>
+        Timezone:<br />
+        <select name="timezone">
+            @foreach($timezone as $value)
+                <option value="{{ $value['zone'] }}" @if($settings['timezone'] == $value['zone']) selected @endif >{{ $value['zone'] }} - {{ $value['time'] }} ({{ $value['diff'] }})</option>
+            @endforeach
+        </select>
         {{ csrf_field() }}
         <button type="submit">Update</button>
         <br />
