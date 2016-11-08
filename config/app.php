@@ -167,8 +167,6 @@ return [
          * Package Service Providers...
          */
 
-        //
-
         /*
          * Application Service Providers...
          */
@@ -183,7 +181,8 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
-		Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
 
     ],
 
@@ -232,11 +231,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		
-		/*
-		 * Custom by Dody
-		 */
-		// 'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
+
+        /*
+         * Custom by Dody
+         */
+        // 'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
 
     ],
 
