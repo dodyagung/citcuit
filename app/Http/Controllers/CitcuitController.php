@@ -192,10 +192,10 @@ class CitcuitController
             foreach ($medias as $media) {
                 if (isset($media->video_info)) {
                     $tweet->citcuit_media = [];
-                    $video_bitrate = PHP_INT_MAX;
+                    $video_bitrate = 0;
                     $video_url = null;
                     foreach ($media->video_info->variants as $video) {
-                        if (isset($video->bitrate) && $video->bitrate < $video_bitrate) {
+                        if (isset($video->bitrate) && $video->bitrate > $video_bitrate) {
                             $video_bitrate = $video->bitrate;
                             $video_url = $video->url;
                         }
