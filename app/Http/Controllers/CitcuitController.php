@@ -22,7 +22,7 @@ class CitcuitController
         $setting_default = config('citcuit.settings');
         $setting_session = session('auth.settings');
 
-        if (is_null($setting_session[$setting_id])) {
+        if (!isset($setting_session[$setting_id]) || is_null($setting_session[$setting_id])) {
             $result = $setting_default[$setting_id];
         } else {
             $result = $setting_session[$setting_id];
