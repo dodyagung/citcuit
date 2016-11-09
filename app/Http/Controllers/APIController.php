@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Codebird\Codebird;
+use Carbon\Carbon;
 
 class APIController extends Controller
 {
@@ -691,8 +692,13 @@ class APIController extends Controller
                 'tweets_per_page' => $this->citcuit->parseSetting('tweets_per_page'),
                 'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
                 'timezone' => $this->citcuit->parseSetting('timezone'),
+                'time_diff' => $this->citcuit->parseSetting('time_diff'),
             ],
             'timezone' => $this->citcuit->parseTimeZone(),
+            'time_diff' => [
+                0 => Carbon::now($this->citcuit->parseSetting('timezone'))->subMinutes(17)->format('H:i \\- j M Y'),
+                1 => Carbon::now($this->citcuit->parseSetting('timezone'))->subMinutes(17)->diffForHumans(),
+            ],
         ];
 
         return view($this->view_prefix.'settings_general', $render);
@@ -705,6 +711,7 @@ class APIController extends Controller
             'auth.settings.tweets_per_page' => $request->tweets_per_page,
             'auth.settings.auto_refresh' => $request->auto_refresh,
             'auth.settings.timezone' => $request->timezone,
+            'auth.settings.time_diff' => $request->time_diff,
         ]);
 
         return redirect()

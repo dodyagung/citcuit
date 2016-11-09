@@ -133,7 +133,11 @@ class CitcuitController
         //created at
         $timeTweet = Carbon::createFromTimestamp(strtotime($tweet->created_at), $this->parseSetting('timezone'));
         $tweet->created_at_original = $timeTweet->format('H:i \\- j M Y');
-        $tweet->created_at = $timeTweet->diffForHumans();
+        if ($this->parseSetting('time_diff') == 1) {
+            $tweet->created_at = $timeTweet->diffForHumans();
+        } else {
+            $tweet->created_at = $tweet->created_at_original;
+        }
 
         //source
         $tweet->source = preg_replace('/<a href=".*" rel="nofollow">(.*)<\/a>/i', '$1', $tweet->source);
@@ -239,7 +243,11 @@ class CitcuitController
         //created at
         $timeTweet = Carbon::createFromTimestamp(strtotime($message->created_at), $this->parseSetting('timezone'));
         $message->created_at_original = $timeTweet->format('H:i \\- j M Y');
-        $message->created_at = $timeTweet->diffForHumans();
+        if ($this->parseSetting('time_diff') == 1) {
+            $message->created_at = $timeTweet->diffForHumans();
+        } else {
+            $message->created_at = $message->created_at_original;
+        }
 
         // parse
         $message->text = $this->parseLinkEmail($message->text);
