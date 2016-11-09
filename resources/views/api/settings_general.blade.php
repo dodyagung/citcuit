@@ -28,7 +28,7 @@
                 <option value="{{ $i }}" @if($settings['tweets_per_page'] == $i) selected @endif >{{ $i }}</option>
             @endfor
         </select>
-        Auto refresh :<br />
+        Page auto refresh :<br />
         <select name="auto_refresh">
             @for ($i = 0; $i <= 300; $i = $i + 30)
                 @if ($i == 0)
