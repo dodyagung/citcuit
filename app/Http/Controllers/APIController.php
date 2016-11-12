@@ -170,7 +170,7 @@ class APIController extends Controller
         }
 
         $render['setting'] = [
-            'header_image' => $this->citcuit->parseSetting('header_image')
+            'header_image' => $this->citcuit->parseSetting('header_image'),
         ];
 
         return view($this->view_prefix.'user', $render);
@@ -960,6 +960,65 @@ class APIController extends Controller
         }
         if ($request->hasFile('image4') && $request->file('image4')->isValid()) {
             $media_files[] = $request->file('image4');
+        }
+
+        $media_ids = [];
+
+        foreach ($media_files as $file) {
+            $result = $this->api->media_upload([
+                'media' => $file,
+            ]);
+
+            $error = $this->citcuit->parseError($result);
+            if ($error) {
+                return view('error', $error);
+            }
+
+            $media_ids[] = $result->media_id_string;
+        }
+
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postImage($request->input('tweet'), $media_files);
+        }
+
+        $media_ids = implode(',', $media_ids);
+
+        $param = [
+            'status' => $request->input('tweet'),
+            'media_ids' => $media_ids,
+        ];
+
+        $result = $this->api->statuses_update($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('/');
+    }
+
+    public function postUploadRemote(Request $request)
+    {
+        $this->validate($request, [
+            'image1' => 'required|url',
+            'image2' => 'url',
+            'image3' => 'url',
+            'image4' => 'url',
+        ]);
+        $media_files = [
+            $this->citcuit->parseEncodeURI($request->image1),
+        ];
+        if ($request->has('image2')) {
+            $media_files[] = $this->citcuit->parseEncodeURI($request->image2);
+        }
+        if ($request->has('image3')) {
+            $media_files[] = $this->citcuit->parseEncodeURI($request->image3);
+        }
+        if ($request->has('image4')) {
+            $media_files[] = $this->citcuit->parseEncodeURI($request->image4);
         }
 
         $media_ids = [];
