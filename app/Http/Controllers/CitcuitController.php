@@ -186,7 +186,7 @@ class CitcuitController
             $tweet->citcuit_media = [];
             foreach ($medias as $media) {
                 $tweet->text = str_replace($media->url, '', $tweet->text);
-                $tweet->citcuit_media[] = '<a href="'.$media->media_url_https.'" target="_blank"><img src="'.$media->media_url_https.'" width="'.$media->sizes->thumb->w.'" /></a><br />';
+                $tweet->citcuit_media[] = '<a href="'.$media->media_url_https.':large" target="_blank"><img src="'.$media->media_url_https.'" width="'.$media->sizes->thumb->w.'" /></a><br />';
             }
         }
 
