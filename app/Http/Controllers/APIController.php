@@ -1059,6 +1059,85 @@ class APIController extends Controller
         return redirect('/');
     }
 
+    public function getUploadVideo(Request $request)
+    {
+        return view($this->view_prefix.'upload_video');
+    }
+
+    public function postUploadVideo(Request $request)
+    {
+        $this->validate($request, [
+              'video' => 'required|file|mimes:mp4',
+        ]);
+
+        // https://github.com/jublonet/codebird-php#video-files
+
+        $file = $request->video;
+        $size_bytes = filesize($file);
+        $fp = fopen($file, 'r');
+
+        // INIT the upload
+
+        $reply = $this->api->media_upload([
+            'command' => 'INIT',
+            'media_type' => 'video/mp4',
+            'total_bytes' => $size_bytes,
+        ]);
+
+        $media_id = $reply->media_id_string;
+
+        // APPEND data to the upload
+
+        $segment_id = 0;
+
+        while (!feof($fp)) {
+            $chunk = fread($fp, 1048576); // 1MB per chunk for this sample
+
+            $reply = $this->api->media_upload([
+                'command' => 'APPEND',
+                'media_id' => $media_id,
+                'segment_index' => $segment_id,
+                'media' => $chunk,
+            ]);
+
+            ++$segment_id;
+        }
+
+        fclose($fp);
+
+        // FINALIZE the upload
+
+        $reply = $this->api->media_upload([
+            'command' => 'FINALIZE',
+            'media_id' => $media_id,
+        ]);
+
+        $error = $this->citcuit->parseError($reply);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postVideo($request->input('tweet'), $file);
+        }
+
+        $param = [
+            'status' => $request->input('tweet'),
+            'media_ids' => $media_id,
+        ];
+
+        $result = $this->api->statuses_update($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('/');
+    }
+
     public function getFollowers(Request $request, $screen_name, $cursor = null)
     {
         $param = [

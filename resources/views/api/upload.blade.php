@@ -6,7 +6,7 @@
     @yield('title')
 </nav>
 <section class="tweet even">
-    Upload Image | <a href="{{ url('#') }}">Upload Video</a> (soon)
+    Upload Image | <a href="{{ url('upload/video') }}">Upload Video</a>
 </section>
 <section>
     @if (count($errors) > 0)
