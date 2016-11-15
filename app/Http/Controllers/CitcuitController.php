@@ -217,14 +217,20 @@ class CitcuitController
                 if (isset($media->video_info)) {
                     $tweet->citcuit_media = [];
                     $video_bitrate = 0;
+                    $video_bitrate_preview = PHP_INT_MAX;
                     $video_url = null;
+                    $video_url_preview = null;
                     foreach ($media->video_info->variants as $video) {
                         if (isset($video->bitrate) && $video->bitrate > $video_bitrate) {
                             $video_bitrate = $video->bitrate;
                             $video_url = $video->url;
                         }
+                        if (isset($video->bitrate) && $video->bitrate < $video_bitrate_preview) {
+                            $video_bitrate_preview = $video->bitrate;
+                            $video_url_preview = $video->url;
+                        }
                     }
-                    $tweet->citcuit_media[] = '<a href="'.$video_url.'" target="_blank"><img src="'.$media->media_url_https.'" width="'.$media->sizes->thumb->w.'" /><br />(click to play this video)</a><br />';
+                    $tweet->citcuit_media[] = '<a href="'.$media->media_url_https.':large" target="_blank"><img src="'.$media->media_url_https.'" width="'.$media->sizes->thumb->w.'" /></a><br />(<a href="'.$video_url_preview.'" target="_blank">preview</a> or <a href="'.$video_url.'" target="_blank">download</a>)<br />';
                 }
             }
         }
