@@ -45,7 +45,7 @@ class FacebookController extends Controller
     {
         $data = [
             'message' => $message,
-            'link' => 'https://citcuit.in/v2',
+            'link' => 'https://citcuit.in',
         ];
         $this->fb->post('/me/feed', $data);
     }
