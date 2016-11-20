@@ -134,7 +134,11 @@ class CitcuitController
         $created_at_utc = Carbon::parse($profile->created_at);
         $created_at = Carbon::createFromTimestamp($created_at_utc->timestamp, $this->parseSetting('timezone'));
         $profile->created_at = $created_at->format('j M Y \\- H:i');
-        $profile->tweets_per_day = round($profile->statuses_count / ($created_at->diffInDays(Carbon::now($this->parseSetting('timezone')))), 1);
+        $diffInDays = $created_at->diffInDays(Carbon::now($this->parseSetting('timezone')));
+        if ($diffInDays == 0) { // prevent division by zero
+            $diffInDays = 1;
+        }
+        $profile->tweets_per_day = round($profile->statuses_count / $diffInDays, 1);
 
         $profile->statuses_count = $this->parseNumber($profile->statuses_count);
         $profile->friends_count = $this->parseNumber($profile->friends_count);
