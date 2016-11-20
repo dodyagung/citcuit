@@ -30,7 +30,7 @@
     <small><strong>Stats</strong> : &plusmn;{{ $profile->tweets_per_day }} tweets per day</small>
     <br />
     <br />
-    <small>{{ $profile->statuses_count }} tweets | @if ($protected) {{ $profile->friends_count }} following @else <a href="{{ url('following/' . $profile->screen_name) }}">{{ $profile->friends_count }} following</a> @endif | @if ($protected) {{ $profile->followers_count }} followers @else <a href="{{ url('followers/' . $profile->screen_name) }}">{{ $profile->followers_count }} followers</a> @endif | @if ($protected) {{ $profile->favourites_count }} likes @else <a href="{{ url('likes/' . $profile->screen_name) }}">{{ $profile->favourites_count }} likes</a> @endif </small>
+    <small>{{ $profile->statuses_count }} tweets | @if ($protected) {{ $profile->friends_count }} following @else <a href="{{ url('following/' . $profile->screen_name) }}">{{ $profile->friends_count }} following</a> @endif | @if ($protected) {{ $profile->followers_count }} followers @else <a href="{{ url('followers/' . $profile->screen_name) }}">{{ $profile->followers_count }} followers</a> @endif | @if ($protected) {{ $profile->favourites_count }} likes @else <a href="{{ url('likes/' . $profile->screen_name) }}">{{ $profile->favourites_count }} likes</a> @endif | <a href="{{ url('search?q=@' . $profile->screen_name) }}">search {{ '@' . $profile->screen_name }}</a></small>
     <br />
     <br />
     @if ($screen_name != session('auth.screen_name'))
