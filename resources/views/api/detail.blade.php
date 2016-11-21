@@ -80,13 +80,14 @@
         @if ($tweet->retweeted == 1)
         <br />
         <img class="action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('user/' . session('auth.screen_name')) }}">You</a> retweeted</strong></small>
-        <hr />
         <form method="POST" action="{{ url('unretweet') }}">
             <input type="hidden" name="id" value="{{ $tweet->current_user_retweet->id_str }}">
             {{ csrf_field() }}
             <button type="submit">Unretweet</button>
         </form>
         @endif
+        <hr />
+        <small><a href="{{ 'https://mobile.twitter.com/'.$tweet->user->screen_name.'/status/'.$tweet->id_str }}" target="_blank">[View conversation]</a></small>
     </div>
 </section>
 @endsection
