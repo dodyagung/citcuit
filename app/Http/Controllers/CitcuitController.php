@@ -284,6 +284,12 @@ class CitcuitController
             $message->created_at = $message->created_at_original;
         }
 
+        // parse link
+        $urls = $message->entities->urls;
+        foreach ($urls as $url) {
+            $message->text = str_replace($url->url, '<a href="'.$url->url.'" target="_blank">'.$url->display_url.'</a>', $message->text);
+        }
+
         // parse
         $message->text = $this->parseLinkEmail($message->text);
         $message->text = $this->parseLinkHashtag($message->text);
