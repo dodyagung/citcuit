@@ -412,6 +412,7 @@ class CitcuitController
     {
         unset($content->rate);
         unset($content->httpstatus);
+        unset($content->message);
 
         $result = new \stdClass();
 
