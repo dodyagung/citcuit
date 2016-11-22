@@ -6,6 +6,9 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -48,7 +51,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if ($exception instanceof NotFoundHttpException) {
+            $code = $exception->getStatusCode();
+            $message = 'Not found.';
+        } else if ($exception instanceof MethodNotAllowedHttpException) {
+            $code = $exception->getStatusCode();
+            $message = 'Method not allowed.';
+        } else {
+            $code = 500;
+            $message = $exception->getMessage();
+        }
+        return response()->view('errors.exception', ['message' => $code . ' - ' . $message], $code);
+
+        // return parent::render($request, $exception);
     }
 
     /**
