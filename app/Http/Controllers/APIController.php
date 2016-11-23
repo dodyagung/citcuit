@@ -137,7 +137,7 @@ class APIController extends Controller
         $render['profile'] = $this->citcuit->parseProfile($result);
 
         //tweet
-        if ($render['profile']->protected && !$render['profile']->following) { // not shown - if user is protected and NOT following
+        if ($screen_name != session('auth.screen_name') && $render['profile']->protected && !$render['profile']->following) { // not shown - if not my profile and user is protected and NOT following
             $render['protected'] = true;
             $render['timeline'] = '<strong>@'.$screen_name.'\'s Tweets are protected.</strong><br /><br />';
             $render['timeline'] .= 'Only confirmed followers have access to @'.$screen_name.'\'s Tweets and complete profile.<br />';
