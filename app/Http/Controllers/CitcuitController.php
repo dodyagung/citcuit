@@ -213,9 +213,13 @@ class CitcuitController
         if (isset($tweet->extended_entities->media)) {
             $medias = $tweet->extended_entities->media;
             $tweet->citcuit_media = [];
+            $remove_image_link = true;
             foreach ($medias as $media) {
-                $tweet->text = str_replace($media->url, '<a href="'.$media->url.'" target="_blank">'.$media->display_url.'</a>', $tweet->text);
+                if ($remove_image_link) {
+                    $tweet->text = str_replace($media->url, '<a href="'.$media->url.'" target="_blank">'.$media->display_url.'</a>', $tweet->text);
+                }
                 $tweet->citcuit_media[] = '<a href="'.$media->media_url_https.':large" target="_blank"><img src="'.$media->media_url_https.'" width="'.$media->sizes->thumb->w.'" /></a><br />';
+                $remove_image_link = false;
             }
         }
 
