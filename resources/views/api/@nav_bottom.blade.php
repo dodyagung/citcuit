@@ -5,5 +5,5 @@
 <a href="{{ url('likes/' . session('auth.screen_name')) }}">Likes</a> |
 <a href="{{ url('settings') }}">Settings</a> |
 <a href="{{ url('about') }}">About</a> |
-<a href="http://status.citcuit.in" target="_blank">Status</a> |
+<a href="https://status.citcuit.in" target="_blank">Status</a> |
 <a href="{{ url('signout') }}">Sign Out</a>
