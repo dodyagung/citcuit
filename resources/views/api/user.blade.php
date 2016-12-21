@@ -7,7 +7,7 @@
 </nav>
 <section class="tweet odd">
     @if ($setting['header_image'] == 1 && isset($profile->profile_banner_url))
-    <img src="{{ $profile->profile_banner_url }}" width="100%" />
+    <img src="{{ $profile->profile_banner_url }}/600x200" width="100%" />
     @endif
     <div class="split-left">
         <a href="{{ $profile->profile_image_url_https_full }}" target="_blank"><img src="{{ $profile->profile_image_url_https }}" class="profpic"></a>
