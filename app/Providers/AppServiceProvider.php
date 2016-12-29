@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('global_setting', [
                 'auto_refresh' => $citcuit->parseSetting('auto_refresh'),
+                'theme' => $citcuit->parseSetting('theme'),
             ]);
 
             $view->with('global_time', Carbon::now($citcuit->parseSetting('timezone'))->format('H:i'));

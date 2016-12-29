@@ -688,6 +688,7 @@ class APIController extends Controller
     {
         $render = [
             'settings' => [
+                'theme' => $this->citcuit->parseSetting('theme'),
                 'header_image' => $this->citcuit->parseSetting('header_image'),
                 'tweets_per_page' => $this->citcuit->parseSetting('tweets_per_page'),
                 'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
@@ -707,6 +708,7 @@ class APIController extends Controller
     public function postSettingsGeneral(Request $request)
     {
         session([
+            'auth.settings.theme' => $request->theme,
             'auth.settings.header_image' => $request->header_image,
             'auth.settings.tweets_per_page' => $request->tweets_per_page,
             'auth.settings.auto_refresh' => $request->auto_refresh,

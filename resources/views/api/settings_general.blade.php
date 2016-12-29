@@ -17,6 +17,15 @@
 @endif
 <section>
     <form method="post" action="{{ url('settings/general') }}">
+        Theme :<br />
+        <select name="theme">
+            <option value="citcuit_blue" @if($settings['theme'] == 'citcuit_blue') selected @endif >CitCuit Blue</option>
+            <option value="citcuit_green" @if($settings['theme'] == 'citcuit_green') selected @endif >CitCuit Green</option>
+            <option value="citcuit_grey" @if($settings['theme'] == 'citcuit_grey') selected @endif >CitCuit Grey</option>
+            <option value="citcuit_orange" @if($settings['theme'] == 'citcuit_orange') selected @endif >CitCuit Orange</option>
+            <option value="citcuit_pink" @if($settings['theme'] == 'citcuit_pink') selected @endif >CitCuit Pink</option>
+            <option value="citcuit_red" @if($settings['theme'] == 'citcuit_red') selected @endif >CitCuit Red</option>
+        </select>
         Show profile header image :<br />
         <select name="header_image">
             <option value="1" @if($settings['header_image'] == 1) selected @endif >Yes</option>
