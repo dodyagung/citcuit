@@ -12,7 +12,7 @@ Built with [Laravel](https://laravel.com). Made with :heart: by [@dodyags](https
 
 ## Live Website
 
-Go to [citcuit.in/v2](https://citcuit.in/v2) and sign-in with your Twitter account.
+Go to [citcuit.in](https://citcuit.in) and sign-in with your Twitter account.
 
 ## Requirements
 
@@ -51,7 +51,7 @@ Official account
 
 Founder & author (Dody Agung Saputro)
 * Website : [https://dodyagung.com](https://dodyagung.com)
-* Twitter : [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)]
+* Twitter : [https://citcuit.in/user/dodyags](https://citcuit.in/user/dodyags)
 
 Logo designer (Ridvandani Dwi P.A)
 * Facebook : [https://facebook.com/ridvan.aji](https://fb.me/ridvan.aji)

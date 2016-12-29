@@ -6,6 +6,10 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -48,7 +52,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if ($exception instanceof MaintenanceModeException) {
+            return response()->view('errors.503');
+        } else if ($exception instanceof NotFoundHttpException) {
+            $code = $exception->getStatusCode();
+            $message = 'Not found.';
+        } else if ($exception instanceof MethodNotAllowedHttpException) {
+            $code = $exception->getStatusCode();
+            $message = 'Method not allowed.';
+        } else {
+            $code = 500;
+            $message = $exception->getMessage();
+        }
+        return response()->view('error', ['description' => $code . ' - ' . $message . '<br />'], $code);
+
+        // return parent::render($request, $exception);
     }
 
     /**

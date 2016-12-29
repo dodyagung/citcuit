@@ -6,10 +6,10 @@
 @endif
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="tweet even">
+<section class="tweet tweet-even">
     <strong>Create</strong> | 
     <a href="{{ url('messages') }}">Inbox</a> | 
     <a href="{{ url('messages/sent') }}">Sent</a>
@@ -25,7 +25,7 @@
         Message to {{ '@' . $screen_name }} :<br />
         @endif
         <textarea name="text" required></textarea>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
         <button type="submit">Message</button>
     </form>
 </section>

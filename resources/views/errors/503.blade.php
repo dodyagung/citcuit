@@ -1,17 +1,25 @@
 @extends('layout')
-@section('title', 'Error')
+@section('title', 'Maintenance')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
 <section>
-    <div class="alert error">
-        <strong>Error :(</strong><br />
+    <div class="alert alert-error">
+        <strong>MAINTENANCE</strong><br />
         <br />
-        503 - Service Unavailable<br />
+        Please wait a minute, we are updating our application right now.<br />
         <br />
-        Because we are doing a maintenance right now.
+        For more info :
+        <ul>
+            <li>
+                Twitter : <a href=" https://twitter.com/citcuit_in " target="_blank">https://twitter.com/citcuit_in</a>
+            </li>
+            <li>
+                Facebook : <a href="https://fb.me/citcuit.in" target="_blank">https://facebook.com/citcuit.in</a><br/>
+            </li>
+        </ul>
         </div>
 </section>
 @endsection

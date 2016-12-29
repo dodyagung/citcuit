@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Codebird\Codebird;
+use Carbon\Carbon;
 
 class APIController extends Controller
 {
@@ -16,7 +17,10 @@ class APIController extends Controller
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
 
         $this->citcuit = new CitcuitController();
+
         $this->api = Codebird::getInstance();
+        $this->api->setConnectionTimeout(env('TWITTER_CONNECTION_TIME'), 3000);
+        $this->api->setTimeout(env('TWITTER_TIMEOUT'), 10000);
 
         $this->middleware(function ($request, $next) {
             $this->api->setToken(session('auth.oauth_token'), session('auth.oauth_token_secret'));
@@ -28,7 +32,7 @@ class APIController extends Controller
     public function getHome(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -82,7 +86,7 @@ class APIController extends Controller
     public function getMentions(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -115,6 +119,7 @@ class APIController extends Controller
         $render = [
             'screen_name' => $screen_name,
         ];
+
         $render['rate'] = [];
 
         //user
@@ -132,7 +137,7 @@ class APIController extends Controller
         $render['profile'] = $this->citcuit->parseProfile($result);
 
         //tweet
-        if ($render['profile']->protected && !$render['profile']->following) { // not shown - if user is protected and NOT following
+        if ($screen_name != session('auth.screen_name') && $render['profile']->protected && !$render['profile']->following) { // not shown - if not my profile and user is protected and NOT following
             $render['protected'] = true;
             $render['timeline'] = '<strong>@'.$screen_name.'\'s Tweets are protected.</strong><br /><br />';
             $render['timeline'] .= 'Only confirmed followers have access to @'.$screen_name.'\'s Tweets and complete profile.<br />';
@@ -142,7 +147,7 @@ class APIController extends Controller
 
             $param = [
                 'screen_name' => $screen_name,
-                'count' => 10,
+                'count' => $this->citcuit->parseSetting('tweets_per_page'),
             ];
             if ($max_id) {
                 $param['max_id'] = $max_id;
@@ -163,6 +168,10 @@ class APIController extends Controller
                 $render['timeline'] = '@'.$screen_name.' hasn\'t tweeted yet.';
             }
         }
+
+        $render['setting'] = [
+            'header_image' => $this->citcuit->parseSetting('header_image'),
+        ];
 
         return view($this->view_prefix.'user', $render);
     }
@@ -406,7 +415,7 @@ class APIController extends Controller
     public function getMessages(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -437,7 +446,7 @@ class APIController extends Controller
     public function getMessagesSent(Request $request, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($max_id) {
             $param['max_id'] = $max_id;
@@ -567,7 +576,7 @@ class APIController extends Controller
             return view($this->view_prefix.'search', $render);
         } else {
             $param = [
-                'count' => 10,
+                'count' => $this->citcuit->parseSetting('tweets_per_page'),
                 'q' => $q,
                 'result_type' => $result_type,
             ];
@@ -610,7 +619,7 @@ class APIController extends Controller
             return view($this->view_prefix.'search_user', $render);
         } else {
             $param = [
-                'count' => 10,
+                'count' => $this->citcuit->parseSetting('tweets_per_page'),
                 'q' => $q,
             ];
 
@@ -664,6 +673,52 @@ class APIController extends Controller
         $render = [];
 
         return view($this->view_prefix.'settings', $render);
+    }
+
+    public function getSettingsGeneralReset(Request $request)
+    {
+        $request->session()->forget('auth.settings');
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'General setting reseted!');
+    }
+
+    public function getSettingsGeneral(Request $request)
+    {
+        $render = [
+            'settings' => [
+                'theme' => $this->citcuit->parseSetting('theme'),
+                'header_image' => $this->citcuit->parseSetting('header_image'),
+                'tweets_per_page' => $this->citcuit->parseSetting('tweets_per_page'),
+                'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
+                'timezone' => $this->citcuit->parseSetting('timezone'),
+                'time_diff' => $this->citcuit->parseSetting('time_diff'),
+            ],
+            'timezone' => $this->citcuit->parseTimeZone(),
+            'time_diff' => [
+                0 => Carbon::now($this->citcuit->parseSetting('timezone'))->subMinutes(17)->format('H:i \\- j M Y'),
+                1 => Carbon::now($this->citcuit->parseSetting('timezone'))->subMinutes(17)->diffForHumans(),
+            ],
+        ];
+
+        return view($this->view_prefix.'settings_general', $render);
+    }
+
+    public function postSettingsGeneral(Request $request)
+    {
+        session([
+            'auth.settings.theme' => $request->theme,
+            'auth.settings.header_image' => $request->header_image,
+            'auth.settings.tweets_per_page' => $request->tweets_per_page,
+            'auth.settings.auto_refresh' => $request->auto_refresh,
+            'auth.settings.timezone' => $request->timezone,
+            'auth.settings.time_diff' => $request->time_diff,
+        ]);
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'General setting updated!');
     }
 
     public function getSettingsProfile(Request $request)
@@ -733,7 +788,7 @@ class APIController extends Controller
     public function postSettingsProfileImage(Request $request)
     {
         $param = [
-            'image' => $request->file('image'),
+            'image' => $request->image,
         ];
 
         $result = $this->api->account_updateProfileImage($param);
@@ -746,6 +801,60 @@ class APIController extends Controller
         return redirect()
                         ->back()
                         ->with('success', 'Profile image updated!');
+    }
+
+    public function getSettingsProfileHeader(Request $request)
+    {
+        $param = [
+            'screen_name' => session('auth.screen_name'),
+        ];
+        $result = $this->api->users_show($param);
+
+        $error = $this->citcuit->parseError($result, 'Edit Profile Header');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Profile' => $this->citcuit->parseRateLimit($result),
+            ],
+            'profile' => $this->citcuit->parseProfile($result),
+        ];
+
+        return view($this->view_prefix.'settings_profile_header', $render);
+    }
+
+    public function getSettingsProfileHeaderRemove(Request $request)
+    {
+        $result = $this->api->account_removeProfileBanner();
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'Profile header removed!');
+    }
+
+    public function postSettingsProfileHeader(Request $request)
+    {
+        $param = [
+            'banner' => $request->image,
+        ];
+
+        $result = $this->api->account_updateProfileBanner($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect()
+                        ->back()
+                        ->with('success', 'Profile header updated!');
     }
 
     public function getSettingsFacebookLogin(Request $request)
@@ -764,7 +873,7 @@ class APIController extends Controller
     public function getSettingsFacebookLogout(Request $request)
     {
         $fb = new FacebookController();
-        $fb->logout();
+        $fb->logout($request);
 
         return redirect('settings/facebook');
     }
@@ -893,11 +1002,149 @@ class APIController extends Controller
         return redirect('/');
     }
 
+    public function postUploadRemote(Request $request)
+    {
+        $this->validate($request, [
+            'image1' => 'required|url',
+            'image2' => 'url',
+            'image3' => 'url',
+            'image4' => 'url',
+        ]);
+        $media_files = [
+            $this->citcuit->parseEncodeURI($request->image1),
+        ];
+        if ($request->has('image2')) {
+            $media_files[] = $this->citcuit->parseEncodeURI($request->image2);
+        }
+        if ($request->has('image3')) {
+            $media_files[] = $this->citcuit->parseEncodeURI($request->image3);
+        }
+        if ($request->has('image4')) {
+            $media_files[] = $this->citcuit->parseEncodeURI($request->image4);
+        }
+
+        $media_ids = [];
+
+        foreach ($media_files as $file) {
+            $result = $this->api->media_upload([
+                'media' => $file,
+            ]);
+
+            $error = $this->citcuit->parseError($result);
+            if ($error) {
+                return view('error', $error);
+            }
+
+            $media_ids[] = $result->media_id_string;
+        }
+
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postImage($request->input('tweet'), $media_files);
+        }
+
+        $media_ids = implode(',', $media_ids);
+
+        $param = [
+            'status' => $request->input('tweet'),
+            'media_ids' => $media_ids,
+        ];
+
+        $result = $this->api->statuses_update($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('/');
+    }
+
+    public function getUploadVideo(Request $request)
+    {
+        return view($this->view_prefix.'upload_video');
+    }
+
+    public function postUploadVideo(Request $request)
+    {
+        $this->validate($request, [
+              'video' => 'required|file|mimes:mp4',
+        ]);
+
+        // https://github.com/jublonet/codebird-php#video-files
+
+        $file = $request->video;
+        $size_bytes = filesize($file);
+        $fp = fopen($file, 'r');
+
+        // INIT the upload
+
+        $reply = $this->api->media_upload([
+            'command' => 'INIT',
+            'media_type' => 'video/mp4',
+            'total_bytes' => $size_bytes,
+        ]);
+
+        $media_id = $reply->media_id_string;
+
+        // APPEND data to the upload
+
+        $segment_id = 0;
+
+        while (!feof($fp)) {
+            $chunk = fread($fp, 1048576); // 1MB per chunk for this sample
+
+            $reply = $this->api->media_upload([
+                'command' => 'APPEND',
+                'media_id' => $media_id,
+                'segment_index' => $segment_id,
+                'media' => $chunk,
+            ]);
+
+            ++$segment_id;
+        }
+
+        fclose($fp);
+
+        // FINALIZE the upload
+
+        $reply = $this->api->media_upload([
+            'command' => 'FINALIZE',
+            'media_id' => $media_id,
+        ]);
+
+        $error = $this->citcuit->parseError($reply);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        if ($request->has('fb')) {
+            $fb = new FacebookController();
+            $fb->loadToken();
+            $fb->postVideo($request->input('tweet'), $file);
+        }
+
+        $param = [
+            'status' => $request->input('tweet'),
+            'media_ids' => $media_id,
+        ];
+
+        $result = $this->api->statuses_update($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('/');
+    }
+
     public function getFollowers(Request $request, $screen_name, $cursor = null)
     {
         $param = [
             'screen_name' => $screen_name,
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($cursor) {
             $param['cursor'] = $cursor;
@@ -930,7 +1177,7 @@ class APIController extends Controller
     {
         $param = [
             'screen_name' => $screen_name,
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
         if ($cursor) {
             $param['cursor'] = $cursor;
@@ -962,7 +1209,7 @@ class APIController extends Controller
     public function getLikes(Request $request, $screen_name, $max_id = false)
     {
         $param = [
-            'count' => 10,
+            'count' => $this->citcuit->parseSetting('tweets_per_page'),
             'screen_name' => $screen_name,
         ];
         if ($max_id) {

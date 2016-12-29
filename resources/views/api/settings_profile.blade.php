@@ -2,15 +2,15 @@
 @section('title', 'Settings - Profile')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="tweet even">
+<section class="tweet tweet-even">
     <a href="{{ url('settings') }}">&laquo; Back to Settings</a>
 </section>
 @if (session('success'))
 <section>
-    <div class="alert info">
+    <div class="alert alert-info">
         {{ session('success') }}
     </div>
 </section>
@@ -25,7 +25,7 @@
         <input type="text" name="location" value="{{ $profile->location_nohref }}">
         Description (max 160 chars) :<br />
         <textarea name="description">{{ $profile->description_nohref }}</textarea>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
         <button type="submit">Save</button>
     </form>
 </section>

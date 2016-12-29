@@ -2,11 +2,11 @@
 @section('title', 'Error')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
 <section>
-    <div class="alert error">
+    <div class="alert alert-error">
         <strong>Error :(</strong><br />
         <br />
         {!! $description !!}

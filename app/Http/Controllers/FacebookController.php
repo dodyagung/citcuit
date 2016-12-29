@@ -3,47 +3,55 @@
 namespace App\Http\Controllers;
 
 use SammyK\LaravelFacebookSdk\LaravelFacebookSdk;
-use Cookie;
 
-class FacebookController extends Controller {
-
+class FacebookController extends Controller
+{
     private $fb;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->fb = app(LaravelFacebookSdk::class);
     }
 
-    private function saveToken($token) {
+    private function saveToken($token)
+    {
         session(['auth.facebook_token' => (string) $token]);
         $this->fb->setDefaultAccessToken($token);
     }
 
-    public function loadToken() {
+    public function loadToken()
+    {
         $token = session('auth.facebook_token');
         $this->fb->setDefaultAccessToken($token);
     }
 
-    public function checkToken() {
+    public function checkToken()
+    {
         if (session('auth.facebook_token')) {
             return true;
         }
+
         return false;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         $user = $this->fb->get('/me')->getGraphUser();
+
         return $user;
     }
 
-    public function postFeed($message) {
+    public function postFeed($message)
+    {
         $data = [
             'message' => $message,
-            'link' => 'https://citcuit.in/v2',
+            'link' => 'https://citcuit.in',
         ];
         $this->fb->post('/me/feed', $data);
     }
 
-    public function postImage($message, $images) {
+    public function postImage($message, $images)
+    {
         $batch = [];
         $no = 1;
 
@@ -52,17 +60,28 @@ class FacebookController extends Controller {
                 'caption' => $message,
                 'images' => $this->fb->fileToUpload($image),
             ]);
-            $no++;
+            ++$no;
         }
 
         $this->fb->sendBatchRequest($batch);
     }
 
-    public function loginUrl() {
+    public function postVideo($message, $video)
+    {
+        $data = [
+            'description' => $message,
+        ];
+
+        $this->fb->uploadVideo('/me', $video, $data);
+    }
+
+    public function loginUrl()
+    {
         return $this->fb->getLoginUrl(['publish_actions'], url('settings/facebook/login'));
     }
 
-    public function loginCallback($url) {
+    public function loginCallback($url)
+    {
         $token = $this->fb->getAccessTokenFromRedirect('settings/facebook/login');
         if (!$token->isLongLived()) {
             $token = $this->fb->getOAuth2Client()->getLongLivedAccessToken($token);
@@ -70,8 +89,8 @@ class FacebookController extends Controller {
         $this->saveToken($token);
     }
 
-    public function logout() {
-        session(['auth.facebook_token' => NULL]);
+    public function logout($request)
+    {
+        $request->session()->forget('auth.facebook_token');
     }
-
 }

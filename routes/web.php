@@ -64,10 +64,16 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
     Route::get('search/user', 'APIController@getSearchUser');
 
     Route::get('settings', 'APIController@getSettings');
+    Route::get('settings/general', 'APIController@getSettingsGeneral');
+    Route::get('settings/general/reset', 'APIController@getSettingsGeneralReset');
+    Route::post('settings/general', 'APIController@postSettingsGeneral');
     Route::get('settings/profile', 'APIController@getSettingsProfile');
     Route::post('settings/profile', 'APIController@postSettingsProfile');
     Route::get('settings/profile_image', 'APIController@getSettingsProfileImage');
     Route::post('settings/profile_image', 'APIController@postSettingsProfileImage');
+    Route::get('settings/profile_header', 'APIController@getSettingsProfileHeader');
+    Route::post('settings/profile_header', 'APIController@postSettingsProfileHeader');
+    Route::get('settings/profile_header/remove', 'APIController@getSettingsProfileHeaderRemove');
     Route::get('settings/facebook', 'APIController@getSettingsFacebook');
     Route::get('settings/facebook/login', 'APIController@getSettingsFacebookLogin');
     Route::get('settings/facebook/logout', 'APIController@getSettingsFacebookLogout');
@@ -76,6 +82,9 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
 
     Route::get('upload', 'APIController@getUpload');
     Route::post('upload', 'APIController@postUpload');
+    Route::post('upload/remote', 'APIController@postUploadRemote');
+    Route::get('upload/video', 'APIController@getUploadVideo');
+    Route::post('upload/video', 'APIController@postUploadVideo');
 
     Route::get('following/{screen_name}', 'APIController@getFollowing');
     Route::get('following/{screen_name}/cursor/{cursor}', 'APIController@getFollowing');

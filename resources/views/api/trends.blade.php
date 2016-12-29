@@ -2,10 +2,10 @@
 @section('title', 'Trends')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="tweet odd">
+<section class="tweet tweet-odd">
     <form method="GET" action="{{ url('trends') }}">
         <select name="location">
             @foreach($locations as $location)
