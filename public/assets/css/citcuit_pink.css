@@ -1,0 +1,188 @@
+body {
+  background: #f7f7f7;
+  color: #000;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+ul {
+  margin: 0 auto;
+}
+
+li {
+  margin-left: -1em;
+}
+
+header {
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+}
+
+header a {
+  color: #fff;
+}
+
+.p-moreheight {
+  line-height: 1.5em;
+}
+
+nav {
+  background: #c06;
+  color: #fff;
+}
+
+nav a {
+  color: #fff;
+}
+
+.nav-menu {
+  padding: 5px;
+}
+
+.nav-submenu {
+  font-size: small;
+  font-weight: bold;
+  padding: 3px;
+  text-align: center;
+}
+
+section {
+  line-height: 1.25em;
+  padding: 5px;
+}
+
+section a {
+  color: #c06;
+}
+
+footer {
+  background: #000;
+  color: #fff;
+  font-size: 0.75em;
+  padding: 5px;
+}
+
+footer a {
+  color: #fff;
+  font-weight: bold;
+}
+
+footer .rate {
+  line-height: 1.375em;
+}
+
+input,
+select {
+  box-sizing: border-box;
+  height: 1.75em;
+  margin-bottom: 5px;
+  max-width: 100%;
+  width: 100%;
+}
+
+input[type=checkbox] {
+  height: 1.25em;
+  vertical-align: top;
+  width: inherit;
+}
+
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  height: 5em;
+}
+
+button {
+  background: #c06;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.alert, .alert-info, .alert-error {
+  padding: 2px 5px;
+  color: #000;
+}
+
+.alert-info {
+  background: #fffaaa;
+  border: 2px solid #999;
+}
+
+.alert-error {
+  background: #fea7a7;
+  border: 2px solid #999;
+}
+
+.tweet, .tweet-odd, .tweet-even, .tweet-quoted {
+  padding: 5px;
+}
+
+.tweet .split-left, .tweet-odd .split-left, .tweet-even .split-left, .tweet-quoted .split-left {
+  margin-top: 3px;
+  position: absolute;
+}
+
+.tweet .split-right, .tweet-odd .split-right, .tweet-even .split-right, .tweet-quoted .split-right {
+  margin-left: 55px;
+}
+
+.tweet .split-right .user_id, .tweet-odd .split-right .user_id, .tweet-even .split-right .user_id, .tweet-quoted .split-right .user_id {
+  color: #c06;
+}
+
+.tweet-odd {
+  background: #f7f7f7;
+}
+
+.tweet-even {
+  background: #ffe6e6;
+}
+
+.tweet-quoted {
+  border: 2px solid #999;
+  margin: 5px 0;
+}
+
+.img-logo {
+  width: 200px;
+}
+
+.img-avatar {
+  border-radius: 7.5px;
+}
+
+.img-action {
+  height: 10px;
+}
+
+.pagination, .pagination-left, .pagination-right {
+  text-align: center;
+  width: 33.33%;
+  padding: 5px;
+  background: #c06;
+  color: #fff;
+  text-decoration: none;
+}
+
+.pagination-left {
+  float: left;
+}
+
+.pagination-right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
