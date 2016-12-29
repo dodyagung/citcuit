@@ -2,15 +2,15 @@
 @section('title', 'Settings - Profile Image')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="tweet even">
+<section class="tweet tweet-even">
     <a href="{{ url('settings') }}">&laquo; Back to Settings</a>
 </section>
 @if (session('success'))
 <section>
-    <div class="alert info">
+    <div class="alert alert-info">
         {{ session('success') }}
     </div>
 </section>
@@ -18,7 +18,7 @@
 <section>
     <form method="POST" action="{{ url('settings/profile_image') }}" enctype="multipart/form-data">
         Current profile image :<br />
-        <a href="{{ $profile->profile_image_url_https_full }}" target="_blank"><img src="{{ $profile->profile_image_url_https }}" class="profpic"></a><br />
+        <a href="{{ $profile->profile_image_url_https_full }}" target="_blank"><img src="{{ $profile->profile_image_url_https }}" class="img-avatar"></a><br />
         <br />
         Upload your profile image :<br />
         <input type="file" name="image" required>

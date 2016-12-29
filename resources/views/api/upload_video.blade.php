@@ -2,15 +2,15 @@
 @section('title', 'Upload Video')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="tweet even">
+<section class="tweet tweet-even">
     <a href="{{ url('upload') }}">Upload Image</a> | Upload Video
 </section>
 <section>
     @if (count($errors) > 0)
-        <div class="alert error">
+        <div class="alert alert-error">
             <strong>Error :(</strong><br />
             <br />
             <ul>

@@ -2,10 +2,10 @@
 @section('title', 'Setting - Facebook Connect')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="tweet even">
+<section class="tweet tweet-even">
     <a href="{{ url('settings') }}">&laquo; Back to Settings</a>
 </section>
 <section>

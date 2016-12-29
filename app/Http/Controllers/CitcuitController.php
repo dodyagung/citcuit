@@ -347,9 +347,9 @@ class CitcuitController
             $results_new[$i]['query'] = $results[0]->trends[$i]->query;
             $results_new[$i]['tweet_volume'] = $this->parseNumber($results[0]->trends[$i]->tweet_volume);
             if ($i % 2 == 0) {
-                $results_new[$i]['class'] = 'even';
+                $results_new[$i]['class'] = 'tweet-even';
             } else {
-                $results_new[$i]['class'] = 'odd';
+                $results_new[$i]['class'] = 'tweet-odd';
             }
 
             $results_new[$i] = (object) $results_new[$i];
@@ -439,9 +439,9 @@ class CitcuitController
 
         for ($i = 0; $i < count($content); ++$i) {
             if ($i % 2 == 0) {
-                $content[$i]->citcuit_class = 'odd';
+                $content[$i]->citcuit_class = 'tweet-odd';
             } else {
-                $content[$i]->citcuit_class = 'even';
+                $content[$i]->citcuit_class = 'tweet-even';
             }
             switch ($type) {
                 case 'tweet':

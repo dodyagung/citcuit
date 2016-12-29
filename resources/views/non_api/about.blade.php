@@ -2,12 +2,12 @@
 @section('title', 'About')
 
 @section('content')
-<nav class="sub-menu">
+<nav class="nav-submenu">
     @yield('title')
 </nav>
-<section class="about">
+<section class="p-moreheight">
     <br />
-    <img src="{{ url('assets/img/logo.png') }}" alt="CitCuit logo" class="logo" /><br />
+    <img src="{{ url('assets/img/logo.png') }}" alt="CitCuit logo" class="img-logo" /><br />
     <br />
     <strong>Welcome to CitCuit!</strong><br />
     CitCuit is a mobile Twitter client, alternative of official <a href="https://mobile.twitter.com" target="_blank">mobile.twitter.com</a> website.<br />
@@ -54,16 +54,16 @@
     CitCuit is open-sourced and licensed under <a href="https://github.com/dodyagung/citcuit/blob/develop/LICENSE.md" target="_blank">MIT license</a>.<br />
     <br />
 </section>
-<!--<section class="tweet odd">
+<!--<section class="tweet tweet-odd">
     - <a href="{{ url('about/about') }}">About</a>
 </section>
-<section class="tweet even">
+<section class="tweet tweet-even">
     - <a href="{{ url('about/contact_contribute') }}">Contact or Contribute</a>
 </section>
-<section class="tweet odd">
+<section class="tweet tweet-odd">
     - <a href="{{ url('about/behindthescene') }}">Behind The Scene</a>
 </section>
-<section class="tweet even">
+<section class="tweet tweet-even">
     - <a href="{{ url('about/license') }}">License</a>
 </section>-->
 @endsection

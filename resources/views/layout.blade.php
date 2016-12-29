@@ -30,7 +30,7 @@
         <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
         <title>@yield('title') - CitCuit</title>
         <link href="{{ url('assets/css/normalize.css') }}" rel="stylesheet">
-        <link href="{{ url('assets/css/citcuit.css') }}" rel="stylesheet">
+        <link href="{{ url('assets/css/'.$global_setting['theme'].'.css') }}" rel="stylesheet">
     </head>
     <body>
         <a id="top"></a>
@@ -39,7 +39,7 @@
             @if (session('auth')) <a href="{{ url('user/' . session('auth.screen_name')) }}">{{ '@' . session('auth.screen_name') }}</a> - @endif CitCuit
         </header>
         <!--nav-top-->
-        <nav class="menu">
+        <nav class="nav-menu">
             @if (session('auth'))
             @include('api.@nav_top')
             @else
@@ -49,7 +49,7 @@
         <!--content-->
         <article>
             <section>
-                <div class="alert info">
+                <div class="alert alert-info">
                     @if (env('APP_ALERT'))
                     {!! env('APP_ALERT') !!}
                     @else
@@ -60,7 +60,7 @@
             @yield('content')
         </article>
         <!--nav-bottom-->
-        <nav class="menu">
+        <nav class="nav-menu">
             @if (session('auth'))
             @include('api.@nav_bottom')
             @else
