@@ -10,8 +10,8 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "jublonet/codebird-php": "^3.1",
         "sammyk/laravel-facebook-sdk": "^3.4",
-        "sentry/sentry-laravel": "^0.4.1",
-        "graham-campbell/htmlmin": "^4.4"
+        "sentry/sentry-laravel": "^0.5.0",
+        "graham-campbell/htmlmin": "^4.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
