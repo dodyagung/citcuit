@@ -6,14 +6,13 @@ use Illuminate\Http\Request;
 use Codebird\Codebird;
 use Carbon\Carbon;
 
-class APIController extends Controller
-{
+class APIController extends Controller {
+
     private $api;
     private $citcuit;
     private $view_prefix = 'api.';
 
-    public function __construct()
-    {
+    public function __construct() {
         Codebird::setConsumerKey(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'));
 
         $this->citcuit = new CitcuitController();
@@ -29,8 +28,7 @@ class APIController extends Controller
         });
     }
 
-    public function getHome(Request $request, $max_id = false)
-    {
+    public function getHome(Request $request, $max_id = false) {
         $param = [
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
@@ -57,11 +55,10 @@ class APIController extends Controller
             $render['timeline'] = 'Your timeline is currently empty. Follow people and topics you find interesting to see their Tweets in your timeline.';
         }
 
-        return view($this->view_prefix.'home', $render);
+        return view($this->view_prefix . 'home', $render);
     }
 
-    public function getDetail(Request $request, $tweet_id)
-    {
+    public function getDetail(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
             'include_my_retweet' => 'true',
@@ -80,11 +77,10 @@ class APIController extends Controller
             'tweet' => $this->citcuit->parseTweet($result),
         ];
 
-        return view($this->view_prefix.'detail', $render);
+        return view($this->view_prefix . 'detail', $render);
     }
 
-    public function getMentions(Request $request, $max_id = false)
-    {
+    public function getMentions(Request $request, $max_id = false) {
         $param = [
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
@@ -111,11 +107,10 @@ class APIController extends Controller
             $render['timeline'] = 'Your mentions is currently empty. Get it here when people interact with you.';
         }
 
-        return view($this->view_prefix.'mentions', $render);
+        return view($this->view_prefix . 'mentions', $render);
     }
 
-    public function getUser(Request $request, $screen_name, $max_id = false)
-    {
+    public function getUser(Request $request, $screen_name, $max_id = false) {
         $render = [
             'screen_name' => $screen_name,
         ];
@@ -139,8 +134,8 @@ class APIController extends Controller
         //tweet
         if ($screen_name != session('auth.screen_name') && $render['profile']->protected && !$render['profile']->following) { // not shown - if not my profile and user is protected and NOT following
             $render['protected'] = true;
-            $render['timeline'] = '<strong>@'.$screen_name.'\'s Tweets are protected.</strong><br /><br />';
-            $render['timeline'] .= 'Only confirmed followers have access to @'.$screen_name.'\'s Tweets and complete profile.<br />';
+            $render['timeline'] = '<strong>@' . $screen_name . '\'s Tweets are protected.</strong><br /><br />';
+            $render['timeline'] .= 'Only confirmed followers have access to @' . $screen_name . '\'s Tweets and complete profile.<br />';
             $render['timeline'] .= 'Click the "Follow" button to send a follow request.';
         } else {
             $render['protected'] = false;
@@ -165,7 +160,7 @@ class APIController extends Controller
             if (count($parse->content) != 0) {
                 $render['timeline'] = $parse;
             } else {
-                $render['timeline'] = '@'.$screen_name.' hasn\'t tweeted yet.';
+                $render['timeline'] = '@' . $screen_name . ' hasn\'t tweeted yet.';
             }
         }
 
@@ -173,11 +168,10 @@ class APIController extends Controller
             'header_image' => $this->citcuit->parseSetting('header_image'),
         ];
 
-        return view($this->view_prefix.'user', $render);
+        return view($this->view_prefix . 'user', $render);
     }
 
-    public function postTweet(Request $request)
-    {
+    public function postTweet(Request $request) {
         $param = [
             'status' => $request->input('tweet'),
         ];
@@ -197,8 +191,7 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function getLike(Request $request, $tweet_id)
-    {
+    public function getLike(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -212,8 +205,7 @@ class APIController extends Controller
         return redirect()->back();
     }
 
-    public function getUnlike(Request $request, $tweet_id)
-    {
+    public function getUnlike(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -227,8 +219,7 @@ class APIController extends Controller
         return redirect()->back();
     }
 
-    public function getReply(Request $request, $tweet_id)
-    {
+    public function getReply(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -246,11 +237,10 @@ class APIController extends Controller
             'tweet' => $this->citcuit->parseTweet($result),
         ];
 
-        return view($this->view_prefix.'reply', $render);
+        return view($this->view_prefix . 'reply', $render);
     }
 
-    public function postReply(Request $request)
-    {
+    public function postReply(Request $request) {
         $param = [
             'status' => $request->input('tweet'),
             'in_reply_to_status_id' => $request->in_reply_to_status_id,
@@ -271,8 +261,7 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function getDelete(Request $request, $tweet_id)
-    {
+    public function getDelete(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
         ];
@@ -290,11 +279,10 @@ class APIController extends Controller
             'tweet' => $this->citcuit->parseTweet($result),
         ];
 
-        return view($this->view_prefix.'delete', $render);
+        return view($this->view_prefix . 'delete', $render);
     }
 
-    public function postDelete(Request $request)
-    {
+    public function postDelete(Request $request) {
         $param = [
             'id' => $request->input('id'),
         ];
@@ -308,8 +296,7 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function getRetweet(Request $request, $tweet_id)
-    {
+    public function getRetweet(Request $request, $tweet_id) {
         $param = [
             'id' => $tweet_id,
             'include_my_retweet' => 'true',
@@ -328,13 +315,12 @@ class APIController extends Controller
             'tweet' => $this->citcuit->parseTweet($result),
         ];
 
-        return view($this->view_prefix.'retweet', $render);
+        return view($this->view_prefix . 'retweet', $render);
     }
 
-    public function postRetweetWithComment(Request $request)
-    {
+    public function postRetweetWithComment(Request $request) {
         $param = [
-            'status' => $request->input('tweet').' '.$request->input('retweet_link'),
+            'status' => $request->input('tweet') . ' ' . $request->input('retweet_link'),
         ];
         $result = $this->api->statuses_update($param);
 
@@ -352,8 +338,7 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function postRetweet(Request $request)
-    {
+    public function postRetweet(Request $request) {
         $param = [
             'id' => $request->input('id'),
         ];
@@ -367,8 +352,7 @@ class APIController extends Controller
         return redirect()->back();
     }
 
-    public function postUnretweet(Request $request)
-    {
+    public function postUnretweet(Request $request) {
         $param = [
             'id' => $request->input('id'),
         ];
@@ -382,8 +366,7 @@ class APIController extends Controller
         return redirect()->back();
     }
 
-    public function getFollow(Request $request, $screen_name)
-    {
+    public function getFollow(Request $request, $screen_name) {
         $param = [
             'screen_name' => $screen_name,
         ];
@@ -397,8 +380,7 @@ class APIController extends Controller
         return redirect()->back();
     }
 
-    public function getUnfollow(Request $request, $screen_name)
-    {
+    public function getUnfollow(Request $request, $screen_name) {
         $param = [
             'screen_name' => $screen_name,
         ];
@@ -412,8 +394,7 @@ class APIController extends Controller
         return redirect()->back();
     }
 
-    public function getMessages(Request $request, $max_id = false)
-    {
+    public function getMessages(Request $request, $max_id = false) {
         $param = [
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
@@ -440,11 +421,10 @@ class APIController extends Controller
             $render['timeline'] = 'You don\'t have any incoming messages yet.';
         }
 
-        return view($this->view_prefix.'messages', $render);
+        return view($this->view_prefix . 'messages', $render);
     }
 
-    public function getMessagesSent(Request $request, $max_id = false)
-    {
+    public function getMessagesSent(Request $request, $max_id = false) {
         $param = [
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
         ];
@@ -471,20 +451,18 @@ class APIController extends Controller
             $render['timeline'] = 'You don\'t have any sent messages yet.';
         }
 
-        return view($this->view_prefix.'messages_sent', $render);
+        return view($this->view_prefix . 'messages_sent', $render);
     }
 
-    public function getMessagesCreate(Request $request, $screen_name = null)
-    {
+    public function getMessagesCreate(Request $request, $screen_name = null) {
         $render = [
             'screen_name' => $screen_name,
         ];
 
-        return view($this->view_prefix.'messages_create', $render);
+        return view($this->view_prefix . 'messages_create', $render);
     }
 
-    public function postMessagesCreate(Request $request)
-    {
+    public function postMessagesCreate(Request $request) {
         $param = [
             'screen_name' => $request->input('screen_name'),
             'text' => $request->input('text'),
@@ -499,8 +477,7 @@ class APIController extends Controller
         return redirect('messages');
     }
 
-    public function getMessagesDetail(Request $request, $id)
-    {
+    public function getMessagesDetail(Request $request, $id) {
         $param = [
             'id' => $id,
         ];
@@ -518,11 +495,10 @@ class APIController extends Controller
             'message' => $this->citcuit->parseMessage($result),
         ];
 
-        return view($this->view_prefix.'messages_detail', $render);
+        return view($this->view_prefix . 'messages_detail', $render);
     }
 
-    public function getMessagesDelete(Request $request, $id)
-    {
+    public function getMessagesDelete(Request $request, $id) {
         $param = [
             'id' => $id,
         ];
@@ -540,11 +516,10 @@ class APIController extends Controller
             'message' => $this->citcuit->parseMessage($result),
         ];
 
-        return view($this->view_prefix.'messages_delete', $render);
+        return view($this->view_prefix . 'messages_delete', $render);
     }
 
-    public function postMessagesDelete(Request $request)
-    {
+    public function postMessagesDelete(Request $request) {
         $param = [
             'id' => $request->input('id'),
         ];
@@ -558,8 +533,7 @@ class APIController extends Controller
         return redirect('messages');
     }
 
-    public function getSearch(Request $request)
-    {
+    public function getSearch(Request $request) {
         $q = $request->input('q');
         $result_type = $request->input('result_type');
         $max_id = $request->input('max_id');
@@ -573,7 +547,7 @@ class APIController extends Controller
                 'result_type' => $result_type,
             ];
 
-            return view($this->view_prefix.'search', $render);
+            return view($this->view_prefix . 'search', $render);
         } else {
             $param = [
                 'count' => $this->citcuit->parseSetting('tweets_per_page'),
@@ -595,6 +569,7 @@ class APIController extends Controller
                     'Tweet Search' => $this->citcuit->parseRateLimit($result),
                 ],
                 'q' => $q,
+                'q_encoded' => $this->citcuit->parseEncodeURI($q),
                 'result_type' => $result_type,
             ];
 
@@ -604,19 +579,18 @@ class APIController extends Controller
                 $render['timeline'] = 'No results.';
             }
 
-            return view($this->view_prefix.'search', $render);
+            return view($this->view_prefix . 'search', $render);
         }
     }
 
-    public function getSearchUser(Request $request)
-    {
+    public function getSearchUser(Request $request) {
         $q = $request->input('q');
         $page = $request->input('page');
 
         if (!$q) {
             $render = [];
 
-            return view($this->view_prefix.'search_user', $render);
+            return view($this->view_prefix . 'search_user', $render);
         } else {
             $param = [
                 'count' => $this->citcuit->parseSetting('tweets_per_page'),
@@ -664,19 +638,71 @@ class APIController extends Controller
                 $render['page_prev'] = $page - 1;
             }
 
-            return view($this->view_prefix.'search_user', $render);
+            return view($this->view_prefix . 'search_user', $render);
         }
     }
 
-    public function getSettings(Request $request)
-    {
-        $render = [];
+    public function getSearchSaved(Request $request) {
 
-        return view($this->view_prefix.'settings', $render);
+        $result = $this->api->savedSearches_list();
+
+        $error = $this->citcuit->parseError($result, 'Saved Search');
+        if ($error) {
+            return view('error', $error);
+        }
+
+        $render = [
+            'rate' => [
+                'Saved Search' => $this->citcuit->parseRateLimit($result),
+            ]
+        ];
+
+        $parse = $this->citcuit->parseResult($result, 'search_saved');
+
+        if (count($parse->content) != 0) {
+            $render['search_saved'] = $parse;
+        } else {
+            $render['search_saved'] = 'No saved search.';
+        }
+
+        return view($this->view_prefix . 'search_saved', $render);
     }
 
-    public function getSettingsGeneralReset(Request $request)
-    {
+    public function postSearchSaved(Request $request) {
+        $param = [
+            'query' => $request->saved_query,
+        ];
+        $result = $this->api->savedSearches_create($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('search/saved');
+    }
+    
+    public function postSearchSavedDelete(Request $request) {
+        $param = [
+            'id' => $request->saved_id,
+        ];
+        $result = $this->api->savedSearches_destroy_ID($param);
+
+        $error = $this->citcuit->parseError($result);
+        if ($error) {
+            return view('error', $error);
+        }
+
+        return redirect('search/saved');
+    }
+
+    public function getSettings(Request $request) {
+        $render = [];
+
+        return view($this->view_prefix . 'settings', $render);
+    }
+
+    public function getSettingsGeneralReset(Request $request) {
         $request->session()->forget('auth.settings');
 
         return redirect()
@@ -684,8 +710,7 @@ class APIController extends Controller
                         ->with('success', 'General setting reseted!');
     }
 
-    public function getSettingsGeneral(Request $request)
-    {
+    public function getSettingsGeneral(Request $request) {
         $render = [
             'settings' => [
                 'theme' => $this->citcuit->parseSetting('theme'),
@@ -702,11 +727,10 @@ class APIController extends Controller
             ],
         ];
 
-        return view($this->view_prefix.'settings_general', $render);
+        return view($this->view_prefix . 'settings_general', $render);
     }
 
-    public function postSettingsGeneral(Request $request)
-    {
+    public function postSettingsGeneral(Request $request) {
         session([
             'auth.settings.theme' => $request->theme,
             'auth.settings.header_image' => $request->header_image,
@@ -721,8 +745,7 @@ class APIController extends Controller
                         ->with('success', 'General setting updated!');
     }
 
-    public function getSettingsProfile(Request $request)
-    {
+    public function getSettingsProfile(Request $request) {
         $param = [
             'screen_name' => session('auth.screen_name'),
         ];
@@ -740,11 +763,10 @@ class APIController extends Controller
             'profile' => $this->citcuit->parseProfile($result),
         ];
 
-        return view($this->view_prefix.'settings_profile', $render);
+        return view($this->view_prefix . 'settings_profile', $render);
     }
 
-    public function postSettingsProfile(Request $request)
-    {
+    public function postSettingsProfile(Request $request) {
         $param = [
             'name' => $request->input('name'),
             'url' => $request->input('url'),
@@ -763,8 +785,7 @@ class APIController extends Controller
                         ->with('success', 'Profile updated!');
     }
 
-    public function getSettingsProfileImage(Request $request)
-    {
+    public function getSettingsProfileImage(Request $request) {
         $param = [
             'screen_name' => session('auth.screen_name'),
         ];
@@ -782,11 +803,10 @@ class APIController extends Controller
             'profile' => $this->citcuit->parseProfile($result),
         ];
 
-        return view($this->view_prefix.'settings_profile_image', $render);
+        return view($this->view_prefix . 'settings_profile_image', $render);
     }
 
-    public function postSettingsProfileImage(Request $request)
-    {
+    public function postSettingsProfileImage(Request $request) {
         $param = [
             'image' => $request->image,
         ];
@@ -803,8 +823,7 @@ class APIController extends Controller
                         ->with('success', 'Profile image updated!');
     }
 
-    public function getSettingsProfileHeader(Request $request)
-    {
+    public function getSettingsProfileHeader(Request $request) {
         $param = [
             'screen_name' => session('auth.screen_name'),
         ];
@@ -822,11 +841,10 @@ class APIController extends Controller
             'profile' => $this->citcuit->parseProfile($result),
         ];
 
-        return view($this->view_prefix.'settings_profile_header', $render);
+        return view($this->view_prefix . 'settings_profile_header', $render);
     }
 
-    public function getSettingsProfileHeaderRemove(Request $request)
-    {
+    public function getSettingsProfileHeaderRemove(Request $request) {
         $result = $this->api->account_removeProfileBanner();
 
         $error = $this->citcuit->parseError($result);
@@ -839,8 +857,7 @@ class APIController extends Controller
                         ->with('success', 'Profile header removed!');
     }
 
-    public function postSettingsProfileHeader(Request $request)
-    {
+    public function postSettingsProfileHeader(Request $request) {
         $param = [
             'banner' => $request->image,
         ];
@@ -857,8 +874,7 @@ class APIController extends Controller
                         ->with('success', 'Profile header updated!');
     }
 
-    public function getSettingsFacebookLogin(Request $request)
-    {
+    public function getSettingsFacebookLogin(Request $request) {
         $fb = new FacebookController();
 
         if ($request->input('code')) {
@@ -870,16 +886,14 @@ class APIController extends Controller
         }
     }
 
-    public function getSettingsFacebookLogout(Request $request)
-    {
+    public function getSettingsFacebookLogout(Request $request) {
         $fb = new FacebookController();
         $fb->logout($request);
 
         return redirect('settings/facebook');
     }
 
-    public function getSettingsFacebook(Request $request)
-    {
+    public function getSettingsFacebook(Request $request) {
         $fb = new FacebookController();
 
         if ($fb->checkToken()) {
@@ -894,11 +908,10 @@ class APIController extends Controller
             ];
         }
 
-        return view($this->view_prefix.'settings_facebook', $render);
+        return view($this->view_prefix . 'settings_facebook', $render);
     }
 
-    public function getTrends(Request $request)
-    {
+    public function getTrends(Request $request) {
         // locations
         $result = $this->api->trends_available();
 
@@ -935,22 +948,20 @@ class APIController extends Controller
         $render['results'] = $this->citcuit->parseTrendsResults($result);
         $render['curent_location'] = $location;
 
-        return view($this->view_prefix.'trends', $render);
+        return view($this->view_prefix . 'trends', $render);
     }
 
-    public function getUpload(Request $request)
-    {
-        return view($this->view_prefix.'upload');
+    public function getUpload(Request $request) {
+        return view($this->view_prefix . 'upload');
     }
 
-    public function postUpload(Request $request)
-    {
+    public function postUpload(Request $request) {
         $this->validate($request, [
-              'image1' => 'required|image',
-              'image2' => 'image',
-              'image3' => 'image',
-              'image4' => 'image',
-          ]);
+            'image1' => 'required|image',
+            'image2' => 'image',
+            'image3' => 'image',
+            'image4' => 'image',
+        ]);
         $media_files = [
             $request->file('image1'),
         ];
@@ -1002,8 +1013,7 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function postUploadRemote(Request $request)
-    {
+    public function postUploadRemote(Request $request) {
         $this->validate($request, [
             'image1' => 'required|url',
             'image2' => 'url',
@@ -1061,15 +1071,13 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function getUploadVideo(Request $request)
-    {
-        return view($this->view_prefix.'upload_video');
+    public function getUploadVideo(Request $request) {
+        return view($this->view_prefix . 'upload_video');
     }
 
-    public function postUploadVideo(Request $request)
-    {
+    public function postUploadVideo(Request $request) {
         $this->validate($request, [
-              'video' => 'required|file|mimes:mp4',
+            'video' => 'required|file|mimes:mp4',
         ]);
 
         // https://github.com/jublonet/codebird-php#video-files
@@ -1140,8 +1148,7 @@ class APIController extends Controller
         return redirect('/');
     }
 
-    public function getFollowers(Request $request, $screen_name, $cursor = null)
-    {
+    public function getFollowers(Request $request, $screen_name, $cursor = null) {
         $param = [
             'screen_name' => $screen_name,
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
@@ -1167,14 +1174,13 @@ class APIController extends Controller
         if (count($parse->content) != 0) {
             $render['users'] = $parse;
         } else {
-            $render['users'] = '@'.$screen_name.' doesn\'t have any followers yet.';
+            $render['users'] = '@' . $screen_name . ' doesn\'t have any followers yet.';
         }
 
-        return view($this->view_prefix.'followers', $render);
+        return view($this->view_prefix . 'followers', $render);
     }
 
-    public function getFollowing(Request $request, $screen_name, $cursor = null)
-    {
+    public function getFollowing(Request $request, $screen_name, $cursor = null) {
         $param = [
             'screen_name' => $screen_name,
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
@@ -1200,14 +1206,13 @@ class APIController extends Controller
         if (count($parse->content) != 0) {
             $render['users'] = $parse;
         } else {
-            $render['users'] = '@'.$screen_name.' isn\'t following anyone yet.';
+            $render['users'] = '@' . $screen_name . ' isn\'t following anyone yet.';
         }
 
-        return view($this->view_prefix.'following', $render);
+        return view($this->view_prefix . 'following', $render);
     }
 
-    public function getLikes(Request $request, $screen_name, $max_id = false)
-    {
+    public function getLikes(Request $request, $screen_name, $max_id = false) {
         $param = [
             'count' => $this->citcuit->parseSetting('tweets_per_page'),
             'screen_name' => $screen_name,
@@ -1233,9 +1238,10 @@ class APIController extends Controller
         if (count($parse->content) != 0) {
             $render['timeline'] = $parse;
         } else {
-            $render['timeline'] = '@'.$screen_name.' hasn\'t liked any Tweets yet.';
+            $render['timeline'] = '@' . $screen_name . ' hasn\'t liked any Tweets yet.';
         }
 
-        return view($this->view_prefix.'likes', $render);
+        return view($this->view_prefix . 'likes', $render);
     }
+
 }
