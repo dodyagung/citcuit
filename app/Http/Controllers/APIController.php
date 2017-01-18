@@ -951,8 +951,13 @@ class APIController extends Controller {
         return view($this->view_prefix . 'trends', $render);
     }
 
-    public function getUpload(Request $request) {
-        return view($this->view_prefix . 'upload');
+    public function getUpload(Request $request, $reply_id = false, $reply_destination = false) {
+        $render = [
+            'reply_id' => $reply_id,
+            'reply_destination' => $reply_destination,
+        ];
+
+        return view($this->view_prefix . 'upload', $render);
     }
 
     public function postUpload(Request $request) {
@@ -1002,6 +1007,10 @@ class APIController extends Controller {
             'status' => $request->input('tweet'),
             'media_ids' => $media_ids,
         ];
+        
+        if ($request->has('in_reply_to_status_id')) {
+            $param['in_reply_to_status_id'] = $request->in_reply_to_status_id;
+        }
 
         $result = $this->api->statuses_update($param);
 

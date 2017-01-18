@@ -95,6 +95,10 @@
             @endif
             <button type="submit">Reply to {{ '@' . $tweet->user->screen_name }}</button>
         </form>
+        <hr />
+        <a class="button" href="{{ url('upload/reply/' . $tweet->id_str . '/' . urlencode($tweet->reply_destination)) }}">Or, reply with image</a>
+        <br />
+        <br />
     </div>
 </section>
 @endsection

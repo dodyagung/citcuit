@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
     Route::post('upload/remote', 'APIController@postUploadRemote');
     Route::get('upload/video', 'APIController@getUploadVideo');
     Route::post('upload/video', 'APIController@postUploadVideo');
+    Route::get('upload/reply/{reply_id}/{reply_destination}', 'APIController@getUpload');
 
     Route::get('following/{screen_name}', 'APIController@getFollowing');
     Route::get('following/{screen_name}/cursor/{cursor}', 'APIController@getFollowing');
