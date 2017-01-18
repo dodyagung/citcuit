@@ -101,7 +101,8 @@ textarea {
   height: 5em;
 }
 
-button {
+button,
+.button {
   background: #c12;
   border: 0;
   color: #fff;
