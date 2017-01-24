@@ -70,7 +70,7 @@ class CitcuitController {
     }
 
     private function parseLinkUser($text) {
-        return preg_replace('/@(\w{1,15})/i', ' <a href="' . url('user/$1') . '">@$1</a>', $text);
+        return preg_replace('/(^|\s|\()@(\w{1,15})/i', ' $1<a href="' . url('user/$2') . '">@$2</a>', $text);
     }
 
     private function parseLinkEmail($text) {
