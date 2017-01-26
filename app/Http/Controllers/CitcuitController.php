@@ -198,13 +198,18 @@ class CitcuitController {
 
         // text - t.co
         $urls = $tweet->entities->urls;
+        $url_array = [];
         foreach ($urls as $url) {
-            // if contain twitter quote, delete it
-            if (strpos($url->expanded_url, 'twitter.com') !== false && strpos($url->expanded_url, '/status/') !== false) {
-                $tweet->text = str_replace($url->url, '', $tweet->text);
-            } else {
-                $tweet->text = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $tweet->text);
+            // prevent double replace on same link
+            if (!in_array($url->url, $url_array)) {
+                // if contain twitter quote, delete it
+                if (strpos($url->expanded_url, 'twitter.com') !== false && strpos($url->expanded_url, '/status/') !== false) {
+                    $tweet->text = str_replace($url->url, '', $tweet->text);
+                } else {
+                    $tweet->text = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $tweet->text);
+                }
             }
+            $url_array[] = $url->url;
         }
 
         // text - image
@@ -287,8 +292,13 @@ class CitcuitController {
 
         // parse link
         $urls = $message->entities->urls;
+        $url_array = [];
         foreach ($urls as $url) {
-            $message->text = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $message->text);
+            // prevent double replace on same link
+            if (!in_array($url->url, $url_array)) {
+                $message->text = str_replace($url->url, '<a href="' . $url->url . '" target="_blank">' . $url->display_url . '</a>', $message->text);
+            }
+            $url_array[] = $url->url;
         }
 
         // parse
