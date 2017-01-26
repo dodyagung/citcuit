@@ -290,6 +290,15 @@ class CitcuitController {
             $message->created_at = $message->created_at_original;
         }
 
+        // parse image
+        if (isset($message->entities->media)) {
+            $medias = $message->entities->media;
+            $message->citcuit_media = [];
+            foreach ($medias as $media) {
+                $message->citcuit_media[] = '<a href="' . $media->media_url_https . ':large" target="_blank"><img src="' . $media->media_url_https . '" width="' . $media->sizes->thumb->w . '" /></a><br />';
+            }
+        }
+
         // parse link
         $urls = $message->entities->urls;
         $url_array = [];

@@ -30,6 +30,11 @@
             <a href="{{ url('messages/delete/' . $message->id_str) }}"><img class="img-action" src="{{ url('assets/img/delete.png') }}" alt="Delete" /></a>
         </span><br />
         {!! $message->text !!}<br />
+        @if (isset($message->citcuit_media))
+        @foreach ($message->citcuit_media as $media)
+        {!! $media !!}
+        @endforeach
+        @endif
         <small>{{ $message->created_at_original }}</small>
     </div>
 </section>
