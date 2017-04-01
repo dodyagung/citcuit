@@ -1069,6 +1069,10 @@ class APIController extends Controller {
             'status' => $request->input('tweet'),
             'media_ids' => $media_ids,
         ];
+        
+        if ($request->has('in_reply_to_status_id')) {
+            $param['in_reply_to_status_id'] = $request->in_reply_to_status_id;
+        }
 
         $result = $this->api->statuses_update($param);
 
