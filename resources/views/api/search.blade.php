@@ -6,13 +6,13 @@
     @yield('title')
 </nav>
 <section class="tweet tweet-even">
-    <strong>Search Tweet</strong> | <a href="{{ url('search/user') }}">Search User</a>
+    <strong>Search Tweet</strong> | <a href="{{ url('search/user') }}">Search User</a> | <a href="{{ url('search/saved') }}">Saved Search</a>
 </section>
 <section class="tweet tweet-odd">
     <form method="GET" action="{{ url('search') }}">
         Tweet :<br />
         <input type="text" name="q" @if(isset($q)) value="{{ $q }}" @endif required>
-        Result Type :<br />
+               Result Type :<br />
         <select name="result_type">
             <option value="mixed"@if($result_type == 'mixed') selected @endif>Mixed (recent & popular)</option>
             <option value="recent"@if($result_type == 'recent') selected @endif>Recent</option>
@@ -20,6 +20,14 @@
         </select>
         <button type="submit">Search</button>
     </form>
+    @if (isset($q))
+    <hr />
+    <form method="POST" action="{{ url('search/saved') }}">
+        <input type="hidden" name="saved_query" value="{{ $q }}" />
+        {{ csrf_field() }}
+        <small><button type="submit">Save '{{ $q }}' to Saved Search</button></small>
+    </form>
+    @endif
 </section>
 @if (isset($q))
 <nav class="nav-submenu">

@@ -30,8 +30,13 @@
         <input type="file" name="image3">
         Image 4 (optional) :<br />
         <input type="file" name="image4">
-        Text :
-        <textarea id="status" name="tweet" required></textarea>
+        @if($reply_id)
+        <input type="hidden" name="in_reply_to_status_id" value="{{ $reply_id }}" />
+        Reply <a href="{{ url('reply/' . $reply_id) }}">this tweet</a> with :
+        @else
+        Tweet :
+        @endif
+        <textarea id="status" name="tweet" required>{{ urldecode($reply_destination) }}</textarea>
         @if (session('auth.facebook_token'))
         <label><input type="checkbox" name="fb" id="fb" value="yes"> Share to Facebook</label><br />
         @else
@@ -53,8 +58,13 @@
         <input type="text" name="image3">
         Image 4 (optional) :<br />
         <input type="text" name="image4">
-        Text :
-        <textarea id="status" name="tweet" required></textarea>
+        @if($reply_id)
+        <input type="hidden" name="in_reply_to_status_id" value="{{ $reply_id }}" />
+        Reply <a href="{{ url('reply/' . $reply_id) }}">this tweet</a> with :
+        @else
+        Tweet :
+        @endif
+        <textarea id="status" name="tweet" required>{{ urldecode($reply_destination) }}</textarea>
         @if (session('auth.facebook_token'))
         <label><input type="checkbox" name="fb" id="fb" value="yes"> Share to Facebook</label><br />
         @else

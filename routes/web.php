@@ -1,15 +1,15 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of the routes that are handled
-| by your application. Just tell Laravel the URIs it should respond
-| to using a Closure or controller method. Build something great!
-|
-*/
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | This file is where you may define all of the routes that are handled
+  | by your application. Just tell Laravel the URIs it should respond
+  | to using a Closure or controller method. Build something great!
+  |
+ */
 
 Route::get('about', 'NonAPIController@getAbout');
 Route::get('signin', 'AuthController@getSignIn');
@@ -62,6 +62,9 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
 
     Route::get('search', 'APIController@getSearch');
     Route::get('search/user', 'APIController@getSearchUser');
+    Route::get('search/saved', 'APIController@getSearchSaved');
+    Route::post('search/saved', 'APIController@postSearchSaved');
+    Route::post('search/saved/delete', 'APIController@postSearchSavedDelete');
 
     Route::get('settings', 'APIController@getSettings');
     Route::get('settings/general', 'APIController@getSettingsGeneral');
@@ -85,6 +88,7 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
     Route::post('upload/remote', 'APIController@postUploadRemote');
     Route::get('upload/video', 'APIController@getUploadVideo');
     Route::post('upload/video', 'APIController@postUploadVideo');
+    Route::get('upload/reply/{reply_id}/{reply_destination}', 'APIController@getUpload');
 
     Route::get('following/{screen_name}', 'APIController@getFollowing');
     Route::get('following/{screen_name}/cursor/{cursor}', 'APIController@getFollowing');

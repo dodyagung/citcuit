@@ -84,7 +84,7 @@
         <img class="img-action" src="{{ url('assets/img/retweet-green.png') }}" /> <small><strong><a href="{{ url('detail/' . $tweet_original->id_str) }}">Retweeted</a> by <a href="{{ url('user/' . $tweet_original->user->screen_name) }}">{{ $tweet_original->user->name }}</a></strong></small>
         @endif
         <hr />
-        <form method="POST" action="{{ url('reply') }}">
+        <form method="POST" style="display: inline;" action="{{ url('reply') }}">
             <textarea id="status" name="tweet" required>{{ $tweet->reply_destination }}</textarea>
             <input type="hidden" name="in_reply_to_status_id" value="{{ $tweet->id_str }}">
             {{ csrf_field() }}
@@ -95,6 +95,10 @@
             @endif
             <button type="submit">Reply to {{ '@' . $tweet->user->screen_name }}</button>
         </form>
+        <!--<hr />-->
+        <a class="button" href="{{ url('upload/reply/' . $tweet->id_str . '/' . urlencode($tweet->reply_destination)) }}">Or, reply with image</a>
+         <hr />
+        <small><a href="{{ 'https://mobile.twitter.com/'.$tweet->user->screen_name.'/status/'.$tweet->id_str }}" target="_blank">[View conversation]</a></small>
     </div>
 </section>
 @endsection
