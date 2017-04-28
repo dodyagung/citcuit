@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "58530a9b8598264fa0e22e73245fcb3a",
+    "content-hash": "0968f13824870146101fd91e205d121e",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1633,16 +1633,16 @@
         },
         {
             "name": "sentry/sentry-laravel",
-            "version": "0.5.0",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-laravel.git",
-                "reference": "9f5214529abf542bd6390799ec1e955a415853aa"
+                "reference": "c1471d1d7fff0fa5618ecfb936eb6a523c1ea8fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/9f5214529abf542bd6390799ec1e955a415853aa",
-                "reference": "9f5214529abf542bd6390799ec1e955a415853aa",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/c1471d1d7fff0fa5618ecfb936eb6a523c1ea8fa",
+                "reference": "c1471d1d7fff0fa5618ecfb936eb6a523c1ea8fa",
                 "shasum": ""
             },
             "require": {
@@ -1657,7 +1657,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.5.x-dev"
+                    "dev-master": "0.7.x-dev"
                 }
             },
             "autoload": {
@@ -1683,7 +1683,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2016-12-09T03:42:22+00:00"
+            "time": "2017-04-21T17:44:27+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2723,12 +2723,12 @@
             "version": "0.9.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/padraic/mockery.git",
+                "url": "https://github.com/mockery/mockery.git",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856",
                 "shasum": ""
             },
