@@ -11,8 +11,7 @@
         "jublonet/codebird-php": "^3.1",
         "sammyk/laravel-facebook-sdk": "^3.4",
         "sentry/sentry-laravel": "^0.7.0",
-        "graham-campbell/htmlmin": "^4.5",
-        "nojimage/twitter-text-php": "^1.1"
+        "graham-campbell/htmlmin": "^4.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
