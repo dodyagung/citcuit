@@ -6,20 +6,18 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
+        "laravel/tinker": "~1.0",
         "barryvdh/laravel-debugbar": "^2.3",
         "jublonet/codebird-php": "^3.1",
         "sammyk/laravel-facebook-sdk": "^3.4",
-        "sentry/sentry-laravel": "^0.5.0",
-        "graham-campbell/htmlmin": "^4.5",
-        "nojimage/twitter-text-php": "^1.1"
+        "sentry/sentry-laravel": "^0.7.0",
+        "graham-campbell/htmlmin": "^4.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "classmap": [
@@ -30,9 +28,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [
@@ -51,6 +49,8 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }

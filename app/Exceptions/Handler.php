@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (!is_null(env('SENTRY_DSN')) && env('SENTRY_DSN') != '' && !app()->isLocal() && $this->shouldReport($exception)) {
+        if (!is_null(env('SENTRY_DSN')) && env('SENTRY_DSN') != '' && !app()->isLocal() && app()->bound('sentry')) {
             app('sentry')->captureException($exception);
         } else {
             parent::report($exception);

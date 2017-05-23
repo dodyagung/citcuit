@@ -28,9 +28,8 @@ Same as [Laravel 5.3](https://laravel.com/docs/5.3#server-requirements) requirem
 ## Installation
 
 1. Run `composer create-project dodyagung/citcuit your-project-name`
-2. Rename `.env.example` to `.env`
-3. Edit the `.env` file according your config needs
-4. Run the application via your favorite browser
+2. Edit the `.env` file according your config needs
+3. Run the application via your favorite browser
 
 ## Contributing
 

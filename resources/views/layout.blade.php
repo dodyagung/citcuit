@@ -27,7 +27,7 @@
         <meta name="twitter:description" content="CitCuit is a mobile Twitter client, alternative of official mobile.twitter.com website. Secure, slim, fast, no ads, no database and of course we're open-sourced! Built with Laravel. Made with <3 by @dodyags in Jakarta, Indonesia." />
         <meta name="twitter:image" content="{{ url('assets/img/logo_square.png') }}" />
         <meta name="twitter:image:alt" content="CitCuit Logo" />
-        <link rel="icon" href="{{ url('assets/img/favicon.png') }}" type="image/png" sizes="any" />
+        <link rel="shortcut icon" href="{{ url('favicon.ico') }}" type="image/x-icon" sizes="any" />
         <title>@yield('title') - CitCuit</title>
         <link href="{{ url('assets/css/normalize.css') }}" rel="stylesheet">
         <link href="{{ url('assets/css/'.$global_setting['theme'].'.css') }}" rel="stylesheet">
