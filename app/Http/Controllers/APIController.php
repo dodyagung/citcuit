@@ -1025,9 +1025,9 @@ class APIController extends Controller {
     public function postUploadRemote(Request $request) {
         $this->validate($request, [
             'image1' => 'required|url',
-            'image2' => 'url',
-            'image3' => 'url',
-            'image4' => 'url',
+            'image2' => 'nullable|url',
+            'image3' => 'nullable|url',
+            'image4' => 'nullable|url',
         ]);
         $media_files = [
             $this->citcuit->parseEncodeURI($request->image1),
