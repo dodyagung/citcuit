@@ -172,14 +172,18 @@ class APIController extends Controller {
     }
 
     public function postTweet(Request $request) {
-        // turn into autotext
-        foreach (ToolsController::getAutotext() as $key => $value) {
-            foreach ($value as $key1 => $value1) {
-                $tmp_autotext_from[] = $key1;
-                $tmp_autotext_to[] = $value1;
+
+        if ($this->citcuit->parseSetting('autotext') == 1) {
+            foreach (ToolsController::getAutotext() as $key => $value) {
+                foreach ($value as $key1 => $value1) {
+                    $tmp_autotext_from[] = $key1;
+                    $tmp_autotext_to[] = $value1;
+                }
             }
+            $tweet = str_replace($tmp_autotext_from, $tmp_autotext_to, $request->tweet);
+        } else {
+            $tweet = $request->tweet;
         }
-        $tweet = str_replace($tmp_autotext_from, $tmp_autotext_to, $request->tweet);
 
         $param = [
             'status' => $tweet,
@@ -690,7 +694,7 @@ class APIController extends Controller {
 
         return redirect('search/saved');
     }
-    
+
     public function postSearchSavedDelete(Request $request) {
         $param = [
             'id' => $request->saved_id,
@@ -728,6 +732,7 @@ class APIController extends Controller {
                 'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
                 'timezone' => $this->citcuit->parseSetting('timezone'),
                 'time_diff' => $this->citcuit->parseSetting('time_diff'),
+                'autotext' => $this->citcuit->parseSetting('autotext'),
             ],
             'timezone' => $this->citcuit->parseTimeZone(),
             'time_diff' => [
@@ -747,6 +752,7 @@ class APIController extends Controller {
             'auth.settings.auto_refresh' => $request->auto_refresh,
             'auth.settings.timezone' => $request->timezone,
             'auth.settings.time_diff' => $request->time_diff,
+            'auth.settings.autotext' => $request->autotext,
         ]);
 
         return redirect()
@@ -1016,7 +1022,7 @@ class APIController extends Controller {
             'status' => $request->input('tweet'),
             'media_ids' => $media_ids,
         ];
-        
+
         if ($request->has('in_reply_to_status_id')) {
             $param['in_reply_to_status_id'] = $request->in_reply_to_status_id;
         }
@@ -1078,7 +1084,7 @@ class APIController extends Controller {
             'status' => $request->input('tweet'),
             'media_ids' => $media_ids,
         ];
-        
+
         if ($request->has('in_reply_to_status_id')) {
             $param['in_reply_to_status_id'] = $request->in_reply_to_status_id;
         }
@@ -1265,13 +1271,19 @@ class APIController extends Controller {
 
         return view($this->view_prefix . 'likes', $render);
     }
-    
-    public function getAutotext(Request $request, $max_id = false) {
+
+    public function getTools(Request $request) {
+        $render = [];
+
+        return view($this->view_prefix . 'tools', $render);
+    }
+
+    public function getToolsAutotext(Request $request, $max_id = false) {
         $render = [
             'autotext' => ToolsController::getAutotext()
         ];
 
-        return view($this->view_prefix . 'autotext', $render);
+        return view($this->view_prefix . 'tools_autotext', $render);
     }
 
 }

@@ -58,6 +58,11 @@
             <option value="1" @if($settings['time_diff'] == 1) selected @endif >Yes ({{ $time_diff[1] }})</option>
             <option value="0" @if($settings['time_diff'] == 0) selected @endif >No ({{ $time_diff[0] }})</option>
         </select>
+        Enable Autotext :<br />
+        <select name="autotext">
+            <option value="1" @if($settings['autotext'] == 1) selected @endif >Yes</option>
+            <option value="0" @if($settings['autotext'] == 0) selected @endif >No</option>
+        </select>
         {{ csrf_field() }}
         <button type="submit">Update</button>
         <br />
