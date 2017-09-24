@@ -172,8 +172,17 @@ class APIController extends Controller {
     }
 
     public function postTweet(Request $request) {
+        // turn into autotext
+        foreach (ToolsController::getAutotext() as $key => $value) {
+            foreach ($value as $key1 => $value1) {
+                $tmp_autotext_from[] = $key1;
+                $tmp_autotext_to[] = $value1;
+            }
+        }
+        $tweet = str_replace($tmp_autotext_from, $tmp_autotext_to, $request->tweet);
+
         $param = [
-            'status' => $request->input('tweet'),
+            'status' => $tweet,
         ];
         $result = $this->api->statuses_update($param);
 
@@ -1255,6 +1264,14 @@ class APIController extends Controller {
         }
 
         return view($this->view_prefix . 'likes', $render);
+    }
+    
+    public function getAutotext(Request $request, $max_id = false) {
+        $render = [
+            'autotext' => ToolsController::getAutotext()
+        ];
+
+        return view($this->view_prefix . 'autotext', $render);
     }
 
 }
