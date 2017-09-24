@@ -35,7 +35,11 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (!is_null(env('SENTRY_DSN')) && env('SENTRY_DSN') != '' && !app()->isLocal() && app()->bound('sentry')) {
+        if (!is_null(env('SENTRY_DSN'))
+                && env('SENTRY_DSN') != '' 
+                && !app()->isLocal() 
+                && app()->bound('sentry')
+                && !$exception instanceof MaintenanceModeException) {
             app('sentry')->captureException($exception);
         } else {
             parent::report($exception);
@@ -52,6 +56,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $custom_render = true;
+
         if ($exception instanceof MaintenanceModeException) {
             return response()->view('errors.503');
         } else if ($exception instanceof NotFoundHttpException) {
@@ -61,12 +67,14 @@ class Handler extends ExceptionHandler
             $code = $exception->getStatusCode();
             $message = 'Method not allowed.';
         } else {
-            $code = 500;
-            $message = $exception->getMessage();
+            $custom_render = false;
         }
-        return response()->view('error', ['description' => $code . ' - ' . $message . '<br />'], $code);
 
-        // return parent::render($request, $exception);
+        if ($custom_render) {
+            return response()->view('error', ['description' => $code . ' - ' . $message . '<br />'], $code);
+        } else {
+            return parent::render($request, $exception);
+        }
     }
 
     /**
