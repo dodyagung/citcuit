@@ -946,7 +946,7 @@ class APIController extends Controller {
         $location = $request->input('location');
 
         if (!$location) {
-            $location = 1;
+            $location = $this->citcuit->parseSetting('trend_location');
         }
 
         $param = [
@@ -958,6 +958,10 @@ class APIController extends Controller {
         if ($error) {
             return view('error', $error);
         }
+        
+        session([
+            'auth.settings.trend_location' => $location
+        ]);
 
         $render['rate']['Trends Result'] = $this->citcuit->parseRateLimit($result);
         $render['results'] = $this->citcuit->parseTrendsResults($result);
