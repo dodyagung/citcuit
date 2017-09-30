@@ -5,12 +5,16 @@
 <section>
     @include('api.@tweet')
 </section>
+<section class="tweet tweet-even">
+    <a href="{{ url('tools') }}">&laquo; Back to Tools</a>
+</section>
 <nav class="nav-submenu">
     @yield('title')
 </nav>
 <section class="p-moreheight">
     <strong>How to use :</strong><br />
     Copy the left value, it will be replaced into it's right value.
+    Autotext can be disabled on <a href="{{ url('settings/general') }}">general settings</a>.
     Want to add your own autotext? Just <a href="{{ url('about') }}">contact us</a> with "text + autotext" format.
 </section>
 @foreach ($autotext as $key => $value)
