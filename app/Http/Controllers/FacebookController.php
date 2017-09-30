@@ -7,10 +7,12 @@ use SammyK\LaravelFacebookSdk\LaravelFacebookSdk;
 class FacebookController extends Controller
 {
     private $fb;
+    private $citcuit;
 
     public function __construct()
     {
         $this->fb = app(LaravelFacebookSdk::class);
+        $this->citcuit = new CitcuitController();
     }
 
     private function saveToken($token)
@@ -45,8 +47,10 @@ class FacebookController extends Controller
     {
         $data = [
             'message' => $message,
-            'link' => 'https://citcuit.in',
         ];
+        if ($this->citcuit->parseSetting('fb_link') == 1) {
+            $data['link'] = 'https://citcuit.in';
+        }
         $this->fb->post('/me/feed', $data);
     }
 

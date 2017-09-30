@@ -10,6 +10,7 @@ return [
         'time_diff' => '1',
         'theme' => 'citcuit_blue',
         'autotext' => 1,
-        'trend_location' => 1
+        'trend_location' => 1,
+        'fb_link' => 1,
     ],
 ];

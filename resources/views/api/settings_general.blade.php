@@ -63,6 +63,11 @@
             <option value="1" @if($settings['autotext'] == 1) selected @endif >Yes</option>
             <option value="0" @if($settings['autotext'] == 0) selected @endif >No</option>
         </select>
+        Link on Facebook Share :<br />
+        <select name="fb_link">
+            <option value="1" @if($settings['fb_link'] == 1) selected @endif >Yes</option>
+            <option value="0" @if($settings['fb_link'] == 0) selected @endif >No</option>
+        </select>
         {{ csrf_field() }}
         <button type="submit">Update</button>
         <br />

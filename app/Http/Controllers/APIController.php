@@ -733,6 +733,7 @@ class APIController extends Controller {
                 'timezone' => $this->citcuit->parseSetting('timezone'),
                 'time_diff' => $this->citcuit->parseSetting('time_diff'),
                 'autotext' => $this->citcuit->parseSetting('autotext'),
+                'fb_link' => $this->citcuit->parseSetting('fb_link'),
             ],
             'timezone' => $this->citcuit->parseTimeZone(),
             'time_diff' => [
@@ -753,6 +754,7 @@ class APIController extends Controller {
             'auth.settings.timezone' => $request->timezone,
             'auth.settings.time_diff' => $request->time_diff,
             'auth.settings.autotext' => $request->autotext,
+            'auth.settings.fb_link' => $request->fb_link,
         ]);
 
         return redirect()
