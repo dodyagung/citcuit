@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
+
 use Exception;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -17,13 +17,16 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+    protected $dontReport = [];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -35,11 +38,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (!is_null(env('SENTRY_DSN'))
-                && env('SENTRY_DSN') != '' 
-                && !app()->isLocal() 
-                && app()->bound('sentry')
-                && !$exception instanceof MaintenanceModeException) {
+        if (!app()->isLocal() && app()->bound('sentry') && $this->shouldReport($exception)) {
             app('sentry')->captureException($exception);
         } else {
             parent::report($exception);
@@ -75,22 +74,5 @@ class Handler extends ExceptionHandler
         } else {
             return parent::render($request, $exception);
         }
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param \Illuminate\Http\Request                 $request
-     * @param \Illuminate\Auth\AuthenticationException $exception
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest('login');
     }
 }

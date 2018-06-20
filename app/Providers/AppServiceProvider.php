@@ -2,14 +2,16 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
+use Carbon\Carbon; 
 use Illuminate\Support\ServiceProvider;
-use App\Http\Controllers\CitcuitController;
+use App\Http\Controllers\CitcuitController; 
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -27,8 +29,11 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
+     *
+     * @return void
      */
     public function register()
     {
+        //
     }
 }
