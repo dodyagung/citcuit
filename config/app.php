@@ -183,8 +183,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
-        GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
-
+        HTMLMin\HTMLMin\HTMLMinServiceProvider::class,
     ],
 
     /*

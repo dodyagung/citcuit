@@ -94,6 +94,9 @@ Route::group(['middleware' => 'auth.citcuit'], function () {
     Route::get('following/{screen_name}/cursor/{cursor}', 'APIController@getFollowing');
     Route::get('followers/{screen_name}', 'APIController@getFollowers');
     Route::get('followers/{screen_name}/cursor/{cursor}', 'APIController@getFollowers');
+    
+    Route::get('tools', 'APIController@getTools');
+    Route::get('tools/autotext', 'APIController@getToolsAutotext');
 
     Route::get('signout', 'AuthController@getSignOut');
 });

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f8aefc8b290c222481946c7f833dbe5",
+    "content-hash": "fff5c14601e8885a52bae501586562be",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -375,43 +375,51 @@
             "time": "2017-04-20T14:15:02+00:00"
         },
         {
-            "name": "graham-campbell/htmlmin",
-            "version": "v4.5.0",
+            "name": "htmlmin/htmlmin",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/GrahamCampbell/Laravel-HTMLMin.git",
-                "reference": "70a6f050119179cf453e943ceb1b67f6209d7d35"
+                "url": "https://github.com/HTMLMin/Laravel-HTMLMin.git",
+                "reference": "0974daa18f3f917cf7479cf8ec756c170eb67e6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-HTMLMin/zipball/70a6f050119179cf453e943ceb1b67f6209d7d35",
-                "reference": "70a6f050119179cf453e943ceb1b67f6209d7d35",
+                "url": "https://api.github.com/repos/HTMLMin/Laravel-HTMLMin/zipball/0974daa18f3f917cf7479cf8ec756c170eb67e6a",
+                "reference": "0974daa18f3f917cf7479cf8ec756c170eb67e6a",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "illuminate/filesystem": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "illuminate/http": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "illuminate/routing": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "illuminate/view": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/filesystem": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/http": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/routing": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/view": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
                 "mrclay/minify": "^2.2",
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "graham-campbell/testbench": "^3.1",
+                "graham-campbell/testbench": "^3.1|^4.0",
                 "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^4.8|^5.0"
+                "phpunit/phpunit": "^4.8|^5.0|^6.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.5-dev"
+                    "dev-master": "5.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "HTMLMin\\HTMLMin\\HTMLMinServiceProvider"
+                    ],
+                    "aliases": {
+                        "HTMLMin": "HTMLMin\\HTMLMin\\Facades\\HTMLMin"
+                    }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "GrahamCampbell\\HTMLMin\\": "src/"
+                    "HTMLMin\\HTMLMin\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -422,12 +430,14 @@
                 {
                     "name": "Graham Campbell",
                     "email": "graham@alt-three.com"
+                },
+                {
+                    "name": "Raza Mehdi",
+                    "email": "srmk@outlook.com"
                 }
             ],
             "description": "HTMLMin Is A Simple HTML Minifier For Laravel 5",
             "keywords": [
-                "Graham Campbell",
-                "GrahamCampbell",
                 "Laravel HTMLMin",
                 "Laravel-HTMLMin",
                 "framework",
@@ -437,7 +447,7 @@
                 "laravel",
                 "minifier"
             ],
-            "time": "2017-01-01T13:22:51+00:00"
+            "time": "2017-08-25T10:56:24+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -996,16 +1006,16 @@
         },
         {
             "name": "mrclay/minify",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrclay/minify.git",
-                "reference": "fefc85d48190c97a1c692b29b3acbdc07d7fd73f"
+                "reference": "2c83b82bfa894180335f19141794a4de1ccd06e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrclay/minify/zipball/fefc85d48190c97a1c692b29b3acbdc07d7fd73f",
-                "reference": "fefc85d48190c97a1c692b29b3acbdc07d7fd73f",
+                "url": "https://api.github.com/repos/mrclay/minify/zipball/2c83b82bfa894180335f19141794a4de1ccd06e6",
+                "reference": "2c83b82bfa894180335f19141794a4de1ccd06e6",
                 "shasum": ""
             },
             "require": {
@@ -1037,7 +1047,7 @@
             ],
             "description": "Minify is a PHP5 app that helps you follow several rules for client-side performance. It combines multiple CSS or Javascript files, removes unnecessary whitespace and comments, and serves them with gzip encoding and optimal client-side cache headers",
             "homepage": "http://code.google.com/p/minify/",
-            "time": "2017-04-03T19:58:28+00:00"
+            "time": "2017-06-08T17:49:34+00:00"
         },
         {
             "name": "mtdowling/cron-expression",

@@ -172,8 +172,21 @@ class APIController extends Controller {
     }
 
     public function postTweet(Request $request) {
+
+        if ($this->citcuit->parseSetting('autotext') == 1) {
+            foreach (ToolsController::getAutotext() as $key => $value) {
+                foreach ($value as $key1 => $value1) {
+                    $tmp_autotext_from[] = $key1;
+                    $tmp_autotext_to[] = $value1;
+                }
+            }
+            $tweet = str_replace($tmp_autotext_from, $tmp_autotext_to, $request->tweet);
+        } else {
+            $tweet = $request->tweet;
+        }
+
         $param = [
-            'status' => $request->input('tweet'),
+            'status' => $tweet,
         ];
         $result = $this->api->statuses_update($param);
 
@@ -681,7 +694,7 @@ class APIController extends Controller {
 
         return redirect('search/saved');
     }
-    
+
     public function postSearchSavedDelete(Request $request) {
         $param = [
             'id' => $request->saved_id,
@@ -719,6 +732,8 @@ class APIController extends Controller {
                 'auto_refresh' => $this->citcuit->parseSetting('auto_refresh'),
                 'timezone' => $this->citcuit->parseSetting('timezone'),
                 'time_diff' => $this->citcuit->parseSetting('time_diff'),
+                'autotext' => $this->citcuit->parseSetting('autotext'),
+                'fb_link' => $this->citcuit->parseSetting('fb_link'),
             ],
             'timezone' => $this->citcuit->parseTimeZone(),
             'time_diff' => [
@@ -738,6 +753,8 @@ class APIController extends Controller {
             'auth.settings.auto_refresh' => $request->auto_refresh,
             'auth.settings.timezone' => $request->timezone,
             'auth.settings.time_diff' => $request->time_diff,
+            'auth.settings.autotext' => $request->autotext,
+            'auth.settings.fb_link' => $request->fb_link,
         ]);
 
         return redirect()
@@ -931,7 +948,7 @@ class APIController extends Controller {
         $location = $request->input('location');
 
         if (!$location) {
-            $location = 1;
+            $location = $this->citcuit->parseSetting('trend_location');
         }
 
         $param = [
@@ -943,6 +960,10 @@ class APIController extends Controller {
         if ($error) {
             return view('error', $error);
         }
+        
+        session([
+            'auth.settings.trend_location' => $location
+        ]);
 
         $render['rate']['Trends Result'] = $this->citcuit->parseRateLimit($result);
         $render['results'] = $this->citcuit->parseTrendsResults($result);
@@ -1007,7 +1028,7 @@ class APIController extends Controller {
             'status' => $request->input('tweet'),
             'media_ids' => $media_ids,
         ];
-        
+
         if ($request->has('in_reply_to_status_id')) {
             $param['in_reply_to_status_id'] = $request->in_reply_to_status_id;
         }
@@ -1025,9 +1046,9 @@ class APIController extends Controller {
     public function postUploadRemote(Request $request) {
         $this->validate($request, [
             'image1' => 'required|url',
-            'image2' => 'url',
-            'image3' => 'url',
-            'image4' => 'url',
+            'image2' => 'nullable|url',
+            'image3' => 'nullable|url',
+            'image4' => 'nullable|url',
         ]);
         $media_files = [
             $this->citcuit->parseEncodeURI($request->image1),
@@ -1069,7 +1090,7 @@ class APIController extends Controller {
             'status' => $request->input('tweet'),
             'media_ids' => $media_ids,
         ];
-        
+
         if ($request->has('in_reply_to_status_id')) {
             $param['in_reply_to_status_id'] = $request->in_reply_to_status_id;
         }
@@ -1255,6 +1276,20 @@ class APIController extends Controller {
         }
 
         return view($this->view_prefix . 'likes', $render);
+    }
+
+    public function getTools(Request $request) {
+        $render = [];
+
+        return view($this->view_prefix . 'tools', $render);
+    }
+
+    public function getToolsAutotext(Request $request, $max_id = false) {
+        $render = [
+            'autotext' => ToolsController::getAutotext()
+        ];
+
+        return view($this->view_prefix . 'tools_autotext', $render);
     }
 
 }
