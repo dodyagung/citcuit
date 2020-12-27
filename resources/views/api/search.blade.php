@@ -125,7 +125,7 @@
 </section>
 @endforeach
 <section>
-    <a class="pagination pagination-right" href="{{ url('search?q=' . $q . '&result_type='.$result_type.'&max_id='.$timeline->max_id) }}">
+    <a class="pagination pagination-right" href="{{ url('search?q=' . urlencode($q) . '&result_type='.$result_type.'&max_id='.$timeline->max_id) }}">
         Older [&rarr;] 
     </a>
 </section>
