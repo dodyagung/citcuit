@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.4",
         "laravel/framework": "^6.20",
         "laravel/tinker": "^2.5",
+        "renatomarinho/laravel-page-speed": "^1.9",
         "sentry/sentry-laravel": "^2.3"
     },
     "require-dev": {
