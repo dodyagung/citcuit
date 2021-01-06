@@ -8,20 +8,22 @@ This GitHub [issues guide](https://guides.github.com/features/issues) might be u
 
 ## Create a Fork & Pull Request
 
-This method is suitable for **developer**. If you are able to add a feature or patch the bug yourself, just follow this steps :
+This method is suitable for **developer**. If you are able to patch a bug yourself add a feature, just follow this steps :
 
-1. Fork CitCuit repo to your GitHub account
-2. Clone it to your computer locally and run `composer install`
-3. Create a new branch (ex: `fix-typo`) then checkout it
-4. Rename `.env.example` to `.env` and edit the file
-5. Make changes, commit and push it to your GitHub
-6. Create a pull request back to CitCuit repo from your new branch to :
-   * `master` branch for your bug patch
-   * `develop` branch for your new feature or enhancement
+1. Fork this citcuit repository
+2. Clone the fork to your computer locally and run `composer install`
+3. Create a new branch (ex: `fix-typo`) from :
+    - `master` branch for bugs
+    - `develop` branch for new features
+4. Copy `.env.example` to `.env` and edit the file
+5. Make changes, commit and push it to your fork
+6. Create a pull request back to citcuit repository from your new branch to :
+    - `master` branch for bugs
+    - `develop` branch for new features
 
 This GitHub [fork guide](https://guides.github.com/activities/forking) and [pull request guide](https://help.github.com/articles/using-pull-requests) might be useful for you.
 
 ## Which Branch?
 
-- `master` branch is contain last stable version and can be used for production
-- `develop` branch is used for development until it merged into master branch
+-   `master` branch for stable version, active support, bug-fix, and used on [citcuit.in](https://citcuit.in)
+-   `develop` branch for developments, enhancements, and new features. This will be merged into master branch then.
