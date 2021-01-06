@@ -1,7 +1,20 @@
 {
-    "name": "dodyagung/CitCuit",
+    "name": "dodyagung/citcuit",
     "description": "A mobile Twitter client alternative. Built with Laravel. https://citcuit.in",
-    "keywords": ["citcuit", "mobile", "twitter", "client", "secure", "slim", "fast", "no ads", "no database", "laravel", "jakarta", "indonesia"],
+    "keywords": [
+        "citcuit",
+        "mobile",
+        "twitter",
+        "client",
+        "secure",
+        "slim",
+        "fast",
+        "no ads",
+        "no database",
+        "laravel",
+        "jakarta",
+        "indonesia"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -37,8 +50,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
