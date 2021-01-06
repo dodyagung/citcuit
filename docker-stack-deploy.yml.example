@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  nginx:
+    image: dodyagung/citcuit_nginx
+    ports:
+      - "85:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      TZ: Asia/Jakarta
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  php:
+    image: dodyagung/citcuit_php
+    volumes:
+      - .:/var/www/html
+    environment:
+      TZ: Asia/Jakarta
+    deploy:
+      mode: replicated
+      replicas: 1
