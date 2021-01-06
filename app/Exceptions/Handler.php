@@ -2,22 +2,19 @@
 
 namespace App\Exceptions;
 
-
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
      * @var array
      */
-    protected $dontReport = [];
+    protected $dontReport = [
+        //
+    ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -32,47 +29,27 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     * @param  \Exception  $exception
+     * @return void
      *
-     * @param \Exception $exception
+     * @throws \Exception
      */
     public function report(Exception $exception)
     {
-        if (!app()->isLocal() && app()->bound('sentry') && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
-        } else {
-            parent::report($exception);
-        }
+        parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function render($request, Exception $exception)
     {
-        $custom_render = true;
-
-        if ($exception instanceof MaintenanceModeException) {
-            return response()->view('errors.503');
-        } else if ($exception instanceof NotFoundHttpException) {
-            $code = $exception->getStatusCode();
-            $message = 'Not found.';
-        } else if ($exception instanceof MethodNotAllowedHttpException) {
-            $code = $exception->getStatusCode();
-            $message = 'Method not allowed.';
-        } else {
-            $custom_render = false;
-        }
-
-        if ($custom_render) {
-            return response()->view('error', ['description' => $code . ' - ' . $message . '<br />'], $code);
-        } else {
-            return parent::render($request, $exception);
-        }
+        return parent::render($request, $exception);
     }
 }
