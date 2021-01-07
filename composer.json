@@ -1,9 +1,10 @@
 {
-    "name": "laravel/laravel",
+    "name": "dodyagung/citcuit",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "A mobile Twitter client alternative. Secure, slim, fast, no ads, no database. Built with Laravel framework. https://citcuit.in",
     "keywords": [
-        "framework",
+        "citcuit",
+        "twitter",
         "laravel"
     ],
     "license": "MIT",
