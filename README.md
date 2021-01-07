@@ -25,7 +25,7 @@ Go to [citcuit.in](https://citcuit.in) and sign-in with your Twitter account.
 
 ## Requirements
 
-Same as [Laravel 6](https://laravel.com/docs/6x#server-requirements) requirements :
+Same as [Laravel 6](https://laravel.com/docs/6.x#server-requirements) requirements :
 
 -   PHP >= 7.2.5
 -   BCMath PHP Extension
