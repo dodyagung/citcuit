@@ -4,6 +4,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/dodyagung/citcuit/v/unstable)](https://packagist.org/packages/dodyagung/citcuit)
 [![License](https://poser.pugx.org/dodyagung/citcuit/license)](https://packagist.org/packages/dodyagung/citcuit)
 
+![CitCuit Logo](https://citcuit.in/assets/img/logo.png)
+
 CitCuit is a mobile Twitter client, alternative of official [mobile.twitter.com](https://mobile.twitter.com) website.
 
 Secure, slim, fast, lightweight, no ads, no database and of course we're [open-sourced](https://github.com/dodyagung/CitCuit)!
