@@ -1,0 +1,1 @@
+{!! env('CITCUIT_ALERT', 'Welcome to CitCuit!') !!}
