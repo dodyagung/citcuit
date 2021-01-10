@@ -12,10 +12,10 @@
         href="https://github.com/dodyagung/CitCuit" target="_blank">open-sourced</a>!<br>
     <br>
     Built with <a href="https://laravel.com" target="_blank">Laravel</a>. Made with &hearts; by <a
-        href="https://twitter.com/dodyags" target="_blank">@dodyags</a> in Jakarta,
-    Indonesia.
+        href="https://twitter.com/dodyags" target="_blank">@dodyags</a> in Jakarta, Indonesia.
     <br>
-    <a href="{{ url('auth/login') }}">
+    <br>
+    <a href="{{ url('oauth/login') }}">
         <img src="{{ url('assets/img/signin.png') }}" alt="Sign in with Twitter" />
     </a><br>
     Don't have a Twitter account? <a href="https://mobile.twitter.com/i/flow/signup" target="_blank">Sign up</a>.<br>
