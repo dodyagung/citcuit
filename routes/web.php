@@ -20,4 +20,9 @@ Route::prefix("oauth")
         Route::get("login", "AuthController@login")->name("login");
         Route::get("callback", "AuthController@callback")->name("callback");
         Route::get("logout", "AuthController@logout")->name("logout");
-    });
+Route::name("account.")->group(function () {
+    Route::get("login", "AccountController@login")->name("login");
+    Route::get("callback", "AccountController@callback")->name("callback");
+    Route::get("logout", "AccountController@logout")->name("logout");
+});
+

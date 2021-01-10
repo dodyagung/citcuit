@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Twitter;
 
-class AuthController extends Controller
+class AccountController extends Controller
 {
     public function login()
     {
@@ -15,7 +15,7 @@ class AuthController extends Controller
 
         // Make sure we make this request w/o tokens, overwrite the default values in case of login.
         Twitter::reconfig(["token" => "", "secret" => ""]);
-        $token = Twitter::getRequestToken(route("oauth.callback"));
+        $token = Twitter::getRequestToken(route("account.callback"));
 
         if (isset($token["oauth_token_secret"])) {
             $url = Twitter::getAuthorizeURL(
