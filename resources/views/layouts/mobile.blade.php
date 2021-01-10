@@ -62,6 +62,8 @@
                 @include('includes.alert')
             </div>
         </section>
+        {{-- Tweet Box - Top --}}
+        @hasSection('tweetbox-top') @include('includes.tweetbox') @endif
         <nav class="nav-submenu">
             @yield('title')
         </nav>

@@ -1,5 +1,6 @@
 @extends('layouts.mobile')
 @section('title', 'Home')
+@if(session()->has("access_token")) @section('tweetbox-top', true) @endif
 
 @section('content')
 <section class="p-moreheight">
