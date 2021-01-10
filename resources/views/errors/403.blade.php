@@ -1,4 +1,4 @@
-@extends('layouts.mobile')
+@extends('pages.error')
 
 @section('title', __('Forbidden'))
 @section('code', '403')

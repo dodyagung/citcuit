@@ -1,4 +1,4 @@
-@extends('layouts.mobile')
+@extends('pages.error')
 
 @section('title', __('Page Expired'))
 @section('code', '419')
